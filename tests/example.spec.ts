@@ -46,6 +46,7 @@ test('test', async ({ page, context }) => {
   await hrmPage.getByRole('textbox', { name: 'Your Username' }).fill('admin_example');
   await hrmPage.getByRole('textbox', { name: 'Enter Password' }).click();
   await hrmPage.getByRole('textbox', { name: 'Enter Password' }).fill('password_example');
+ 
   console.log('Tab 2 da dien thong tin dang nhap');
 
   console.log('Back ve tab 1');
