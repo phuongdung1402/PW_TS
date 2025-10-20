@@ -14,6 +14,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   //testMatch: '**/*'
   testDir: './homeworks',
+  //testDir: './tests',
   /* Run tests in files in parallel */
   //testMatch: '**/*.kiemthu.ts',
   fullyParallel: true,
