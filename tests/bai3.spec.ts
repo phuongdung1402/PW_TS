@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
 test('Vai tro ngam dinh', async ({ page }) => {
     await page.goto('https://demoapp-sable-gamma.vercel.app/')
     await page.getByRole('link', { name: 'Bài 2: Playwright Locators' }).click()
-    await page.getByRole('button', { name: 'Playwright getByRole' }).click()
+    //await page.getByRole('button', { name: 'Playwright getByRole' }).click()
 
     // const linkLocator = page.getByRole('link', {name: 'Trang chủ'})
     // //count : dem so phan tu trong DOM tree
@@ -64,6 +64,7 @@ test('Vai tro ngam dinh', async ({ page }) => {
     // await page.locator('input[type="text"][name="username"][required]')
 
 
+    await page.getByRole('button', {name:'CSS Selector'}).click()
     const soLuongPhanTu = await page.locator('button[id*="profile"]').count()
     console.log(soLuongPhanTu);
     
