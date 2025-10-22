@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-
+//bài 1 ok
 //test('Homeword Bai1', async ({page})=>{
 // await page.goto('https://demoapp-sable-gamma.vercel.app/')
 // await page.getByRole('link',{name:'Bài 2: Playwright Locators'}).click()
@@ -22,7 +22,6 @@ import { test, expect } from '@playwright/test';
 // await page.getByRole('combobox', {name:'Font family'}).click()
 // await page.getByRole('option', {name:'Roboto'}).click()
 
-
 // 5.Điền textbox "Tiêu đề" bằng giá trị: Bài viết mới.Khẳng định nút "Publish" đang disabled.
 // await page.locator("#q5-title").fill('Bài viết mới')
 // const publishBtn = page.getByRole('button', {name:'Publish'})
@@ -36,22 +35,36 @@ import { test, expect } from '@playwright/test';
 //     await page.getByRole('button', { name: 'Playwright getByRole' }).click()
 //     await page.getByRole('button', { name: 'Bài tập' }).click()
 
+//có thể tìm bằng
+// await page.getByRole('navigation', { name: 'Primary' });
+//   const homeLink = primaryNav.getByRole("link", { name: "Home" });
+//   const docsLink = primaryNav.getByRole("link", { name: "Docs" });
+//   await expect(homeLink).toHaveAttribute("aria-current", "page");
+//   await expect(docsLink).not.toHaveAttribute("aria-current", "page");
+
 //1. Tìm landmark navigation có tên "Primary" và xác nhận link "Home" là trang hiện tại.
 // const nav = await page.getByLabel('Primary')
 // await expect(nav).toBeAttached()
 // await page.getByRole('link', {name: 'Home', exact: true}).click()
 // await expect(page).toHaveURL('https://demoapp-sable-gamma.vercel.app/lesson2#')
 
+//tìm bằng getByRole nha
+//   await page
+//     .getByRole("textbox", { name: "Search docs" })
+//     .fill("Search something...");
 
 // 2.Điền ô tìm kiếm bằng accessible name "Search docs".
 //await page.getByLabel('Search docs').fill('Search docs')
 
-
+//   await page
+//     .getByRole("textbox", { name: "Mã nội bộ" })
+//     .fill("Search something...");
+//   await page.getByLabel("Mã nội bộ").fill("Search something...");
 
 // 3. Tương tác với ô nhập được gắn label qua aria-labelledby là "Mã nội bộ".
 //await page.locator('[aria-labelledby="q2-secret-label"]').fill('Mã nội bộ')
 
-
+//ok
 // 4.Click "Tải dữ liệu" và chờ live region thông báo "Đã tải 3 kết quả".
 // await page.getByRole('button', {name:'Tải dữ liệu'}).click()
 // const result = page.locator('[role="status"]')
@@ -59,12 +72,17 @@ import { test, expect } from '@playwright/test';
 
 //})
 
-
 // test('Homeword Bai3', async ({ page }) => {
 //     await page.goto('https://demoapp-sable-gamma.vercel.app/')
 //     await page.getByRole('link', { name: 'Bài 2: Playwright Locators' }).click()
 //     await page.getByRole('button', { name: 'Playwright getByRole' }).click()
 //     await page.getByRole('button', { name: 'Bài tập' }).click()
+
+//có thể làm như này cho lẹ
+// await page.getByRole('button', { name: 'Load comments' }).click();
+// await expect(page.getByRole('region', { name: 'Comments' })).toHaveAttribute('aria-busy', 'true');
+// await expect(page.getByRole('list').getByRole('listitem')).toHaveCount(3);
+// await expect(page.getByRole('list').getByRole('listitem').nth(1)).toHaveText('Comment B');
 
 //1.Click "Load comments" và kiểm tra aria-busy trên khu vực comments chuyển đúng trạng thái.
 // await page.getByRole('button', {name:'Load comments'}).click()
@@ -83,7 +101,6 @@ import { test, expect } from '@playwright/test';
 // console.log(soLuongListItem)
 // await page.locator('div[role="listitem"]').nth(1).click()
 //})
-
 
 //test('Homeword Bai4', async ({ page }) => {
 // await page.goto('https://demoapp-sable-gamma.vercel.app/')
@@ -109,5 +126,14 @@ import { test, expect } from '@playwright/test';
 //     const messageError =  await page.locator('#q4-error-box')
 //     await expect(messageError).toHaveText('Đã có lỗi xảy ra')
 
-
 // })
+
+///làm bằng getByrole như sau
+// await page.getByRole('button', { name: 'Self remove' }).click();
+// await expect(page.getByRole('button', { name: 'Self remove' })).toHaveCount(0);
+
+// await expect(page.getByRole('button', { name: 'Danger submit', disabled: true })).toBeDisabled();
+// await expect(page.getByRole('textbox', { name: 'Readonly token' })).toHaveAttribute('readonly', '');
+
+// await page.getByRole('button', { name: 'Trigger error' }).click();
+// await expect(page.getByRole('alert')).toContainText('Đã có lỗi');
