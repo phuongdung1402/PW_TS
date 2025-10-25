@@ -5,10 +5,10 @@ import { test, expect } from '@playwright/test';
 //type Locator : giong như 1 inteface / type alias ( có nhiều hàm xử lý )
 
 
-test('Vai tro ngam dinh', async ({ page }) => {
-    await page.goto('https://demoapp-sable-gamma.vercel.app/')
-    await page.getByRole('link', { name: 'Bài 2: Playwright Locators' }).click()
-    //await page.getByRole('button', { name: 'Playwright getByRole' }).click()
+// test.only('Vai tro ngam dinh', async ({ page }) => {
+//     await page.goto('https://demoapp-sable-gamma.vercel.app/')
+//     await page.getByRole('link', { name: 'Bài 2: Playwright Locators' }).click()
+//     //await page.getByRole('button', { name: 'Playwright getByRole' }).click()
 
     // const linkLocator = page.getByRole('link', {name: 'Trang chủ'})
     // //count : dem so phan tu trong DOM tree
@@ -63,12 +63,52 @@ test('Vai tro ngam dinh', async ({ page }) => {
     // await page.locator('button[data-action="submit"][data-variant="secondary"]')
     // await page.locator('input[type="text"][name="username"][required]')
 
-
-    await page.getByRole('button', {name:'CSS Selector'}).click()
-    const soLuongPhanTu = await page.locator('button[id*="profile"]').count()
-    console.log(soLuongPhanTu);
+//     await page.getByRole('button', {name:'CSS Selector'}).click()
+//     const soLuongPhanTu = await page.locator('button[id*="profile"]').count()
+//     console.log(soLuongPhanTu);
     
 
-    await page.pause()
+//     await page.pause()
 
-})
+// })
+
+test.only('Xpath selector', async ({ page }) => {
+  await page.goto('https://demoapp-sable-gamma.vercel.app/');
+
+  await page.getByRole('link', { name: 'Bài 2: Playwright Locators' }).click();
+
+  await page.getByRole('button', { name: 'XPath Selector' }).click();
+
+  // await page.locator('//input[@name="email"]').fill('hoang@gmail.com');
+  // await page.locator('//button[@data-action="submit"]').highlight()
+
+  //button[text()='Read All']
+
+  //div[@class='product-card']//h5[contains(text(),'iPhone 15')]
+
+  //button[contains(@data-variant, 'primary')]
+
+  //p[contains(normalize-space(.),'Welcome to Docs')]
+  ////span[starts-with(normalize-space(.),'Product')]
+
+  //button[text()='Thêm vào giỏ1']/parent::div
+  //button[text()='Thêm vào giỏ1']/parent::div[@data-id='product-123']
+  //li[text()='Item 1']/following-sibling::li[text()='Item 2']
+  //li[text() ='Item 3']/preceding-sibling::li[text()='Item 1']
+  //span[text()='Deep nested text']/ancestor::div[@class='container']
+  //div[@class="product-card" and @data-price="999"]//button
+  //div[@class="product-card" and @data-category="electronics"]//h5[text()='iPhone 15']/following-sibling::button
+  //h5[text()='iPhone 17']/following-sibling::button
+  //button[text()='Submit321'] | //input[@type='button213']
+
+  //--------------BTVN - BAI1-----------------
+  //button[text() = 'Add to Cart']
+  //div[@class="product-card" and @data-category="electronics"]
+  //div[@data-price='49' and @data-category='clothing']
+  //div[@class='product-card']//h4[contains(text(), 'iPhone')]
+  //await page.locator('button', { hasText: 'Thêm vào giỏ' }).highlight();
+
+
+
+  await page.pause();
+});
