@@ -29,10 +29,10 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 
   //timeout : 17000,
-  timeout : 12000,
+  timeout : 20000,
 
   use: {
-    //actionTimeout: 10000,
+    actionTimeout: 15000,
     headless: false,
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
@@ -41,9 +41,9 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
 
-  expect: {
-    timeout: 7000
-  },
+  // expect: {
+  //   timeout: 7000
+  // },
 
   /* Configure projects for major browsers */
   projects: [

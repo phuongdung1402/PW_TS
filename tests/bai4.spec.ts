@@ -1,10 +1,10 @@
-import { test, expect } from '@playwright/test';
+//import { test, expect } from '@playwright/test';
 // Ở trong pw có 3 cấp độ kiểm soát timeOut
 //1 Cấp độ cao nhất Inline timeout ( define trực tiếp timeOut trong hành động click())
 //2 Cấp độ trung bình = actionTimeout (setup trong file playwright.config -> use {})
 //3 Cấp độ thấp nhất => toàn cục 
 
-const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
+//const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
 
 
 // Cấp 1 : Mệnh lệnh của sếp ( cấp độ cao nhất)
@@ -112,7 +112,6 @@ const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
 //   await page.getByRole('link', { name: 'Bài 1: Auto-Wait Demo' }).click();
 //   await page.getByRole('button', { name: 'expect() có await' }).click();
 //   await page.locator('#btn-attach').click();
-
 //   //đợi 5s để phần tử đc gắn vào DOM
 //   await expect(page.locator('#attached-node')).toBeAttached();
 // });
@@ -122,14 +121,14 @@ const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
 // ko có display bằng non
 
 // test('toBeVisible', async ({ page }) => {
-//   await page.goto(DEMO_URL);
-//   await page.getByRole('link', { name: 'Bài 1: Auto-Wait Demo' }).click();
-//   await page.getByRole('button', { name: 'expect() có await' }).click();
-//   await page.locator('#btn-hide').click();
-//    await page.locator('#btn-show').click();
+//     await page.goto(DEMO_URL);
+//     await page.getByRole('link', { name: 'Bài 1: Auto-Wait Demo' }).click();
+//     await page.getByRole('button', { name: 'expect() có await' }).click();
+//     await page.locator('#btn-hide').click();
+//     await page.locator('#btn-show').click();
 
-//   //đợi 5s để phần tử đc gắn vào DOM
-//   await expect(page.locator('#visibility-target')).toBeVisible();
+//     //đợi 5s để phần tử đc gắn vào DOM
+//     await expect(page.locator('#visibility-target')).toBeVisible();
 // });
 
 //toBeHidden
@@ -177,8 +176,8 @@ const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
 //     await page.goto(DEMO_URL)
 //     await page.getByRole('link', {name: "Bài 1: Auto-Wait Demo"}).click()
 //     await page.getByRole('button', {name: " expect() có await"}).click()
-//     await page.locator('#select-option option[value="option2"]').click()
-//     await expect(page.locator('#select-option option[value="option2"]')).toBeChecked()
+//     await page.locator('#select-option').click()
+//     await page.locator('#select-option').selectOption('option1')
 // })
 
 
@@ -186,10 +185,11 @@ const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
 //   await page.goto(DEMO_URL);
 //   await page.getByRole('link', { name: 'Bài 1: Auto-Wait Demo' }).click();
 //   await page.getByRole('button', { name: 'expect() có await' }).click();
-//   await page.pause();
 //   //ẩn dialog
 //   await page.locator('#toggle-disabled').click();
 //   await expect(page.locator('#email')).toBeDisabled();
+//   await expect(page.locator('#disabled-textarea')).toBeDisabled();
+
 // });
 
 //toBeEnable
@@ -198,7 +198,6 @@ const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
 //   await page.goto(DEMO_URL);
 //   await page.getByRole('link', { name: 'Bài 1: Auto-Wait Demo' }).click();
 //   await page.getByRole('button', { name: 'expect() có await' }).click();
-
 //   await page.locator('#toggle-enabled').dblclick();
 //   await expect(page.locator('#enabled-input')).toBeEnabled();
 // });
@@ -209,7 +208,6 @@ const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
 //   await page.goto(DEMO_URL);
 //   await page.getByRole('link', { name: 'Bài 1: Auto-Wait Demo' }).click();
 //   await page.getByRole('button', { name: 'expect() có await' }).click();
-
 //   await expect(page.locator('#editable')).toBeEditable();
 // });
 
@@ -241,10 +239,10 @@ const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
 //     await page.goto(DEMO_URL);
 //     await page.getByRole('link', { name: 'Bài 1: Auto-Wait Demo' }).click();
 //     await page.getByRole('button', { name: 'expect() có await' }).click();
-//     //await page.locator('#btn-set-complex-text').click()
-//     await page.locator('#btn-set-whitespace').click();
-//    // await expect(page.locator('#text-container')).toContainText('john')
-//     await expect(page.locator('#text-container')).toContainText('multiple spaces')
+//     await page.locator('#btn-set-complex-text').click()
+//     //await page.locator('#btn-set-whitespace').click();
+//     await expect(page.locator('#text-container')).toContainText('Name')
+//     //await expect(page.locator('#text-container')).toContainText('Hello Playwright')
 // });
 
 //toBeFocused
@@ -260,7 +258,7 @@ const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
 // });
 
 //toHaveValue
-//
+// //
 // test('toHaveValue', async ({page})=> {
 //     await page.goto(DEMO_URL)
 //     await page.getByRole('link', {name: 'Bài 1: Auto-Wait Demo'}).click()
@@ -283,7 +281,7 @@ const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
 //     await page.getByRole('link', {name: 'Bài 1: Auto-Wait Demo'}).click()
 //     await page.getByRole('button', {name: 'expect() có await'}).click()
 //     await page.locator("#btn-toggle-class").click()
-//     await expect(page.locator('#class-target')).toContainClass('highlight')
+//     await expect(page.locator('#class-target')).toContainClass('note')
 // });
 
 
@@ -325,14 +323,15 @@ const DEMO_URL = 'https://demoapp-sable-gamma.vercel.app/'
 // })
 
 
-test('toHaveInViewPoint', async ({page})=> {
-    await page.goto(DEMO_URL)
-    await page.getByRole('link', {name: 'Bài 1: Auto-Wait Demo'}).click()
-    await page.getByRole('button', {name: 'expect() có await'}).click()
-    await page.locator('#btn-whitespace-text').click()
-    //const expectedMessage = page.locator('#status-text')
-    //await expect(expectedMessage).toContainText('Data loaded successfully!')
+// test('toHaveInViewPoint', async ({page})=> {
+//     await page.goto(DEMO_URL)
+//     await page.getByRole('link', {name: 'Bài 1: Auto-Wait Demo'}).click()
+//     await page.getByRole('button', {name: 'expect() có await'}).click()
+//     await page.locator('#btn-whitespace-text').click()
+//     //const expectedMessage = page.locator('#status-text')
+//     //await expect(expectedMessage).toContainText('Data loaded successfully!')
 
-    const expectedMess = page.locator('#status-text div div').nth(1)
-    await expect(expectedMess).toHaveText('Data loaded successfully!')
-})
+//     const expectedMess = page.locator('#status-text div div').nth(1)
+//     await expect(expectedMess).toHaveText('Data loaded successfully!')
+//     await expect(expectedMess).toContainText('loaded')
+// })
