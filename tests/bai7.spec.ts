@@ -55,3 +55,83 @@ test('Ví dụ về dropdown', async ({page})=> {
     await page.pause()
 
 })
+
+
+//PW tu dong xu ly va accept tat ca cac dialog boi default
+test('Ví dụ về alert', async({page})=> {
+    await page.goto('https://demoapp-sable-gamma.vercel.app/')
+    await page.getByRole('link', {name:'Bài 4: Mouse Actions'}).click()
+    await page.getByRole('tab', {name: '⚠️ Alerts & Modals'}).click()
+
+    page.once('dialog', async (dialog) => {
+        console.log(dialog.type())
+        expect(dialog.type()).toBe('alert')
+        expect(dialog.message()).toContain('Hello from alert')
+        await dialog.accept()
+    })
+
+    await page.locator('#btn-alert').click()
+    expect(page.locator('#alert-result')).toHaveText('Alert acknowledged')
+    await page.pause()
+})
+
+test('Ví dụ về alert (Confirm - Prompt)', async ({page})=> {
+    await page.goto('https://demoapp-sable-gamma.vercel.app/')
+    await page.getByRole('link', {name:'Bài 4: Mouse Actions'}).click()
+    await page.getByRole('tab', {name:'⚠️ Alerts & Modals'}).click()
+
+    // Alert confirm
+    // page.once('dialog', async (dialog)=> {
+    //     console.log(dialog.type())
+    //     expect(dialog.type()).toBe('confirm')
+    //     expect(dialog.message()).toContain('Are you sure')
+    //     await dialog.accept()
+    //     //await dialog.dismiss()
+    // })
+    // await page.locator('#btn-confirm').click()
+    // expect(page.locator('#confirm-result')).toHaveText('Confirmed: YES')
+    // //expect(page.locator('#confirm-result')).toHaveText('Confirmed: NO')
+
+
+    // Alert prompt
+//     page.once('dialog', async (dialog)=> {
+//         console.log(dialog.type())
+//         expect(dialog.type()).toBe('prompt')
+//         expect(dialog.message()).toContain('Your name:')
+//         // truyen text vao input
+//         await dialog.accept('Tester')
+//     })
+//     await page.locator('#btn-prompt').click()
+//     expect(page.locator('#prompt-result')).toHaveText('Hello, Tester')
+
+//     page.once('dialog', async (dialog)=> {
+//         console.log(dialog.type())
+//         expect(dialog.type()).toBe('prompt')
+//         expect(dialog.message()).toContain('Your name:')
+//         await dialog.dismiss()
+//     })
+//     await page.locator('#btn-prompt').click()
+//     expect(page.locator('#prompt-result')).toHaveText('Prompt canceled')
+//     await page.pause()
+
+ })
+
+test('Ví dụ về modal', async({page})=> {
+    await page.goto('https://demoapp-sable-gamma.vercel.app/')
+    await page.getByRole('link', {name:'Bài 4: Mouse Actions'}).click()
+    await page.getByRole('tab', {name: '⚠️ Alerts & Modals'}).click()
+
+    //Mở modal, điền tên , xác nhận và assert kết quả
+    await page.locator('#open-basic-modal').click()
+
+    //Assert là modal sẽ hiện lên để thao tác
+    const dialog = page.getByRole('dialog', {name:'Thông báo'})
+    await expect(dialog).toBeVisible()
+    await dialog.locator('#basic-modal-input').fill('Alice')
+    await page.getByRole('button', {name: 'Đồng ý'}).click()
+    await expect(dialog).toHaveCount(0)
+    await expect(page.locator('#basic-modal-result')).toHaveText('Submitted: Alice')
+
+    await page.pause()
+})
+
