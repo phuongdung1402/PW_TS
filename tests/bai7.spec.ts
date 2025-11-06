@@ -116,6 +116,8 @@ test('Ví dụ về alert (Confirm - Prompt)', async ({page})=> {
 
  })
 
+
+ // Locator chain -> mình có thể nối nhiều locator lại với nhau
 test('Ví dụ về modal', async({page})=> {
     await page.goto('https://demoapp-sable-gamma.vercel.app/')
     await page.getByRole('link', {name:'Bài 4: Mouse Actions'}).click()
