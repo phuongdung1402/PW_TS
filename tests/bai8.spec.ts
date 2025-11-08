@@ -146,6 +146,70 @@ test('Ví dụ về evaluate', async ({ page }) => {
     await page.pause()
 })
 
+
+
+test('Ví dụ về evaluate - tiếp theo', async ({page})=> {
+    await page.goto('https://demoapp-sable-gamma.vercel.app/')
+    await page.getByRole('link', {name :'Bài 5: Shadow DOM & iFrame'}).click()
+    await page.getByRole('tab', {name:'🔧 evaluate()'}).click()
+    page.on('console', (msg)=> console.log('[BROWSER]', msg.text()))
+    const input = page.locator('#demo-input-1')
+
+    //1) Gõ nội dung
+    await input.fill('Hello Playwright')
+
+    //2) Chọn đoạn text "Hello" ( từ index 0 đến 5)
+    await input.evaluate((el : HTMLInputElement)=> {
+        el.setSelectionRange(0, 5, 'forward')
+    })
+
+    //3) Đọc selection range ( cần evaluate )
+    const selection = await input.evaluate((el : HTMLInputElement)=> {
+        selectionStart : el.selectionStart
+        selectionEnd : el.selectionEnd
+        selectionDirection : el.selectionDirection
+    })
+    console.log(selection); // { selectionStart : 0, selectionEnd : 5 , selectionDirection : 'forward'}
+    
+
+    await page.pause()
+})
+
+
+
+
+test('Ví dụ về evaluate - đọc style', async ({page})=> {
+    await page.goto('https://demoapp-sable-gamma.vercel.app/')
+    await page.getByRole('link', {name :'Bài 5: Shadow DOM & iFrame'}).click()
+    await page.getByRole('tab', {name:'🔧 evaluate()'}).click()
+    page.on('console', (msg)=> console.log('[BROWSER]', msg.text()))
+
+    const element =page.locator('#style-demo-element')
+
+    // Đọc một style property
+    // const backgroundColor = await element.evaluate((el : HTMLElement)=> {
+    //     return window.getComputedStyle(el).backgroundColor
+    // })
+    // console.log('Background color:', backgroundColor);
+
+    // Đọc nhiều style cùng lúc 
+    const styles = await element.evaluate((el : HTMLElement)=> {
+        const computed = window.getComputedStyle(el)
+        return {
+            backgroundColor: computed.backgroundColor,
+            color: computed.color,
+            fontSize: computed.fontSize,
+            fontWeight: computed.fontWeight,
+            padding: computed.padding,
+            border: computed.border,
+            borderRadius: computed.borderRadius,
+        }
+    })
+    console.log('All styles:', styles);
+})
+
+
+
 async function isImageOK (page: Page, imgLocator : string): Promise<boolean> {
     // await page.locator(imgLocator).waitFor({state: 'visible'})
     // await page.waitForTimeout(2000)
@@ -162,8 +226,6 @@ test('Ví dụ về brokenImage', async ({ page }) => {
     await page.goto('https://demoapp-sable-gamma.vercel.app/')
     await page.getByRole('link', { name: 'Bài 5: Shadow DOM & iFrame' }).click()
     await page.getByRole('tab', {name:'🖼️ Broken Images'}).click()
-
-
     // const checkImage = await isImageOK(page, "//img[@alt='Vite Logo']")
     // expect(checkImage).toBeTruthy()
 
@@ -171,3 +233,5 @@ test('Ví dụ về brokenImage', async ({ page }) => {
     expect(checkImageF).toBeFalsy()
     await page.pause()
 })
+
+
