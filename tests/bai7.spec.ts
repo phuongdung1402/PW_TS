@@ -14,61 +14,6 @@ test('Ví dụ về checkbox', async ({page})=> {
     await page.getByRole('link', {name : 'Bài 4: Mouse Actions'}).click()
     await page.getByRole('tab', {name : '☑️ Checkboxes & Radio'}).click()
 
-    //type='checkbox'
-    // await page.locator('#html-checkbox').check()
-    // //type= 'radio'
-    // await page.locator('#html-radio').click()
-    // //role='checkbox'
-    // await page.getByRole('checkbox', {name:'ARIA Checkbox'}).check()
-
-    // await page.locator('#demo-checkbox-1').check()
-    // await expect(page.locator('#demo-checkbox-1')).toBeChecked()
-    // await page.locator('#demo-checkbox-1').uncheck()
-    // await expect(page.locator('#demo-checkbox-1')).not.toBeChecked()
-
-    // await page.locator('#demo-checkbox-2').setChecked(true)
-    // await expect(page.locator('#demo-checkbox-2')).toBeChecked()
-    // await page.locator('#demo-checkbox-2').setChecked(false)
-    // await expect(page.locator('#demo-checkbox-2')).not.toBeChecked()
-
-    // await page.locator('#demo-checkbox-3').setChecked(true)
-    // await page.locator('#demo-checkbox-3').setChecked(true)
-    // await page.locator('#demo-checkbox-3').setChecked(true)
-    // await expect(page.locator('#demo-checkbox-3')).toBeChecked()
-
-
-    //Dùng click
-    //await page.locator('#fake-div-status').click()
-    //await expect(page.locator('#fake-div-status')).toHaveCSS('color','white')
-    // await page.locator('#fake-radio-a').click()
-    // await expect(page.locator('#fake-radio-a')).toContainText('✓')
-    // await page.locator('#fake-svg-status').click()
-    // await expect(page.locator('#fake-svg-status')).toContainText('Checked')
-
-    //BASIC CHECKBOX
-    // const optionArr: String[] = ['Option 1', 'Option 2', 'Option 3', 'Option 4']
-    // //Click lần lượt từng checkbox
-    // for(let i=0; i<optionArr.length; i++) {
-    //     //Click lần lượt từng checkbox
-    //     await page.locator(`//div[text() ='Individual Checkboxes']//ancestor::div[@class='ant-card-head']//following-sibling::div//div[@class='ant-space-item']//span[text() = '${optionArr[i]}']`).click()
-    //     // Kiểm tra lần lượt từng checkbox
-    //     await expect(page.locator(`//div[text()='Current State']//ancestor::div[@class='ant-card-head']//following-sibling::div//div[@class='ant-space-item']//div[text() ='${optionArr[i]}' ]`)).toBeVisible()
-    // }
-
-    //Click từng checkbox rồi kiểm tra
-
-    const radioGroupArr : String [] = ['Small', 'Medium', 'Large', 'Extra Large']
-
-    for(let i=0;i<radioGroupArr.length;i++) {
-        await page.locator(`//div[@data-testid='basic-radio-group']//div[@class='ant-space-item']//span[text() = '${radioGroupArr[i]}']`).click()
-        await expect(page.locator(`//div[@data-testid='basic-radio-group']//div[@class='ant-space-item']//span[text() = '${radioGroupArr[i]}']`)).toBeChecked()
-       // await expect(page.locator(`//div[text()='Current Selection']//ancestor::div[@class='ant-card-head']//following-sibling::div//div[text() ='${radioGroupArr[i]}']`)).toBeVisible()
-
-    }
-
-
-
-
     // checkbox 1 : check() / uncheck()
     // await page.locator('#demo-checkbox-1').check()
     // await expect(page.locator('#demo-checkbox-1')).toBeChecked()
