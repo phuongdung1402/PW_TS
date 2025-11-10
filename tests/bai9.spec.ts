@@ -6,7 +6,7 @@ import { constructFromSymbol } from 'date-fns/constants';
 test('ví dụ date picker', async ({page})=> {
     // Date là 1 đối tượng object o trong JS/TS{}
     // HN + 7 -> UTC - 7
-    // const now = new Date()
+    //const now = new Date()
     // //console.log(now);
 
     // console.log(now.getFullYear());
@@ -37,23 +37,24 @@ test('ví dụ date picker', async ({page})=> {
 })
 
 test('ví dụ về date picker2', async ({page})=> {
-    await page.goto('https://demoapp-sable-gamma.vercel.app/')
-    await page.getByRole('link', {name : 'Bài 4: Mouse Actions'}).click()
-    await page.getByRole('tab', {name:'📅 jQuery Date Picker'}).click()
+    // await page.goto('https://demoapp-sable-gamma.vercel.app/')
+    // await page.getByRole('link', {name : 'Bài 4: Mouse Actions'}).click()
+    // await page.getByRole('tab', {name:'📅 jQuery Date Picker'}).click()
 //div[contains(@class, 'ant-card ')]
 //=> Tìm tất cả thẻ div có chứa class là ant-card
 //Là trong cái thẻ div đấy phải có chứa thẻ div con có chứa class : ant-card-head-title và có chứa text() Demo2: Dropdown Navigation
 //Quan trọng nhất là dấu "." ( tìm thẻ con của thẻ div đầu tiên)
 // [.//div[contains(@class, 'ant-card-head-title') and normalize-space()='Demo 1: Date Picker cơ bản (HTML table)']]
-    const lastMonth = new Date()
+    const lastMonth = new Date()  
     lastMonth.setMonth(lastMonth.getMonth() - 1)
     const y = lastMonth.getFullYear()
-    // yyyy/mm/dd
-    const m = String(lastMonth.getMonth()+1).padStart(2, '0')
-    const d = '15'
-    const ymdd = `${y}-${m}-${d}`
-    await selectDateDemo2(page, ymdd)
-    await page.pause()
+     
+    // // yyyy/mm/dd
+    // const m = String(lastMonth.getMonth()+1).padStart(2, '0')
+    // const d = '15'
+    // const ymdd = `${y}-${m}-${d}`
+    // await selectDateDemo2(page, ymdd)
+    // await page.pause()
 
 })
 
