@@ -120,10 +120,10 @@ test('Ví dụ về checkbox', async ({ page }) => {
 })
 
 
-test('Advanced Scenarios', async ({page})=> {
+test('Advanced Scenarios', async ({ page }) => {
     await page.goto(URL)
-    await page.getByRole('link', {name : 'Bài 4: Mouse Actions'}).click()
-    await page.getByRole('tab', {name:'☑️ Checkboxes & Radio'}).click()
+    await page.getByRole('link', { name: 'Bài 4: Mouse Actions' }).click()
+    await page.getByRole('tab', { name: '☑️ Checkboxes & Radio' }).click()
 
     // await page.getByRole('checkbox', {name :'I agree to Terms & Conditions  '}).check()
     // await expect(page.getByRole('checkbox', {name :'I agree to Terms & Conditions  '})).toBeChecked()
@@ -142,18 +142,54 @@ test('Advanced Scenarios', async ({page})=> {
     // await page.getByRole('checkbox', {name :'Allow analytics tracking  '}).check()
     // await expect(page.getByTestId('status-analytics-enabled')).toHaveText('⚠️ Analytics enabled')
 
-    await page.getByRole('radio', {name :'Light Theme  '}).check()
+    await page.getByRole('radio', { name: 'Light Theme  ' }).check()
     await expect(page.getByTestId('status-theme')).toHaveText('🎨 Light Theme')
-    await page.getByRole('radio', {name :'Dark Theme  '}).check()
-    await expect(page.getByRole('radio', {name : 'Light Theme  '})).not.toBeChecked()
+    await page.getByRole('radio', { name: 'Dark Theme  ' }).check()
+    await expect(page.getByRole('radio', { name: 'Light Theme  ' })).not.toBeChecked()
     await expect(page.getByTestId('status-theme')).toHaveText('🎨 Dark Theme')
 
-
-
-
-
-
-
-
     await page.pause()
+})
+
+test('Demo dropdown', async ({ page }) => {
+    await page.goto(URL)
+    await page.getByRole('link', { name: 'Bài 4: Mouse Actions' }).click()
+    await page.getByRole('tab', { name: '☑️ Checkboxes & Radio' }).click()
+    await page.getByRole('combobox', { name: 'Strict fruits combobox' }).click()
+
+    await expect(page.locator('#lib-strict-menu')).toBeVisible()
+    await page.locator("//div[@id='lib-strict-menu']//div[text() = 'Cherry']").click()
+    await expect(page.locator('#lib-strict-value')).toHaveText('Cherry')
+    await page.pause()
+})
+
+test('Dropdown có thẻ <select>', async ({ page }) => {
+    await page.goto(URL)
+    await page.getByRole('link', { name: 'Bài 4: Mouse Actions' }).click()
+    await page.getByRole('tab', { name: '☑️ Checkboxes & Radio' }).click()
+    const countrySelect = page.locator('#country-select')
+    await countrySelect.scrollIntoViewIfNeeded()
+    // await countrySelect.selectOption('Vietnam')
+    await countrySelect.selectOption({ value: 'United States' })
+    await expect(countrySelect).toHaveValue('United States')
+    await page.pause()
+})
+
+test('Dropdown không có thẻ <select>', async ({ page }) => {
+    await page.goto(URL)
+    await page.getByRole('link', { name: 'Bài 4: Mouse Actions' }).click()
+    await page.getByRole('tab', { name: '☑️ Checkboxes & Radio' }).click()
+    await page.getByRole('button', { name: 'Fruit:Select fruit' }).click()
+
+    await expect(page.locator('.cd-menu')).toBeVisible()
+    await page.locator('.cd-menu li').nth(0).click()
+    await expect(page.locator("//div[@class='cd-trigger']//span[text()='Fruit:']//following-sibling::span")).toHaveText('Apple')
+
+    //Đóng dropdown & chọn lại
+    await page.locator("//span[text()='Fruit:']//parent::div").click()
+    await expect(page.locator("//span[text()='Fruit:']//parent::div//following-sibling::ul")).toBeVisible()
+    await page.locator("//span[text()='Fruit:']//parent::div//following-sibling::ul//li[text()='Banana']").click()
+    await expect(page.locator("//span[text()='Fruit:']//following-sibling::span")).toHaveText('Banana')
+    await page.pause()
+
 })
