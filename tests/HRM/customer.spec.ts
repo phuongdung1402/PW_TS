@@ -1,5 +1,6 @@
 import { test, expect, Page } from '@playwright/test'
 import { format } from 'date-fns'
+import { CLIENT_RENEG_LIMIT } from 'tls'
 
 const URL_LOGIN = 'https://crm.anhtester.com/admin'
 async function loginAndNavigateToNewCustomer(page: Page, tabName: string) {
@@ -17,7 +18,7 @@ async function loginAndNavigateToNewCustomer(page: Page, tabName: string) {
 }
 
 
-async function fillInformationCustomer(page: Page) {
+async function fillInformationCustomerAndSave(page: Page) {
     const now = new Date()
     const parseTime = format(now, "HH:mm:ss")
     const comName = `dungbtp test ${parseTime}`
@@ -57,10 +58,31 @@ async function fillInformationCustomer(page: Page) {
     await expect(companyVat).toHaveAttribute('value','0123456789')
     await expect(companyPhone).toHaveAttribute('value', '0987654321')
     await expect(companyWeb).toHaveAttribute('value', 'https://dungdungcute@gmail.com.vn')
-    await expect(companyAddress).toHaveAttribute('value', 'TP Hà Nội')
+    await expect(companyAddress).toHaveText('TP Hà Nội')
     await expect(companyCity).toHaveAttribute('value', 'HP')
     await expect(companyState).toHaveAttribute('value', 'Lê Chân')
     await expect(companyCode).toHaveAttribute('value', '1402')
+}
+
+
+async function fillInformation(page : Page) {
+    const now = new Date()
+    const getTime = format(now, 'HH:mm:ss')
+    const compName = `dungbtp test ${getTime}`
+
+    await page.locator('#company').fill(compName)
+    await page.locator('#address').fill('Số 123 Duy Tân')
+    await page.locator('#city').fill('Thành phố Hà Nội')
+    await page.locator('#state').fill('Quận Cầu Giấy')
+    await page.locator('#zip').fill('12345')
+
+    await page.locator('#country').selectOption('Vietnam')
+    await page.locator("//a[normalize-space(.)='Billing & Shipping']").click()
+    await page.locator("//a[normalize-space(.)='Same as Customer Info']").click()
+    //await expect(page.locator('#billing_street')).toHaveAttribute('value', 'Số 123 Duy Tân')
+
+    const add = page.locator('#billing_street')
+    console.log(add)
 
 
 }
@@ -69,8 +91,6 @@ async function fillInformationCustomer(page: Page) {
 test.describe('CRM Customer Page - Possitive case', () => {
     test('TC_CUST_01', async ({ page }) => {
         await loginAndNavigateToNewCustomer(page, 'Customers')
-        await fillInformationCustomer(page)
-
         // Dùng filter
         // const containerCompany = page.locator('label', { hasText: 'Company' })
         // //const containerCompany = page.locator('label').filter({hasText :'Company'}) -- tuong tu nhu dong 11
@@ -105,11 +125,19 @@ test.describe('CRM Customer Page - Possitive case', () => {
         // const displayedText = await customerNameDisplay.textContent()
         // console.log(displayedText);
         // expect(displayedText).toContain(expectedDislay)
+    })
+    test('TC_CUST_02', async ({page})=> {
+        await loginAndNavigateToNewCustomer(page, 'Customers')
+        await fillInformationCustomerAndSave(page)
+    })
+})
+
+test.describe('CRM Customer Page - UI/Functionality' , ()=> {
+
+    test('TC_CUST_03', async ({page})=> {
+        await loginAndNavigateToNewCustomer(page, 'Customers')
+        await fillInformation(page)
         await page.pause()
     })
-
-
-
-
 
 })
