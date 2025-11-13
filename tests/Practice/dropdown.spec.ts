@@ -49,8 +49,8 @@ test('Dropdown large', async ({ page }) => {
     await page.goto(URL)
     await page.getByRole('link', { name: 'Bài 4: Mouse Actions' }).click()
     await page.getByRole('tab', { name: '☑️ Checkboxes & Radio' }).click()
-    await page.locator("//div[@class='custom-dropdown large']//div[@class='cd-trigger']").click()
-    await expect(page.locator('.cd-menu')).toBeVisible()
+    // await page.locator("//div[@class='custom-dropdown large']//div[@class='cd-trigger']").click()
+    //await expect(page.locator('.cd-menu')).toBeVisible()
 
     //C1 : Dùng scrollintoView
     // const countriesOption = ['Belize', 'Angola', 'Haiti', 'Morocco','Samoa', 'Thailand']
@@ -65,18 +65,28 @@ test('Dropdown large', async ({ page }) => {
     //     await page.mouse.wheel(0, 300); // deltaY = 300px xuống
     //     await page.waitForTimeout(100); // Đợi scroll xong
     // }
-   await page.locator("//div[@class='custom-dropdown large']//div[@class='cd-trigger']//following-sibling::ul/li/span[text()='Zimbabwe']").click()
+    //await page.locator("//div[@class='custom-dropdown large']//div[@class='cd-trigger']//following-sibling::ul/li/span[text()='Zimbabwe']").click()
 
 
+    // C3 : Dùng keyboard navigation - Arrow keys (  đang ko chạy được )
     // const countryList = page.locator('.cd-menu')
     // await countryList.focus()
-
-    // for(let i=0;i<10;i++) {
+    // for(let i=0;i<20;i++) {
     //     await page.keyboard.press('ArrowDown')
-    //      await page.waitForTimeout(50);
+    //     await page.waitForTimeout(50);
     // }
-    
     // await page.keyboard.press('Enter')
+
+    // C4 : 
+    // await page.locator('.cd-trigger', {hasText : 'Countries:'}).nth(0).click()
+    // const item = page.locator("//span[text()='Countries:']//ancestor::div[@class='cd-trigger']//following-sibling::ul//li//span[text() = 'Mexico']")
+    // await item.scrollIntoViewIfNeeded()
+    // await item.hover()
+    // await item.click()
+
+
+
+
 
     await page.pause()
 
