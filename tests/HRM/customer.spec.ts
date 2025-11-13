@@ -79,12 +79,10 @@ async function fillInformation(page : Page) {
     await page.locator('#country').selectOption('Vietnam')
     await page.locator("//a[normalize-space(.)='Billing & Shipping']").click()
     await page.locator("//a[normalize-space(.)='Same as Customer Info']").click()
-    //await expect(page.locator('#billing_street')).toHaveAttribute('value', 'Số 123 Duy Tân')
+    await expect(page.locator('#billing_street')).toHaveAttribute('value', 'Số 123 Duy Tân')
 
-    const add = page.locator('#billing_street')
-    console.log(add)
-
-
+    // const add = page.locator('#billing_street')
+    // console.log(add)
 }
 
 
@@ -134,10 +132,55 @@ test.describe('CRM Customer Page - Possitive case', () => {
 
 test.describe('CRM Customer Page - UI/Functionality' , ()=> {
 
-    test('TC_CUST_03', async ({page})=> {
+    test('TC_CUST_04', async ({page})=> {
         await loginAndNavigateToNewCustomer(page, 'Customers')
         await fillInformation(page)
         await page.pause()
+    })
+
+    test('TC_CUST_05', async ({page})=> {
+        await loginAndNavigateToNewCustomer(page, 'Customers')
+        //1. Điền company
+        await page.locator('#company').fill('Company demo A')
+
+        //2. Click tab "Billing & Shipping".
+        await page.getByRole('tab', {name:"Billing & Shipping"}).click()
+
+        //3.Click tab "Billing & Shipping".
+        await page.locator('#billing_street').fill('Đường Trần Nguyên Hãn')
+        await page.locator('#billing_city').fill('Thành phố Hải Phòng')
+        await page.locator('#billing_state').fill('Quận Lê Chân')
+        await page.locator('#billing_zip').fill('12345')
+
+
+        await page.getByRole('link', {name:'Copy Billing Address'}).click()
+    
+    })
+
+})
+
+test.describe('CRM Customer Page - Negative - Validation', ()=> {
+    test('TC_CUST_06', async ({page})=> {
+        await loginAndNavigateToNewCustomer(page, 'Customers')
+        const urlBanDau =  page.url()
+        await page.getByRole('button', {name : 'Save', exact:true}).click()
+        expect(page.url()).toBe(urlBanDau)
+        // const errorText = page.locator('#company-error').textContent() -- đang lỗi
+        // console.log(errorText)
+        await page.pause()
+    })
+
+    test('TC_CUST_07', async ({page})=> {
+         await loginAndNavigateToNewCustomer(page, 'Customers')
+
+           await page.locator('#company').fill('Company A')
+           await page.locator("#vat").click()
+           //await expect(page.locator('#company_exists_info')).toBeVisible()
+           const mess = page.locator("#company_exists_info .alert").textContent()
+           console.log(mess)
+           await page.pause()
+
+
     })
 
 })

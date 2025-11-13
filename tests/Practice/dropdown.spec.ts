@@ -1,5 +1,5 @@
 
-import { test, expect } from '@playwright/test'
+import { test, expect, Page } from '@playwright/test'
 const URL = 'https://demoapp-sable-gamma.vercel.app/'
 
 test('Demo dropdown', async ({ page }) => {
@@ -45,10 +45,30 @@ test('Dropdown không có thẻ <select>', async ({ page }) => {
 
 })
 
+async function selectOptionArr(page : Page, optionName : string []) {
+    const trigger = page.locator("div[class='custom-dropdown large'] > div[class='cd-trigger']")
+    const menu = page.locator("div[class='custom-dropdown large'] > ul[class='cd-menu']")
+
+    if(!(await menu.isVisible())) {
+        await trigger.click()
+        await menu.waitFor({state : 'visible'})
+    }
+
+    for(const name of optionName) {
+        const item = page.locator("div[class='custom-dropdown large'] > ul[class='cd-menu'] > li", {hasText : `${name}`})
+        await item.scrollIntoViewIfNeeded()
+        await item.click()
+    }
+
+    // đóng dropdown 
+    await trigger.click()
+    await expect(menu).toBeHidden()
+}
 test('Dropdown large', async ({ page }) => {
     await page.goto(URL)
     await page.getByRole('link', { name: 'Bài 4: Mouse Actions' }).click()
     await page.getByRole('tab', { name: '☑️ Checkboxes & Radio' }).click()
+    await selectOptionArr(page, ['Mexico', 'Samoa', 'Thailand', 'Angola'])
     // await page.locator("//div[@class='custom-dropdown large']//div[@class='cd-trigger']").click()
     //await expect(page.locator('.cd-menu')).toBeVisible()
 
@@ -83,11 +103,41 @@ test('Dropdown large', async ({ page }) => {
     // await item.scrollIntoViewIfNeeded()
     // await item.hover()
     // await item.click()
-
-
-
-
-
     await page.pause()
+})
+
+
+test('Filterable Dropdown', async ({page})=> {
+    await page.goto(URL)
+    await page.getByRole('link', {name : 'Bài 4: Mouse Actions'}).click()
+    await page.getByRole('tab', {name : '☑️ Checkboxes & Radio'}).click()
+
+    const trigger = page.locator("//div[@class='custom-dropdown filter']//div[@class='cd-trigger']")
+    const inputText = page.locator("//div[@class='custom-dropdown filter']//div[@class='cd-trigger']/following-sibling::div//input")
+
+    // Mở dropdown
+    await trigger.click();
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+    // Search theo text cho trước
+    // await inputText.fill('land')
+    // const item = page.locator("//div[@class='custom-dropdown filter']//div[@class='cd-trigger']/following-sibling::div//ul/li", {hasText:'Iceland'})
+    // await item.scrollIntoViewIfNeeded()
+    // await item.click()
+
+    // Ko nhập text
+    await trigger.locator("xpath=.//following-sibling::div/ul/li", {hasText:'Taiwan'}).click()
+
+
+
+
+    // Đóng dropdown bằng cách click tiếp vào dropdown 
+    await trigger.click()
+    await page.pause()
+
+
+
+
+
 
 })
