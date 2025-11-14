@@ -1,6 +1,7 @@
 import { test, expect, Page } from '@playwright/test'
 import { format } from 'date-fns'
-import { CLIENT_RENEG_LIMIT } from 'tls'
+import { faker } from '@faker-js/faker'
+
 
 const URL_LOGIN = 'https://crm.anhtester.com/admin'
 async function loginAndNavigateToNewCustomer(page: Page, tabName: string) {
@@ -51,11 +52,12 @@ async function fillInformationCustomerAndSave(page: Page) {
     await page.locator('#country').selectOption("Jamaica")
 
     //click save 
-    await page.locator('#profile-save-section', {hasText:'Save'}).locator('button', {hasText:'Save'}).nth(1).click()
+    await page.locator('#profile-save-section', { hasText: 'Save' }).locator('button', { hasText: 'Save' }).nth(1).click()
 
     //confirm infor
-    await expect(companyName).toHaveAttribute('value',comName )
-    await expect(companyVat).toHaveAttribute('value','0123456789')
+    await expect(companyName).toHaveAttribute('value', comName)
+    // await expect(companyName).toHaveValue(comName)
+    await expect(companyVat).toHaveAttribute('value', '0123456789')
     await expect(companyPhone).toHaveAttribute('value', '0987654321')
     await expect(companyWeb).toHaveAttribute('value', 'https://dungdungcute@gmail.com.vn')
     await expect(companyAddress).toHaveText('TP Hà Nội')
@@ -65,7 +67,7 @@ async function fillInformationCustomerAndSave(page: Page) {
 }
 
 
-async function fillInformation(page : Page) {
+async function fillInformation(page: Page) {
     const now = new Date()
     const getTime = format(now, 'HH:mm:ss')
     const compName = `dungbtp test ${getTime}`
@@ -84,6 +86,81 @@ async function fillInformation(page : Page) {
     // const add = page.locator('#billing_street')
     // console.log(add)
 }
+
+function createRandomUser() {
+    return {
+        phone: faker.phone.number(),
+        vatNumber: faker.string.numeric(10),
+        website: faker.internet.url(),
+        currency: 'USD',
+        language: 'Vietnamese',
+        address: faker.location.streetAddress(),
+        city: faker.location.city(),
+        state: faker.location.state(),
+        zipcode: faker.location.zipCode(),
+        country: 'Vietnam'
+    };
+}
+
+const information = createRandomUser()
+
+async function fillInformationCustomerAndSave2(page: Page) {
+    const now = new Date()
+    const parseTime = format(now, 'HH:mm:ss')
+    const compName = `AUT ${parseTime}`
+    await page.locator('#company').fill(compName)
+    //const vatInput = information.vatNumber
+    await page.locator('#vat').fill(information.vatNumber)
+    //const phoneInput = information.phone
+    await page.locator('#phonenumber').fill(information.phone)
+    //const webInput = information.website
+    await page.locator('#website').fill(information.website)
+    //const addInput = information.address
+    await page.locator('#address').fill(information.address)
+    //const cityInput = information.city
+    await page.locator('#city').fill(information.city)
+    //const stateInput = information.state
+    await page.locator("#state").fill(information.state)
+    //const zipInput = information.zipcode
+    await page.locator('#zip').fill(information.zipcode)
+
+
+    // await page.locator('#default_currency').selectOption('USD')
+    //await page.locator('#country').selectOption("Jamaica")
+
+    const currencyContainer = page.locator('div.form-group', { hasText: 'Currency' });
+    await currencyContainer.locator('button[data-id="default_currency"]').click();
+    await page
+        .locator('a[role="option"]')
+        .filter({ has: page.locator('span.text', { hasText: information.currency }) })
+        .click();
+
+
+    const languageContainer = page.locator('div.form-group', { hasText: 'Default Language ' })
+    await languageContainer.locator('button[data-id="default_language"]').click();
+    await page.locator('a[role="option"]').filter({ has: page.locator('span.text', { hasText: 'German' }) }).click()
+
+    //click save 
+    await page.locator('#profile-save-section', { hasText: 'Save' }).locator('button', { hasText: 'Save' }).nth(1).click()
+
+    //    await expect(page.locator('#vat')).toHaveValue(information.vatNumber)
+    //    await expect(page.locator('#phonenumber')).toHaveValue(information.phone)
+    //    await expect(page.locator('#website')).toHaveValue(information.website)
+    //    await expect(page.locator('#address')).toHaveValue(information.address)
+    //    await expect(page.locator('#city')).toHaveValue(information.city)
+    //    await expect(page.locator('#state')).toHaveValue(information.state)
+
+    //confirm infor
+    // await expect(page.locator('#company')).toHaveAttribute('value', compName)
+    // await expect(page.locator('#vat')).toHaveAttribute('value', information.vatNumber)
+    // await expect(page.locator('#phonenumber')).toHaveAttribute('value', information.phone)
+    // await expect(page.locator('#website')).toHaveAttribute('value', information.website)
+    // await expect(page.locator('#city')).toHaveAttribute('value', information.city)
+    // await expect(page.locator('#state')).toHaveAttribute('value', information.state)
+    // await expect(page.locator('#zip')).toHaveAttribute('value', information.zipcode)
+    // await expect(page.locator('#address')).toHaveAttribute('value', information.address)
+}
+
 
 
 test.describe('CRM Customer Page - Possitive case', () => {
@@ -118,33 +195,35 @@ test.describe('CRM Customer Page - Possitive case', () => {
 
         // const expectedDislay = customerId +" "+ companyName
         // console.log(expectedDislay);
-        
+
         // const customerNameDisplay = page.locator('span.tw-truncate')
         // const displayedText = await customerNameDisplay.textContent()
         // console.log(displayedText);
         // expect(displayedText).toContain(expectedDislay)
     })
-    test('TC_CUST_02', async ({page})=> {
+    test('TC_CUST_02', async ({ page }) => {
         await loginAndNavigateToNewCustomer(page, 'Customers')
-        await fillInformationCustomerAndSave(page)
+        await fillInformationCustomerAndSave2(page)
+        //await fillInformationCustomerAndSave(page)
+        await page.pause()
     })
 })
 
-test.describe('CRM Customer Page - UI/Functionality' , ()=> {
+test.describe('CRM Customer Page - UI/Functionality', () => {
 
-    test('TC_CUST_04', async ({page})=> {
+    test('TC_CUST_04', async ({ page }) => {
         await loginAndNavigateToNewCustomer(page, 'Customers')
         await fillInformation(page)
         await page.pause()
     })
 
-    test('TC_CUST_05', async ({page})=> {
+    test('TC_CUST_05', async ({ page }) => {
         await loginAndNavigateToNewCustomer(page, 'Customers')
         //1. Điền company
         await page.locator('#company').fill('Company demo A')
 
         //2. Click tab "Billing & Shipping".
-        await page.getByRole('tab', {name:"Billing & Shipping"}).click()
+        await page.getByRole('tab', { name: "Billing & Shipping" }).click()
 
         //3.Click tab "Billing & Shipping".
         await page.locator('#billing_street').fill('Đường Trần Nguyên Hãn')
@@ -153,32 +232,32 @@ test.describe('CRM Customer Page - UI/Functionality' , ()=> {
         await page.locator('#billing_zip').fill('12345')
 
 
-        await page.getByRole('link', {name:'Copy Billing Address'}).click()
-    
+        await page.getByRole('link', { name: 'Copy Billing Address' }).click()
+
     })
 
 })
 
-test.describe('CRM Customer Page - Negative - Validation', ()=> {
-    test('TC_CUST_06', async ({page})=> {
+test.describe('CRM Customer Page - Negative - Validation', () => {
+    test('TC_CUST_06', async ({ page }) => {
         await loginAndNavigateToNewCustomer(page, 'Customers')
-        const urlBanDau =  page.url()
-        await page.getByRole('button', {name : 'Save', exact:true}).click()
+        const urlBanDau = page.url()
+        await page.getByRole('button', { name: 'Save', exact: true }).click()
         expect(page.url()).toBe(urlBanDau)
         // const errorText = page.locator('#company-error').textContent() -- đang lỗi
         // console.log(errorText)
         await page.pause()
     })
 
-    test('TC_CUST_07', async ({page})=> {
-         await loginAndNavigateToNewCustomer(page, 'Customers')
+    test('TC_CUST_07', async ({ page }) => {
+        await loginAndNavigateToNewCustomer(page, 'Customers')
 
-           await page.locator('#company').fill('Company A')
-           await page.locator("#vat").click()
-           //await expect(page.locator('#company_exists_info')).toBeVisible()
-           const mess = page.locator("#company_exists_info .alert").textContent()
-           console.log(mess)
-           await page.pause()
+        await page.locator('#company').fill('Company A')
+        await page.locator("#vat").click()
+        //await expect(page.locator('#company_exists_info')).toBeVisible()
+        const mess = page.locator("#company_exists_info .alert").textContent()
+        console.log(mess)
+        await page.pause()
 
 
     })
