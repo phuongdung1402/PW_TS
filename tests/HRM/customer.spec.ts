@@ -4,18 +4,24 @@ import { faker } from '@faker-js/faker'
 
 
 const URL_LOGIN = 'https://crm.anhtester.com/admin'
+
 async function loginAndNavigateToNewCustomer(page: Page, tabName: string) {
+    //1. Đầu tiên goto Page
     await page.goto(URL_LOGIN)
+    //2.Assert page có text Login
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(' Login ')
+    //3.Nhập thông tin user/password -> Ấn login
     await page.locator("#email").fill('admin@example.com')
     await page.locator("#password").fill('123456')
     await page.keyboard.press("Enter")
 
+    //4.Verify login thành công bởi url => và customer tab link hiển thị
     await expect(page).toHaveURL(/admin/)
-    await page.locator(`//span[normalize-space(.) = '${tabName}']//parent::a`).click()
 
+    //5.Click vào tab customer
+    await page.locator(`//span[normalize-space(.) = '${tabName}']//parent::a`).click()
     await page.getByRole('link', { name: '+ New Customer' }).click()
-    // await expect(page.locator("label[for='company'] small.req")).toBeVisible()
+    await expect(page.locator("label[for='company'] small.req")).toBeVisible()
 }
 
 
@@ -82,7 +88,6 @@ async function fillInformation(page: Page) {
     await page.locator("//a[normalize-space(.)='Billing & Shipping']").click()
     await page.locator("//a[normalize-space(.)='Same as Customer Info']").click()
     await expect(page.locator('#billing_street')).toHaveAttribute('value', 'Số 123 Duy Tân')
-
     // const add = page.locator('#billing_street')
     // console.log(add)
 }
@@ -164,47 +169,98 @@ async function fillInformationCustomerAndSave2(page: Page) {
 
 
 test.describe('CRM Customer Page - Possitive case', () => {
-    test('TC_CUST_01', async ({ page }) => {
+    // test('TC_CUST_01', async ({ page }) => {
+    //     await loginAndNavigateToNewCustomer(page, 'Customers')
+    //     // Dùng filter
+    //     const containerCompany = page.locator('label', { hasText: 'Company' })
+    //     //const containerCompany = page.locator('label').filter({hasText :'Company'}) -- tuong tu nhu dong tren
+    //     const asterik = containerCompany.locator('small', { hasText: '* ' })
+    //     await expect(asterik).toBeVisible()
+
+    //     const now = new Date()
+    //     const parsedDate = format(now, 'HH:mm:ss')
+    //     const companyName = `Auto PW Company ${parsedDate}`
+    //     await page.locator('#company').fill(companyName)
+
+    //     await page.locator('#profile-save-section').filter({hasText:'Save'}).locator('button', {hasText:'Save'}).nth(1).click()
+    //     await expect(page.locator("#alert_float_1")).toContainText("Customer added successfully.")
+
+    //     const currentUrl = page.url()
+    //     const urlParst = currentUrl.split('/clients/client/')
+    //     console.log(urlParst);
+    //     const customerId = urlParst[1]
+
+    //     const expectedDislay = customerId +" "+ companyName
+    //     console.log(expectedDislay);
+
+    //     const customerNameDisplay = page.locator('span.tw-truncate')
+    //     const displayedText = await customerNameDisplay.textContent()
+    //     console.log(displayedText);
+    //     expect(displayedText).toContain(expectedDislay)
+       
+    // })
+    test('TC_CUST_02 - Tạo customer ( Nhập đầy đủ thông tin) ', async ({ page }) => {
         await loginAndNavigateToNewCustomer(page, 'Customers')
         // Dùng filter
-        // const containerCompany = page.locator('label', { hasText: 'Company' })
-        // //const containerCompany = page.locator('label').filter({hasText :'Company'}) -- tuong tu nhu dong 11
-        // const asterik = containerCompany.locator('small', { hasText: '* ' })
-        // await expect(asterik).toBeVisible()
+        const containerCompany = page.locator('label', { hasText: 'Company' })
+        const asterik = containerCompany.locator('small', { hasText: '* ' })
+        await expect(asterik).toBeVisible()
 
-        // // await page.locator('#company').fill('Company abc')
-        // // //await page.getByRole('button', {name: 'Save', exact:true}).click()
-        // // await page.locator("//div[@id='profile-save-section']//button[normalize-space(.)='Save']").click()
-        // // await expect(page.locator("#alert_float_1")).toContainText("Customer added successfully.")
-        // // await expect(page.locator("//h4[text()='Profile']")).toBeVisible()
-        // // await expect(page.locator("//span[@class='tw-truncate']")).toContainText('Company abc')
+        const now = new Date()
+        const parsedDate = format(now, 'HH:mm:ss')
+        const companyName = `Auto PW Company ${parsedDate}`
+        await page.locator('#company').fill(companyName)
 
-        // const now = new Date()
-        // const parsedDate = format(now, 'HH:mm:ss')
-        // const companyName = `Auto PW Company ${parsedDate}`
-        // await page.locator('#company').fill(companyName)
+        const information = createRandomUser()
+        
+        //Các input của các ô
+        await page.locator('#vat').fill(information.vatNumber)
+        await page.locator('#phonenumber').fill(information.phone)    
+        await page.locator('#website').fill(information.website)
+        await page.locator('#address').fill(information.address)
+        await page.locator('#city').fill(information.city)
+        await page.locator("#state").fill(information.state)
+        await page.locator('#zip').fill(information.zipcode)  
 
-        // await page.locator('#profile-save-section').filter({hasText : 'Save'}).locator('button').filter({hasText :'Save'}).nth(1).click()
+        //Tim ra dropdown va click mo
+        const currencyContainer = page.locator('div.form-group', {hasText: 'Currency'})
+        await currencyContainer.locator('button[data-id="default_currency"]').click();
+        //chon USD
+        await page.locator('#default_currency').selectOption(information.currency)
 
-        // await expect(page.locator("#alert_float_1")).toContainText("Customer added successfully.")
+        //Tim ra dropdown va click mo
+        const languageContainer = page.locator('div.form-group', {hasText : 'Default Language'})
+        await languageContainer.locator('button[data-id="default_language"]').click();
 
-        // const currentUrl = page.url()
-        // const urlParst = currentUrl.split('/clients/client/')
-        // console.log(urlParst);
-        // const customerId = urlParst[1]
+        //chon VietNam
+        await page.locator('#default_language').selectOption(information.language)
+        await page.locator('label[for="vat"]').click()
 
-        // const expectedDislay = customerId +" "+ companyName
-        // console.log(expectedDislay);
+        //Dùng filter click Button
+        await page.locator('#profile-save-section').filter({ hasText: 'Save'}).locator('button', {hasText:'Save'}).nth(1).click();
 
-        // const customerNameDisplay = page.locator('span.tw-truncate')
-        // const displayedText = await customerNameDisplay.textContent()
-        // console.log(displayedText);
-        // expect(displayedText).toContain(expectedDislay)
-    })
-    test('TC_CUST_02', async ({ page }) => {
-        await loginAndNavigateToNewCustomer(page, 'Customers')
-        await fillInformationCustomerAndSave2(page)
-        //await fillInformationCustomerAndSave(page)
+        await expect(page.locator('#alert_float_1')).toContainText('Customer added successfully.')
+        const currentUrl = page.url()
+        const urlParst = currentUrl.split('/clients/client/')
+        const customerId = urlParst[1]
+
+        const customerNameDisplay =page.locator('span.tw-truncate')
+        const displayedText = await customerNameDisplay.textContent()
+        expect(displayedText).toContain(customerId)
+
+        await expect(page.locator('#company')).toHaveValue(companyName)
+        await expect(page.locator('#vat')).toHaveValue(information.vatNumber)
+        await expect(page.locator('#phonenumber')).toHaveValue(information.phone)
+        await expect(page.locator('#website')).toHaveValue(information.website)
+        await expect(page.locator('#address')).toHaveValue(information.address)
+        await expect(page.locator('#city')).toHaveValue(information.city)
+        await expect(page.locator('#state')).toHaveValue(information.state)
+        await expect(page.locator('#zip')).toHaveValue(information.zipcode)
+
+        const dropdownText = await page.locator('button[data-id="default_currency"]').getAttribute('title')
+        expect(dropdownText).toContain(information.currency)
+        const dropdownLanguage = await page.locator('button[data-id="default_language"]').getAttribute('title')
+        expect(dropdownLanguage).toContain(information.language)
         await page.pause()
     })
 })
@@ -213,7 +269,39 @@ test.describe('CRM Customer Page - UI/Functionality', () => {
 
     test('TC_CUST_04', async ({ page }) => {
         await loginAndNavigateToNewCustomer(page, 'Customers')
-        await fillInformation(page)
+        // Dùng filter
+        const containerCompany = page.locator('label', { hasText: 'Company' })
+        const asterik = containerCompany.locator('small', { hasText: '* ' })
+        await expect(asterik).toBeVisible()
+
+        const now = new Date()
+        const parsedDate = format(now, 'HH:mm:ss')
+        const companyName = `Auto PW Company ${parsedDate}`
+        await page.locator('#company').fill(companyName)
+
+        const information = createRandomUser()
+
+        //Các input của các ô
+        await page.locator('#address').fill(information.address)
+        await page.locator('#city').fill(information.city)
+        await page.locator("#state").fill(information.state)
+        await page.locator('#zip').fill(information.zipcode)  
+        const dropdownCountry = page.locator('div.form-group').filter({hasText:'Country'})
+        await dropdownCountry.locator('button[data-id="country"]').click()
+        await page.locator('#country').selectOption(information.country)
+
+        await page.locator('#country').click()
+
+        await page.getByRole('tab', { name: 'Billing & Shipping' }).click();
+        await page.getByText('Same as Customer Info').click();
+
+
+        await expect(page.locator('#billing_street')).toHaveValue(information.address)
+        await expect(page.locator('#billing_city')).toHaveValue(information.city)
+        await expect(page.locator('#billing_state')).toHaveValue(information.state)
+        await expect(page.locator('#billing_zip')).toHaveValue(information.zipcode)
+        expect(page.locator('button[data-id="billing_country"]').getAttribute('title')).toBe(information.country)
+
         await page.pause()
     })
 
