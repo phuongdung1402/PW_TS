@@ -106,3 +106,65 @@ const eventMap = {
 const logEvent = createLogger(eventMap)
 
 logEvent('BTN_CLICK_SIGNUP')
+
+// Kế thừa - kết hợp/thành phần (inheritance, composition)
+
+//Kế thừa : la moi quan he la mot
+// con meo la 1 dong vat , giam doc la 1 con nguoi
+
+//Ket hop : xe hoi co 1 cai dong co ( chu ko phai xe hoi la dong co)
+
+
+class SmartDevice {
+    connectWifi() {
+        console.log('connect wifi')
+    }
+}
+
+class SmartLight extends SmartDevice{
+    turnOn() {
+        console.log('Light on')
+    }
+}
+
+class SmartSpeaker extends SmartDevice{
+    playMusic() {
+        console.log('Music on');
+    }
+}
+
+class WifiModule {
+    connect() {
+        console.log('wifi da connect');
+    }
+}
+
+class LightModule{
+    on() {
+        console.log('bat');
+    }
+
+    off() {
+        console.log('tat');
+    }
+}
+
+class SpeakerModule{
+    play(song : string) {
+        console.log(`dang hat ${song}`);
+    }
+}
+
+class SigingLight{
+    private wifi = new WifiModule()
+    private light = new LightModule()
+    private speaker = new SpeakerModule()
+
+
+    partyTime() {
+        this.wifi.connect()
+        this.light.on()
+        this.speaker.play('OLALA')
+    }
+}
+
