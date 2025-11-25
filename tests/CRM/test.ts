@@ -1,5 +1,8 @@
 
 // as const ( const assertion )
+
+import { CLIENT_RENEG_LIMIT } from "tls";
+
 // as const : sẽ khóa cứng object , ngăn chặn việc sửa đổi ngớ ngẩn 
 const direction = {
     UP: 'up',
@@ -199,19 +202,172 @@ const settings2 = {
     wifi : true,
     bluetooth: false,
 }
-
 const {theme, volume, ...others} = settings2;
 console.log(theme);
 console.log(others);
 
 const races = ['Hai', 'Minh', 'Tung', 'Lan']
-const [...otherss] = races
+//races[0]
+const [winner, nhi, ...other ] = races
+console.log(winner)
+console.log(other)
 
-console.log(otherss);
+//Records
+// Tư duy sử dụng record để tạo ra object giống như 1 cuốn từ điển nơi bạn chưa biết tên key cụ thể , nhưng biết kiểu dữ liệu
 
 
+type ProductPrices = Record<string, number>;
+
+const prices : ProductPrices = {
+    laptop : 1500,
+    mouse : 25,
+}
+//object laptop va 'laptop' la tuong duong nhau
+
+type OrderStatus = 'pending' | 'shipping' | 'delivered';
+
+const statusLables : Record<OrderStatus, string> = {
+    'delivered' : 'Giao hang thanh cong',
+    'shipping' : 'Dang giao hang',
+    'pending' : 'Dang cho xu ly'
+};
 
 
+//Closure -> hay hàm trả về 1 hàm
+function hamCha(x: number) {
+    let biencuaCha = x
+
+    return function hamCon(y: number) {
+        return biencuaCha + y;
+    }
+}
+
+//cú pháp quan trọng là phải : hứng giá trị của closure = 1 biến
+const add = hamCha(5)
+const ketQua = add(2)
+console.log(ketQua);
+
+//tạo ra nhà máy tạo hàm
+//tạo ra hàm nhân
+
+function createMultiplier(factor: number) {
+    return function (number: number) {
+        return number * factor
+    } 
+}
+
+//vi du toi muon tao ham nhan doi
+const double = createMultiplier(2);
+console.log(double(10))
+
+const tripple = createMultiplier(3);
+console.log(tripple(3))
+
+//TƯ DUY : TẠO RA 1 HỆ THỐNG ĐỒNG BỘ HÓA DỮ LIỆU
+//1. Mình có 1 object gốc
+//2. Dùng keyof typeof để lấy danh sách key của nó
+//3.Dùng record để bắt buộc 1 obj khác có key y hệt obj gốc
+
+//
+// const SOURCE = {KeyA : '..'};
+// type SOURCEKEY = keyof typeof SOURCE
+// const Target : Record<SOURCEKEY, ValueType>
+
+const ORDER_STATUS = {
+    CREATED : 'orderCreated',
+    PAID: 'orderPaid',
+    SHIPPED : 'orderShipped',
+} as const
+
+type StatusKey = keyof typeof ORDER_STATUS
+const STATUS_COLOR : Record<StatusKey, string> = {
+    CREATED : 'gray',
+    PAID : 'blue',
+    SHIPPED : 'green'
+};
+
+function getBadgeColor(status : StatusKey) {
+    return STATUS_COLOR[status]
+}
+
+//getBadgeColor('')
+
+const ENV_LIST = {
+    DEV: 'development',
+    STAGING : 'staging',
+    PROD : 'prod',
+} as const
+
+type EnvKey = keyof typeof ENV_LIST
+
+interface EnvConfig {
+    baseUrl : string,
+    retries : number,
+    timeOut : number,
+}
+
+const PLAYWRIGHT_CONFIG : Record<EnvKey, EnvConfig> = {
+    'DEV' : {
+        'baseUrl' : 'dev',
+        'retries' : 0,
+        'timeOut' : 300,
+    },
+    'PROD' : {
+        'baseUrl' : 'prod',
+        'retries' : 1,
+        'timeOut' : 400,
+    },
+    'STAGING' : {
+        'baseUrl' : 'staging',
+        'retries' : 3,
+        'timeOut' : 200
+    }
+}
+
+PLAYWRIGHT_CONFIG['DEV']
+PLAYWRIGHT_CONFIG.DEV
+
+// Kết hợp vs closure
+const MEMBERSHIP_TIERS = {
+    STD: 'standard_user',
+    GOLD : 'gold_user',
+    VIP : 'vip_user'
+} as const
+
+type TierKey = keyof typeof MEMBERSHIP_TIERS
+
+type FeeConfig = Record<TierKey, number>
+
+const giangSinhConfig: FeeConfig = {
+    'STD' : 0.05,
+    'GOLD' : 0.02,
+    'VIP': 0.0
+}
+
+const tetConfig: FeeConfig = {
+    'STD' : 0.1,
+    'GOLD' : 0.05,
+    'VIP': 0.01
+}
+
+//phan closure : tao nha may ham 
+function createFeeCalculator(config : FeeConfig) {
+    console.log('Khoi tao bo tinh phi voi config');
+
+    return (tier : TierKey, amount: number) : number => {
+        const rate = config[tier]
+        const fee = rate * amount
+        console.log(`${tier} giao dich ${amount}: Phi ${fee}`)
+        return fee;
+    }
+}
+
+//nha may tao ham 
+const calculateGiangSinh = createFeeCalculator(giangSinhConfig)
+const calculateTet = createFeeCalculator(giangSinhConfig)
+
+calculateGiangSinh('GOLD', 100)
+calculateTet('VIP', 500)
 
 
 
