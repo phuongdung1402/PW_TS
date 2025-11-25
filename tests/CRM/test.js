@@ -28,15 +28,18 @@ var direction = {
 };
 var PI = 3.14;
 // direction.UP = 'left'
-var env = ['dev', 'stagging', 'prod'];
+var env = ['dev', 'uat', 'prod'];
 // env.push('abc')
+//=> Dùng cho biến ko thay đổi ( hay hằng số )
 //typeof
 //dùng để copy kiểu dữ liệu từ 1 đối tượng đã có sẵn
+//Dùng typeof : để lấy kiểu dữ liệu
 var settings = {
     theme: 'dard',
     notification: true,
     version: 1.0
 };
+var idTest = 'id';
 // tuong duong với
 //type UserKeys = 'id' | 'name' | 'email'
 var Colors = {
@@ -81,18 +84,18 @@ console.log(timeout);
 // interface updateId{
 //     id? : number
 // }
-//cu phap Partial<T>
+//cu phap : Partial<T>
 //vi du toi muon viet 1 ham updateProfile
 function updateProfile(original, updates) {
     return __assign(__assign({}, original), updates);
 }
 var userA = {
     id: 1,
-    name: 'a',
+    name: 'A',
     email: '123@gmail.com',
     age: 20,
 };
-var userB = updateProfile(userA, { age: 21 });
+var userB = updateProfile(userA, { name: 'an' });
 console.log(userB);
 var dbUser = {
     id: 'u1',
@@ -131,6 +134,9 @@ var settings2 = {
 var theme = settings2.theme, volume = settings2.volume, others = __rest(settings2, ["theme", "volume"]);
 console.log(theme);
 console.log(others);
+var races = ['Hai', 'Minh', 'Tung', 'Lan'];
+var otherss = races.slice(0);
+console.log(otherss);
 // type LyNuoc = string;
 // // viết 1 hàm nhận vào MENU -> trả về về 1 cái nút bấm cho menu
 // function caiDatMayBanNuoc<T extends Record<string, string | (() => LyNuoc)>>(

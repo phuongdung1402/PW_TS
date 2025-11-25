@@ -10,12 +10,14 @@ const PI = 3.14;
 // direction.UP = 'left'
 
 
-const env = ['dev','stagging','prod'] as const
-// env.push('abc')
+const env = ['dev','uat','prod'] as const
 
+// env.push('abc')
+//=> Dùng cho biến ko thay đổi ( hay hằng số )
 
 //typeof
 //dùng để copy kiểu dữ liệu từ 1 đối tượng đã có sẵn
+//Dùng typeof : để lấy kiểu dữ liệu
 
 const settings = {
     theme : 'dard',
@@ -32,7 +34,7 @@ const settings = {
 
 type SettingType = typeof settings;
 
-//keyof 
+//keyof : lấy ra key của object
 interface User{
     id:number;
     name:string;
@@ -40,6 +42,8 @@ interface User{
 }
 
 type UserKeys = keyof User;
+const idTest : UserKeys = 'id'
+
 // tuong duong với
 //type UserKeys = 'id' | 'name' | 'email'
 
@@ -50,6 +54,7 @@ const Colors = {
     Blue: '#0000FF'
 } as const
 
+
 // Có 2 cách để lấy giá trị trong 1 object
 console.log(Colors.Green);
 console.log(Colors['Blue']);
@@ -58,6 +63,7 @@ console.log(Colors['Blue']);
 //viet 1 cai ham chi nhan dung ten mau co trong object
 type ColorsType = typeof Colors;
 type ColorsName = keyof typeof Colors
+
 //b1 : typeof Colors => ra cai type la {Red: ''....}
 //b2 : keyOf (b1) => keyof ColorType => union 'Red' | 'Green' | 'Blue'
 
@@ -77,11 +83,11 @@ const config = {
     endPoint : 'https://api.com',
     timeOut: 5000,
     retries : 3,
-}
+}  as const
 
-type Config = typeof config
-type ConfigKey = keyof Config
-type ConfigDirect = keyof Config
+// type Config = typeof config
+// type ConfigKey = keyof Config
+type ConfigDirect = keyof typeof config
 // viết 1 hàm lấy giá trị của config
 
 function getConfigValue(key : keyof typeof config) {
@@ -121,7 +127,7 @@ interface UserProfile{
 //     id? : number
 // }
 
-//cu phap Partial<T>
+//cu phap : Partial<T>
 //vi du toi muon viet 1 ham updateProfile
 
 function updateProfile(original: UserProfile, updates: Partial<UserProfile>)  : UserProfile {
@@ -133,12 +139,12 @@ function updateProfile(original: UserProfile, updates: Partial<UserProfile>)  : 
 
 const userA : UserProfile = {
     id: 1,
-    name: 'a',
+    name: 'A',
     email:'123@gmail.com',
     age:20,
 }
 
-const userB = updateProfile(userA, {age: 21})
+const userB = updateProfile(userA, {name: 'an'})
 console.log(userB);
 
 // rest params
@@ -197,6 +203,11 @@ const settings2 = {
 const {theme, volume, ...others} = settings2;
 console.log(theme);
 console.log(others);
+
+const races = ['Hai', 'Minh', 'Tung', 'Lan']
+const [...otherss] = races
+
+console.log(otherss);
 
 
 
