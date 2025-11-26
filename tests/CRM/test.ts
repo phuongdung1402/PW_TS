@@ -1,8 +1,5 @@
 
-// as const ( const assertion )
-
-import { CLIENT_RENEG_LIMIT } from "tls";
-
+// 1.As const ( const assertion )
 // as const : sẽ khóa cứng object , ngăn chặn việc sửa đổi ngớ ngẩn 
 const direction = {
     UP: 'up',
@@ -12,13 +9,11 @@ const direction = {
 const PI = 3.14;
 // direction.UP = 'left'
 
-
 const env = ['dev','uat','prod'] as const
-
 // env.push('abc')
 //=> Dùng cho biến ko thay đổi ( hay hằng số )
 
-//typeof
+//2.Typeof
 //dùng để copy kiểu dữ liệu từ 1 đối tượng đã có sẵn
 //Dùng typeof : để lấy kiểu dữ liệu
 
@@ -27,7 +22,6 @@ const settings = {
     notification : true,
     version : 1.0
 }
-
 //type
 // interface Settings {
 //     theme : string;
@@ -37,7 +31,7 @@ const settings = {
 
 type SettingType = typeof settings;
 
-//keyof : lấy ra key của object
+//3.Keyof : lấy ra key của object
 interface User{
     id:number;
     name:string;
@@ -80,7 +74,6 @@ const configDevEnv = {
     timeOut: 5000,
     retries : 3,
 }
-
 
 const config = {
     endPoint : 'https://api.com',
@@ -195,7 +188,7 @@ console.log(first);
 console.log(second);
 
 
-//rest params
+//rest params ( phân rã các thuộc tính của đối tượng )
 const settings2 = {
     theme: 'dark',
     volume: 80,
@@ -214,10 +207,7 @@ console.log(other)
 
 //Records
 // Tư duy sử dụng record để tạo ra object giống như 1 cuốn từ điển nơi bạn chưa biết tên key cụ thể , nhưng biết kiểu dữ liệu
-
-
 type ProductPrices = Record<string, number>;
-
 const prices : ProductPrices = {
     laptop : 1500,
     mouse : 25,
@@ -225,7 +215,6 @@ const prices : ProductPrices = {
 //object laptop va 'laptop' la tuong duong nhau
 
 type OrderStatus = 'pending' | 'shipping' | 'delivered';
-
 const statusLables : Record<OrderStatus, string> = {
     'delivered' : 'Giao hang thanh cong',
     'shipping' : 'Dang giao hang',
@@ -371,9 +360,7 @@ calculateTet('VIP', 500)
 
 type LyNuoc = string;
 // viết 1 hàm nhận vào MENU -> trả về 1 cái nút bấm cho menu
-function caiDatMayBanNuoc<T extends Record<string, string | (() => LyNuoc)>>(
-  menu: T
-): (tenMon: keyof T) => LyNuoc {
+function caiDatMayBanNuoc<T extends Record<string, string | (() => LyNuoc)>>(menu: T): (tenMon: keyof T) => LyNuoc {
   // Nút bấm trả về
   return (tenMon: keyof T): LyNuoc => {
     const congThuc = menu[tenMon];
