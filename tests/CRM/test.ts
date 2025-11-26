@@ -364,41 +364,39 @@ function createFeeCalculator(config : FeeConfig) {
 
 //nha may tao ham 
 const calculateGiangSinh = createFeeCalculator(giangSinhConfig)
-const calculateTet = createFeeCalculator(giangSinhConfig)
+const calculateTet = createFeeCalculator(tetConfig)
 
 calculateGiangSinh('GOLD', 100)
 calculateTet('VIP', 500)
 
-
-
-// type LyNuoc = string;
-// // viết 1 hàm nhận vào MENU -> trả về về 1 cái nút bấm cho menu
-// function caiDatMayBanNuoc<T extends Record<string, string | (() => LyNuoc)>>(
-//   menu: T
-// ): (tenMon: keyof T) => LyNuoc {
-//   // Nút bấm trả về
-//   return (tenMon: keyof T): LyNuoc => {
-//     const congThuc = menu[tenMon];
-//     if (typeof congThuc === 'function') {
-//       console.log(` May dang pha che mon ${String(tenMon)}`);
-//       return congThuc();
-//     }
-//     console.log(`Lay ngay mon co san ${String(tenMon)}`);
-//     return congThuc;
-//   };
-// }
-// // () => string
-// const MENU_QUAN = {
-//   cocacola: 'Lon coca uop lanh',
-//   sinh_to_bo: () => {
-//     return 'Xay bo + sua + da -> sinh to bo';
-//   },
-//   cafe_sua: 'Cafe pha phin',
-// } as const;
-// const bamNut = caiDatMayBanNuoc(MENU_QUAN);
-// /// khách hàng sử dụng
-// //case 1: lấy nc ngọt
-// const nc1 = bamNut('cocacola');
-// //case 2: nc sinh to
-// const nc2 = bamNut('sinh_to_bo');
-// console.log(nc2);
+type LyNuoc = string;
+// viết 1 hàm nhận vào MENU -> trả về 1 cái nút bấm cho menu
+function caiDatMayBanNuoc<T extends Record<string, string | (() => LyNuoc)>>(
+  menu: T
+): (tenMon: keyof T) => LyNuoc {
+  // Nút bấm trả về
+  return (tenMon: keyof T): LyNuoc => {
+    const congThuc = menu[tenMon];
+    if (typeof congThuc === 'function') {
+      console.log(` May dang pha che mon ${String(tenMon)}`);
+      return congThuc();
+    }
+    console.log(`Lay ngay mon co san ${String(tenMon)}`);
+    return congThuc;
+  };
+}
+// () => string
+const MENU_QUAN = {
+  cocacola: 'Lon coca uop lanh',
+  sinh_to_bo: () => {
+    return 'Xay bo + sua + da -> sinh to bo';
+  },
+  cafe_sua: 'Cafe pha phin',
+} as const;
+const bamNut = caiDatMayBanNuoc(MENU_QUAN);
+/// khách hàng sử dụng
+//case 1: lấy nc ngọt
+const nc1 = bamNut('cocacola');
+//case 2: nc sinh to
+const nc2 = bamNut('sinh_to_bo');
+console.log(nc2);
