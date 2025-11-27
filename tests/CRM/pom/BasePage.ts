@@ -1,8 +1,10 @@
 import { Locator, Page } from "playwright";
+import { CommonHelpers } from "../helpers/CommonHelpers";
 
 export abstract class BasePage {
+    protected helpers : CommonHelpers;
 
-    constructor(protected page: Page) { }
+    constructor(protected page: Page) { this.helpers = new CommonHelpers(page)}
 
     async goto() { }
 
