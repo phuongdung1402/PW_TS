@@ -1,39 +1,45 @@
 import { Locator, Page } from "playwright";
 
+
+
 export class BasePage {
-    constructor(protected page: Page) { }
+    constructor(protected page: Page) {}
+
     protected async logClick(locator: Locator) {
-        const elementInfor = await this.getElementInfor(locator)
-        console.log(`[CLICK] : ${elementInfor}`)
+        const elementInfo = await this.getElementInfor(locator)
+        console.log(`[CLICK] ${elementInfo}`)
     }
 
     protected async logFill(locator: Locator) {
-        const elementInfor = await this.getElementInfor(locator)
-        console.log(`[FILL] ${elementInfor}`)
+        const elementInfo = await this.getElementInfor(locator)
+        console.log(`[FILL] ${elementInfo}`)
     }
 
-    private async getElementInfor(locator: Locator) {
-        let text = '';
 
+
+    private async getElementInfor(locator: Locator) : Promise<string> {
+        let text = '';
+        
         try {
             text = await locator.innerText();
-            text = text.trim();
-
-        } catch {
+            text = text.trim()
+        }catch {
             try {
-                const textContent = await locator.textContent();
+                const textContent = await locator.textContent()
                 text = textContent?.trim() || ''
             } catch {
                 try {
-                    const value = await locator.inputValue();
-                    if (value) {
-                        text = `Value ${value}`
+                    const value = await locator.inputValue()
+                    if( value) {
+                        text = `value = ${value}`
                     }
-                }catch{}
+                }catch {}
             }
         }
-
         return text;
     }
-    async expectedOnPage(): Promise<void> {}
+
+    async expectOnPage() : Promise<void> {}; 
+
+
 }
