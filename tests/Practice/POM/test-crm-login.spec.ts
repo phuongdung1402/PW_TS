@@ -1,13 +1,15 @@
-import { test } from "@playwright/test"
-import { CRMLogin } from "./CRMLoginPage"
+import { CRMLoginPage } from "./CRMLoginPage"
+import {test} from '@playwright/test'
 
 
-test('CRM Login Page', async ({page})=> {
-    const loginPage = new CRMLogin(page)
+
+test('CRM Login Page - Login thanh cong', async ({page})=> {
+    const loginPage = new CRMLoginPage(page)
     
     await loginPage.goto()
-    await loginPage.expectedOnPage()
+    await loginPage.expectOnPage()
     await loginPage.login('admin@example.com', '123456')
+
     await loginPage.expectLoggedIn()
 
 })

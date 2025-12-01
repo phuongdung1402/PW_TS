@@ -6,6 +6,7 @@ import { SidebarMenu } from "../components/SidebarMenu";
 export class CRMDashboardPage extends BasePage {
 
     readonly sidebarMenu = new SidebarMenu(this.page)
+    
     private readonly pageLocators = {
         logo: '#logo',
         searchInput : (page: Page) => page.getByRole('searchbox', {name : 'Search...', exact:true}),

@@ -29,7 +29,6 @@ export class CRMNewCustomerPage extends BasePage {
         state: '#state',
         zip: '#zip',
 
-
         //
         saveButtons : (page: Page) => page.locator('#profile-save-section')
         .filter({hasText: 'Save'}).locator('button', {hasText:'Save'}).nth(1),
