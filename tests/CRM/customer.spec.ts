@@ -107,6 +107,19 @@ function createRandomUser() {
     };
 }
 
+async function getCompanyNames(page: Page): Promise<string[]>{
+    const rows = page.locator('tbody tr')
+    const count = await rows.count();
+    const companies : string [] = [];
+
+    for(let i=0; i<count;i++) {
+        const cell = rows.nth(i).locator('td:nth-child(3)')
+        const text = await cell.textContent()
+        companies.push((text || '').trim())
+    }
+    return companies;
+}
+
 const information = createRandomUser()
 
 async function fillInformationCustomerAndSave2(page: Page) {
@@ -128,7 +141,6 @@ async function fillInformationCustomerAndSave2(page: Page) {
     await page.locator("#state").fill(information.state)
     //const zipInput = information.zipcode
     await page.locator('#zip').fill(information.zipcode)
-
 
     // await page.locator('#default_currency').selectOption('USD')
     //await page.locator('#country').selectOption("Jamaica")
