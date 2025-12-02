@@ -66,9 +66,45 @@ function createColumnMap(rawHeader) {
 }
 
 const columnMap = createColumnMap(tableHeaders)
-console.log(columnMap)
+//console.log(columnMap)
 
 //muon dung kieu camel case
 // console.log("1.Tìm cột 'dateCreated' dev dùng", columnMap['dateCreated'])
 
 // console.log("2. Tìm cột 'date created' nếu như BA thích dùng", columnMap['date created'])
+
+
+const student = {
+    name : 'An',
+    age :18
+}
+
+console.log(student.name)
+student.age = 30
+console.log(student.age);
+
+
+let tenCot = 'Email'
+let map = {}
+
+//map.tenCot = 'Data A';
+map[tenCot] = 'Data A'
+console.log(map);
+
+//Ket qua mong muon la {"Email": "Data"}
+type HoaDon = Record<string, number>
+const gioHang = ['Tao', 'Banh', 'Tao', 'Sua', 'Banh', 'Tao']
+
+function tinhTien(danhsachHang: string[]) : HoaDon{
+    const ketQua : HoaDon = {};
+    for(let i=0;i<danhsachHang.length;i++) {
+        const tenMonHang = danhsachHang[i]
+
+        if(ketQua[tenMonHang]){
+            ketQua[tenMonHang] = ketQua[tenMonHang] + 1;
+        } else {
+            ketQua[tenMonHang] = 1;
+        }
+    }
+
+}
