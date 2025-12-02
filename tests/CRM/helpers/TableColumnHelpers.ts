@@ -5,6 +5,8 @@ export type ColumnInfor = {
 }
 
 export type ColumnMap = Record <string,ColumnInfor>
+
+
 function toCamelCase(text: string): string {
     const words = text.toLocaleLowerCase().split(' ');
 
@@ -50,5 +52,56 @@ export async function createColumnMap(headers : Locator) : Promise<ColumnMap> {
         }
     }
     return map;
-
 }
+export async function getColumnInforSimple(
+    headersLocator: Locator,
+    columnKey: string,
+    columnMapCache? : ColumnMap | null) : Promise<{info: ColumnInfor; columnMap: ColumnMap}> {
+        // B1 : Thu dung cache neu co
+        let map: ColumnMap | null = columnMapCache || null
+        if(!map) {
+            map = await createColumnMap(headersLocator)
+        }
+        // B2 : Tim column trong map
+        let info = map[columnKey]
+
+        // B3 : Neu ko tim thay, tao lai map tu DOM
+        if(!info) {
+            map= await createColumnMap(headersLocator)
+            info = map[columnKey]
+        }
+        if(!info) {
+            throw new Error(`Column ${columnKey} khong tim thay`)
+        }
+        return {info, columnMap: map}
+}
+
+export type ColumnTextCleaner = (cell : Locator) => Promise<string>
+
+export async function getCellTextSimple(cell : Locator, columnKey : string, columnCleaner?: Record<string, ColumnTextCleaner>) : Promise<string> {
+    // B1 : Kiem tra xem custom cleaner cho column key co hay ko
+    const cleaner = columnCleaner?.[columnKey]
+
+    if(cleaner){
+        return cleaner(cell);
+    }
+    const text = await cell.textContent();
+    return (text||'').trim()
+}
+
+export async function getColumnValuesSimple(
+    headersLocator: Locator,
+    rowsLocator: Locator, 
+    columnKey: string,
+    columnCleaner?: Record<string, ColumnTextCleaner>,
+    columnMapCache? : ColumnMap | null ) : Promise<string[]> {
+        const result = await getColumnInforSimple(headersLocator, columnKey, columnMapCache)
+        const count = await rowsLocator.count();
+
+        const values : string[] = [];
+        for(let i=0;i<count;i++) {
+            const cell = rowsLocator.nth(i).locator(`td:nth-child(${result.info.index + 1})`);
+            values.push(await getCellTextSimple(cell, columnKey, columnCleaner))
+        }
+        return values
+    }
