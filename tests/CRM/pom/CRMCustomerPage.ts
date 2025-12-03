@@ -15,6 +15,7 @@ export type CustomerColumnKey =
   | 'dateCreated';
 
 export class CRMCustomerPage extends BasePage {
+    
     private columnMapCache: ColumnMap | null = null;
     
     private readonly pageLocators = {

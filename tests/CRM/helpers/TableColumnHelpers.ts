@@ -1,3 +1,11 @@
+// {
+//   id: { columnIndex: 0, headerText: 'ID' },
+//   dateCreated: { columnIndex: 1, headerText: 'Date Created' },
+//   'date created': { columnIndex: 1, headerText: 'Date Created' },
+//   customerName: { columnIndex: 2, headerText: 'customer name' },
+//   'customer name': { columnIndex: 2, headerText: 'customer name' }
+
+
 import { Locator } from "playwright";
 export type ColumnInfor = {
     index : number,
@@ -78,7 +86,10 @@ export async function getColumnInforSimple(
 
 export type ColumnTextCleaner = (cell : Locator) => Promise<string>
 
-export async function getCellTextSimple(cell : Locator, columnKey : string, columnCleaner?: Record<string, ColumnTextCleaner>) : Promise<string> {
+export async function getCellTextSimple(
+    cell : Locator, 
+    columnKey : string, 
+    columnCleaner?: Record<string, ColumnTextCleaner>) : Promise<string> {
     // B1 : Kiem tra xem custom cleaner cho column key co hay ko
     const cleaner = columnCleaner?.[columnKey]
 
@@ -103,5 +114,5 @@ export async function getColumnValuesSimple(
             const cell = rowsLocator.nth(i).locator(`td:nth-child(${result.info.index + 1})`);
             values.push(await getCellTextSimple(cell, columnKey, columnCleaner))
         }
-        return values
+        return values;
     }
