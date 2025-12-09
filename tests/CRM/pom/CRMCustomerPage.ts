@@ -20,7 +20,6 @@ export class CRMCustomerPage extends BasePage {
     
     private readonly pageLocators = {
        newCustomerLink : (page: Page) => page.getByRole('link', {name : 'New Customer'}),
-
        tableHeaders : '#clients thead th',
        tableRows : '#client tbody tr',
        searchInput : '#clients_filter input[type="Search"]',
@@ -49,7 +48,7 @@ export class CRMCustomerPage extends BasePage {
         await expect(rows.first()).toBeVisible()
     }
 
-     private async ensureColumnMapCache(): Promise<ColumnMap> {
+    private async ensureColumnMapCache(): Promise<ColumnMap> {
         if(!this.columnMapCache){
             await this.waitForTableReady();
             this.columnMapCache = await createColumnMap(this.element('tableHeaders'));
@@ -89,8 +88,6 @@ export class CRMCustomerPage extends BasePage {
             this.columnCleaner,
             columnMap);
     }
-
-
 
     private async buildColumnMap() : Promise<ColumnMap> {
         const headers = this.element('tableHeaders');

@@ -7,13 +7,13 @@
 
 
 import { Locator } from "playwright";
+//type or interface đều được
 export type ColumnInfor = {
     index : number,
     text : string
 }
 
 export type ColumnMap = Record <string,ColumnInfor>
-
 
 function toCamelCase(text: string): string {
     const words = text.toLocaleLowerCase().split(' ');
@@ -116,3 +116,37 @@ export async function getColumnValuesSimple(
         }
         return values;
     }
+
+
+// Hàm xây dựng object chứa dữ liệu của 1 row
+// Mục đích : lấy text từ nhiều cells trong 1 row -> trả về object với key = colummnKey , value = text từ cell
+// Logic : 
+// 1.loop qua từng columnKey ( từng cột)
+// 2. tìm vị trí cột (index) từ column map
+// 3. Lấy cell ở vị trí đó trong row
+// 4. Lấy text từ cell
+// 5. Lưu vào rowData object
+
+export async function buildRowDataSimple(
+    headerLocator: Locator,
+    rowsLocator: Locator,
+    colummnKeys: string[],
+    columnCleaner?: Record<string, ColumnTextCleaner>,
+    columnMapCache?: ColumnMap | null
+) : Promise<{ rowData: Record<string, string>; columnMap: ColumnMap}> {
+    // khoi tao object rong de luu du lieu cua row
+    const rowData : Record<string, string> = {}
+    let currentColumnMap = columnMapCache;
+    for(const key of colummnKeys) {
+        //b1. lay thong tin cot index
+        const result = await getColumnInforSimple(headerLocator, key, columnMapCache)
+        currentColumnMap = result.columnMap
+        //b2.tao locator cho cell
+        const cell = rowsLocator.locator(`td:nth-child(${result.info.index + 1})`);
+
+        //b3.luu vao rowData va column map moi nhat
+        rowData[key] = await getCellTextSimple(cell,key,columnCleaner)
+    }
+
+    return {rowData, columnMap: currentColumnMap!}
+}

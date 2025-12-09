@@ -114,83 +114,81 @@
 // console.log(finalBill)
 
 
+//--------------------------------------------------------------------------------------------------------------------
+// let domReadCount = 0;
 
-let domReadCount = 0;
+// async function createColumnMapSimple(headersLocator){
+//     domReadCount++;
+//     console.log('[DOM ] đang đọc Header để xây Map...(tốn 500ms)')
 
-async function createColumnMapSimple(headersLocator){
-    domReadCount++;
-    console.log('[DOM ] đang đọc Header để xây Map...(tốn 500ms)')
+//     return {
+//         Name : {index : 0},
+//         age : {index : 1},
+//         email : {index : 2}
+//     }
+// }
 
-    return {
-        Name : {index : 0},
-        age : {index : 1},
-        email : {index : 2}
-    }
-}
+// async  function getColumnInfor(headers, key, cache) {
+//     let map = cache;
 
-async  function getColumnInfor(headers, key, cache) {
-    let map = cache;
+//     if(!map) {
+//         map = await createColumnMapSimple(headers);
+//     }
+//     console.log('Vi da co cache roi nen ko build lai nua')
+//     return {infor: map[key], cololumnMap : map}
+// }
+// async function getCellText() {
+//     return 'Data';
+// }
 
-    if(!map) {
-        map = await createColumnMapSimple(headers);
-    }
-    console.log('Vi da co cache roi nen ko build lai nua')
+// async function buildRowData(headers, row, keys, cache) {
+//     const rowData = {}
 
-    return {infor: map[key], cololumnMap : map}
-}
-async function getCellText() {
-    return 'Data';
-}
+//     let currentMap = cache;
+//     for(const key of keys) {
+//         const result = await getColumnInfor(headers, key, currentMap)
+//         // cập nhật lại map cho vòng lặp sau
+//         currentMap = result.cololumnMap 
+//     }
+//     return { rowData , columnMap : currentMap }
+// }
 
+// const keyToGet= ['name', 'age', 'email']
 
-async function buildRowData(headers, row, keys, cache) {
-    const rowData = {}
+// const totoRows = 5;
 
-    let currentMap = cache;
-    for(const key of keys) {
-        const result = await getColumnInfor(headers, key, currentMap)
-        // cập nhật lại map cho vòng lặp sau
-        currentMap = result.cololumnMap 
-    }
-    return { rowData , columnMap : currentMap }
-}
+// async function runScenario(name, cacheStrategy) {
+//     console.log(`Chay kich ban ${name}`)
+//     domReadCount = 0;
 
+//     let globalCache = null;
 
-const keyToGet= ['name', 'age', 'email']
+//     for(let i=0;i< totoRows;i++) {
+//         console.log(`Xu ly dong so ${i+1}`);
+//         const inputCache = cacheStrategy ? globalCache : null;
+//         const result = await buildRowData(null, null, keyToGet, inputCache);
 
-const totoRows = 5;
+//         if(cacheStrategy) {
+//             globalCache = result.columnMap;
+//         }
+//     }
 
-async function runScenario(name, cacheStrategy) {
-    console.log(`Chay kich ban ${name}`)
-    domReadCount = 0;
+//     console.log(`So dong da xu ly ${totoRows}`);
+//     console.log(`So lan doc lai header : ${domReadCount}`);
 
-    let globalCache = null;
+//     if(domReadCount > 1) {
+//         console.log('Hieu nang Kem');
+//     }else {
+//         console.log('Hieu nang tot');
+//     }
+// }
 
-    for(let i=0;i< totoRows;i++) {
-        console.log(`Xu ly dong so ${i+1}`);
-        const inputCache = cacheStrategy ? globalCache : null;
-        const result = await buildRowData(null, null, keyToGet, inputCache);
+// (async () => {
+//     await runScenario('Khong dung cache', false)
+//     await runScenario('Co dung cache', true)
+// })();
 
-        if(cacheStrategy) {
-            globalCache = result.columnMap;
-        }
-    }
-
-    console.log(`So dong da xu ly ${totoRows}`);
-    console.log(`So lan doc lai header : ${domReadCount}`);
-
-    if(domReadCount > 1) {
-        console.log('Hieu nang Kem');
-    }else {
-        console.log('Hieu nang tot');
-    }
-}
-
-(async () => {
-    await runScenario('Khong dung cache', false)
-    await runScenario('Co dung cache', true)
-})();
-
+//----------------------------------------------------------------------------------------------------------------------
 //input : la chuoi ban
 //output : chuoi sach
 // cta can xu li 1 so cot dac biet , va cac cot khac xu ly binh thuong
