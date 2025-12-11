@@ -150,3 +150,34 @@ export async function buildRowDataSimple(
 
     return {rowData, columnMap: currentColumnMap!}
 }
+
+// Lay du lieu toan bo table
+// Logic :
+//1. Dem so luong row
+//2. Loop qua tung row
+//3. Voi 1 row : lay du lieu tu cac cot chi dinh
+//4.push vao mang ket qua
+
+export async function getTableDataSimple(
+    headerLocator: Locator,
+    rowsLocator: Locator,
+    colummnKeys: string[],
+    columnCleaner?: Record<string, ColumnTextCleaner>,
+    columnMapCache?: ColumnMap | null
+) : Promise<Array<Record<string,string>>> {
+    const rowCount = await rowsLocator.count()
+    const data: Array<Record<string,string>> =[]
+
+    let currentColumnMap = columnMapCache
+
+    for(let rowIndex=0; rowIndex < rowCount; rowIndex++){
+        const row = rowsLocator.nth(rowIndex)
+
+        const result = await buildRowDataSimple(headerLocator, row, colummnKeys, columnCleaner, currentColumnMap) 
+
+        currentColumnMap = result.columnMap
+        data.push(result.rowData)
+    }
+
+    return data
+}

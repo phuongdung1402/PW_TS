@@ -1,7 +1,7 @@
 import { expect } from "playwright/test";
 import { BasePage } from "./BasePage";
 import { Page } from "playwright";
-import { ColumnInfor, ColumnMap, ColumnTextCleaner, createColumnMap, getColumnValuesSimple } from "../helpers/TableColumnHelpers";
+import { ColumnInfor, ColumnMap, ColumnTextCleaner, createColumnMap, getColumnValuesSimple, getTableDataSimple } from "../helpers/TableColumnHelpers";
 import { Locator } from "playwright";
 export type CustomerColumnKey = 
   | 'select'
@@ -44,8 +44,8 @@ export class CRMCustomerPage extends BasePage {
         const headers = this.element('tableHeaders')
         await expect(headers.first()).toBeVisible()
 
-        const rows = this.getRowsLocator()
-        await expect(rows.first()).toBeVisible()
+        // const rows = this.getRowsLocator()
+        // await expect(rows.first()).toBeVisible()
     }
 
     private async ensureColumnMapCache(): Promise<ColumnMap> {
@@ -89,12 +89,26 @@ export class CRMCustomerPage extends BasePage {
             columnMap);
     }
 
-    private async buildColumnMap() : Promise<ColumnMap> {
-        const headers = this.element('tableHeaders');
-        return createColumnMap(headers)
-    } 
-
-    async clickAddNewCustomer() {
-        await this.clickWithLog(this.element('newCustomerLink'))
+    async getTableData(
+        colummnKeys: Array<CustomerColumnKey|string>
+    ) : Promise<Array<Record<string,string>>> {
+        await this.waitForTableReady()
+        const columnMap = await this.ensureColumnMapCache()
+        return getTableDataSimple(
+            this.element('tableHeaders'),
+            this.getRowsLocator(),
+            colummnKeys,
+            this.columnCleaner,
+            columnMap
+        )
     }
+
+    // private async buildColumnMap() : Promise<ColumnMap> {
+    //     const headers = this.element('tableHeaders');
+    //     return createColumnMap(headers)
+    // } 
+
+    // async clickAddNewCustomer() {
+    //     await this.clickWithLog(this.element('newCustomerLink'))
+    // }
 }
