@@ -14,6 +14,7 @@ export type ColumnInfor = {
 }
 
 export type ColumnMap = Record <string,ColumnInfor>
+export type TextMatcher = string | ((text: string)=> boolean)
 
 function toCamelCase(text: string): string {
     const words = text.toLocaleLowerCase().split(' ');
@@ -106,6 +107,7 @@ export async function getColumnValuesSimple(
     columnKey: string,
     columnCleaner?: Record<string, ColumnTextCleaner>,
     columnMapCache? : ColumnMap | null ) : Promise<string[]> {
+
         const result = await getColumnInforSimple(headersLocator, columnKey, columnMapCache)
         const count = await rowsLocator.count();
 
@@ -180,4 +182,100 @@ export async function getTableDataSimple(
     }
 
     return data
+}
+
+
+const textMatches = (cellValue: string, condition: TextMatcher): boolean => {
+    // neu truyen vao 1 chuoi
+    if(typeof condition === 'string'){
+        return cellValue.includes(condition);
+    }
+
+    if(typeof condition === 'function') {
+        return condition(cellValue)
+    }
+
+    return false;
+};
+
+
+//Logic : Lay vi tri cot
+//Dem so luong row
+//loop qua tung rows
+//lay text o cell o cot do
+//kiem tra text co khop vs matcher ko
+//neu khop tra ve row - neu ko khop throw error
+export async function findRowByColumnValueSimple(
+    headersLocator: Locator,
+    rowsLocator: Locator,
+    columnKeys: string,
+    matcher: TextMatcher,
+    columnCleaner?: Record<string, ColumnTextCleaner>,
+    columnMapCache?: ColumnMap | null
+): Promise<Locator> {
+
+    const result = await getColumnInforSimple(headersLocator, columnKeys, columnMapCache);
+    const count = await rowsLocator.count();
+
+    for(let i=0; i < count; i++) {
+        const row = rowsLocator.nth(i);
+        const cell = row.locator(`td:nth-child(${result.info.index + 1})`);
+        const text = await getCellTextSimple(cell, columnKeys, columnCleaner);
+        if(textMatches(text, matcher)) {
+            return row
+        }
+    }
+
+    throw new Error(`Unable to find a row where ${columnKeys} matches provided matcher`);
+};
+
+
+//B1 
+export async function findRowByFilterSimple(
+    headersLocator: Locator,
+    rowsLocator: Locator,
+    filters: Record<string, TextMatcher>,
+    columnCleaner?: Record<string, ColumnTextCleaner>,
+    columnMapCache?: ColumnMap | null
+): Promise<Locator> {
+    const keys = Object.keys(filter);
+    const count = await rowsLocator.count()
+
+    let currentColumnMap = columnMapCache;
+
+    // tối ưu là lấy index trc , tránh phải tìm lại nhiều lần
+    const columnInfos : ColumnInfor[] = []
+
+    for(const key of keys) {
+        const result = await getColumnInforSimple(headersLocator, key, currentColumnMap)
+        currentColumnMap = result.columnMap;
+
+        columnInfos.push(result.info)
+    }
+
+    //loop qua tung row de tim row khop voi tat ca filter
+    for(let i=0; i< count; i++) {
+        const row = rowsLocator.nth(i);
+
+        let matchedAll = true;
+        for(let j=0;j<keys.length;j++) {
+            //lấy key và column infor tương ứng
+            const key = keys[j];
+            const info = columnInfos[j];
+
+            const cell = row.locator(`td:nth-child(${info.index + 1})`)
+            const text = await getCellTextSimple(cell, key, columnCleaner);
+
+            if( !textMatches(text, filters[key])) {
+                matchedAll = false;
+                break;
+            }
+
+            // neu khop thi kiem tra filter tiep theo
+        }
+        if(matchedAll) {
+            return row;
+        }
+    }
+    throw new Error('Unable to find row matching filter')
 }

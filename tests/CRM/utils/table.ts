@@ -258,3 +258,117 @@
 // console.log('Du lieu goc', dirtyData)
 // const cleanData = processRow(dirtyData, dataCleaner)
 // console.log('Du lieu sach', cleanData)
+
+
+
+// function isMatch(cellText: string, keyWord: string) : boolean {
+//     return cellText.toLowerCase().includes(keyWord.toLowerCase());
+// }
+
+// const ketQua = isMatch('Apple Inc', 'apple')
+// console.log(ketQua);
+
+// type Matcher = string | ((text: string) => boolean)
+
+// function checkCondition(cellValue: string, condition: Matcher) {
+//     if (typeof condition === 'string') {
+//         return cellValue.includes(condition)
+//     }
+
+//     if (typeof condition === 'function') {
+//         return condition(cellValue)
+//     }
+
+//     return false
+// }
+
+// const rowText = '1500'
+// //c1: dung string
+// const result1 = checkCondition(rowText, '1500')
+// console.log(result1);
+// //c2
+// const result2 = checkCondition(rowText, (text) => {
+//     const number = parseInt(text);
+
+//     return number > 1000;
+// })
+// console.log(result2);
+
+const KHO_HANG = [
+    { id: 1, ten: 'Samsung S24', mau: 'Den', gia: '20tr', tonKho: 10, viTri: 'Kệ A' },
+    { id: 2, ten: 'Iphone 15', mau: 'Den', gia: '25tr', tonKho: 2, viTri: 'Kệ B' },
+    { id: 3, ten: 'Xiaomi 12', mau: 'Hong', gia: '15tr', tonKho: 6, viTri: 'Kệ C' },
+    { id: 4, ten: 'iPhone 17 promax', mau: 'Titan', gia: '20tr', tonKho: 18, viTri: 'Kệ D' },
+];
+const COT_MAC_DINH = ['ten', 'gia'];
+
+//B1: Dinh vi
+function robotTimHang(filter) {
+    console.log(`B1: Đang đi tìm hàng khớp lệnh ${filter}`);
+    for (const sanPham of KHO_HANG) {
+        let khopTatCa = true;
+        for (const key of Object.keys(filter)) {
+            if (sanPham[key] !== filter[key]) {
+                khopTatCa = false;
+                break;
+            }
+        }
+        if (khopTatCa) {
+            console.log(`Tim thay tai: ${sanPham.viTri} (ID: ${sanPham.id})`);
+            return sanPham;
+        }
+    }
+    throw new Error(' Khong tim thay hang')
+}
+
+//B2. Quyết định
+function roboQuyetDinhThongTin(filter, yeuCauLay, macDinh) {
+    // ưu tiêu 1 : sếp chỉ định rõ ràng
+    if(yeuCauLay && yeuCauLay.length > 0) {
+        console.log(` Sếp bảo lấy : ${yeuCauLay}`);
+        return yeuCauLay;
+    }
+
+    // ưu tiên 2:
+    if(macDinh && macDinh.length > 0) {
+        console.log(`E lấy theo mặc định ${macDinh}`)
+        return macDinh;
+    }
+
+    //ưu tiên 3: Lấy đúng cái dùng để tìm kiếm
+    console.log('Lay theo filter: ', Object.keys(filter));
+    return Object.keys(filter);
+}
+
+//B3. Trich xuat
+function robotDocThongTin(sanPham, danhSachCanLay) {
+    console.log('Dang doc thong tin');
+    const baoCao = {};
+
+    for(const thongTin of danhSachCanLay) {
+        baoCao[thongTin] = sanPham[thongTin]
+    }
+    return baoCao;
+}
+
+///
+function roBotThucHienNhiemVu(filters, columnToget) {
+    //b1
+    const sanPham = robotTimHang(filters);
+    //b2 
+    const cacCotCanLay = roboQuyetDinhThongTin(filters, columnToget, COT_MAC_DINH);
+
+    //b3
+    const ketQua = robotDocThongTin(sanPham, cacCotCanLay);
+
+    console.log('ket qua bao cao', ketQua);
+    return ketQua;
+}
+
+roBotThucHienNhiemVu(
+    {
+        ten: 'Xiaomi 12',
+        mau: 'Hong',
+    },
+    ['ten', 'gia']
+);

@@ -56,7 +56,29 @@ test('TC_02 - Lấy dữ liệu nhiều cột', async ( {page})=> {
 
     await test.step('Get table data with multiple columns', async()=> {
         const data = await customersPage.getTableData(['company', 'phone','active'])
-        console.log(data);
+        //console.log(data);
+        //return hinh giong nhu table ( nhan vao 1 mang string )
         console.table(data)
+    })
+})
+
+
+test('TC_03 - Tìm row theo company name', async ( {page})=> {
+    const {dashboardPage, customersPage} = createCRMPages(page);
+
+    await test.step('Verify dashboard da load sau khi login', async() => {
+        await dashboardPage.expectOnPage()
+    })
+
+    await test.step('Navigate to dashboardPage to Customer page', async()=> {
+        await dashboardPage.navigateMenu('Customers')
+        await customersPage.expectOnPage()
+    })
+
+    await test.step('Find row by company name', async()=> {
+        const row = await customersPage.findRowByColumnValue('company', '__@231dsa' )
+        await expect(row).toBeVisible()
+        //in ra noi dung ca row
+        console.log(await row.textContent());
     })
 })

@@ -1,7 +1,15 @@
 import { expect } from "playwright/test";
 import { BasePage } from "./BasePage";
 import { Page } from "playwright";
-import { ColumnInfor, ColumnMap, ColumnTextCleaner, createColumnMap, getColumnValuesSimple, getTableDataSimple } from "../helpers/TableColumnHelpers";
+import { ColumnInfor,
+    ColumnMap, 
+    ColumnTextCleaner, 
+    createColumnMap, 
+    getColumnValuesSimple, 
+    getTableDataSimple, 
+    TextMatcher,
+    findRowByColumnValueSimple
+} from "../helpers/TableColumnHelpers";
 import { Locator } from "playwright";
 export type CustomerColumnKey = 
   | 'select'
@@ -21,7 +29,7 @@ export class CRMCustomerPage extends BasePage {
     private readonly pageLocators = {
        newCustomerLink : (page: Page) => page.getByRole('link', {name : 'New Customer'}),
        tableHeaders : '#clients thead th',
-       tableRows : '#client tbody tr',
+       tableRows : '#clients tbody tr',
        searchInput : '#clients_filter input[type="Search"]',
        tableProcessing : '#clients_processing'
     } as const
@@ -44,8 +52,8 @@ export class CRMCustomerPage extends BasePage {
         const headers = this.element('tableHeaders')
         await expect(headers.first()).toBeVisible()
 
-        // const rows = this.getRowsLocator()
-        // await expect(rows.first()).toBeVisible()
+        const rows = this.getRowsLocator()
+        await expect(rows.first()).toBeVisible()
     }
 
     private async ensureColumnMapCache(): Promise<ColumnMap> {
@@ -101,6 +109,24 @@ export class CRMCustomerPage extends BasePage {
             this.columnCleaner,
             columnMap
         )
+    }
+
+
+    async findRowByColumnValue(
+        columnKey: CustomerColumnKey | string,
+        matcher: TextMatcher
+    ) : Promise<Locator> {
+        await this.waitForTableReady();
+        const columnMap = await this.ensureColumnMapCache();
+        return findRowByColumnValueSimple(
+            this.element('tableHeaders'),
+            this.getRowsLocator(),
+            columnKey,
+            matcher,
+            this.columnCleaner,
+            columnMap
+        )
+
     }
 
     // private async buildColumnMap() : Promise<ColumnMap> {
