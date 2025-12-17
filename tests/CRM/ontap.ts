@@ -89,15 +89,15 @@
 
 //Method : Structure clone : la 1 method thuoc ve nodeJS va browser
 
-function cloneData<T>(data: T): T {
-    //c1 : structured clone ( cong nghe moi, copy sieu nhanh)
-    if (typeof structuredClone !== 'undefined') {
-        return structuredClone(data);
-    }
+// function cloneData<T>(data: T): T {
+//     //c1 : structured clone ( cong nghe moi, copy sieu nhanh)
+//     if (typeof structuredClone !== 'undefined') {
+//         return structuredClone(data);
+//     }
 
-    //c2 : JSON (Cong nghe cu, biến thành chữ , rồi lại biến thành hình)
-    return JSON.parse(JSON.stringify(data))
-}
+//     //c2 : JSON (Cong nghe cu, biến thành chữ , rồi lại biến thành hình)
+//     return JSON.parse(JSON.stringify(data))
+// }
 
 // const dataCuaHoangMoi = cloneData(dataGoc)
 // dataCuaHoangMoi.money = 2000
@@ -113,7 +113,7 @@ function cloneData<T>(data: T): T {
 // console.log(teamCongTac);
 
 
-//merge -> hop nhat 2 object
+//MERGE -> hop nhat 2 object
 //Dung khi muon merge object ( thay doi data của obj - tuy thuoc vao muc dich su dung cua data test)
 // const NhanVien = {
 //     name: 'Tung',
@@ -142,78 +142,121 @@ function cloneData<T>(data: T): T {
 
 // 1 kho xe mau (catalog chi tiet )
 
-const CAR_CATALOG = {
-    sedans: {
-        camry_standard : {
-            description: 'Camry phien ban tieu chuan',
-            data: {
-                //1
-                model : 'Camry 2.0G',
-                color: 'Black',
-                isSold: false,
-                engige: {
-                    type: '2.0L Pertrol',
-                    power: '200HP',
-                    fuel: 'Gas',
-                },
+// const CAR_CATALOG = {
+//     sedans: {
+//         camry_standard : {
+//             description: 'Camry phien ban tieu chuan',
+//             data: {
+//                 //1
+//                 model : 'Camry 2.0G',
+//                 color: 'Black',
+//                 isSold: false,
+//                 engige: {
+//                     type: '2.0L Pertrol',
+//                     power: '200HP',
+//                     fuel: 'Gas',
+//                 },
 
-                interior : {
-                    seats: 'Leather',
-                    color:'Black',
-                },
+//                 interior : {
+//                     seats: 'Leather',
+//                     color:'Black',
+//                 },
 
-                accessories: ['Tham san', 'Phim cach nhiet']
-            }
-        }
-    }
-}
+//                 accessories: ['Tham san', 'Phim cach nhiet']
+//             }
+//         }
+//     }
+// }
 
-//namespace: Khu vực
+// //namespace: Khu vực
 
-function produceCar(namespace, key, options?) {
-    console.log(`Lệnh sẩn xuất : ${namespace} -> ${key}`);
+// function produceCar(namespace, key, options?) {
+//     console.log(`Lệnh sẩn xuất : ${namespace} -> ${key}`);
 
-    //1. lay khung xe tu kho
+//     //1. lay khung xe tu kho
+//     // khi muon truy xuat den thuoc tính của object (thuoc tinh do la tham so của hàm )-> thì dùng dấu []
+//     const template = CAR_CATALOG[namespace][key];
+//     if(!template) throw new Error('Khong tim thay mau xe');
 
-    // khi muon truy xuat den thuoc tính của object (thuoc tinh do la tham so của hàm )-> thì dùng dấu []
-    const template = CAR_CATALOG[namespace][key];
-    if(!template) throw new Error('Khong tim thay mau xe');
+//     //2.Clone (tao xe mơi)
+//     let myCar = cloneData(template.data)
 
-    //2.Clone (tao xe mơi)
-    let myCar = cloneData(template.data)
+//     if(options && options.overrides) {
+//         Object.assign(myCar, options.overrides)
+//     }
 
-    if(options && options.overrides) {
-        Object.assign(myCar, options.overrides)
-    }
+//     if(options && options.transform) {
+//         myCar = options.transform(myCar);
+//         console.log(`Transfrom đã độ xe`);
+//     }
 
-    if(options && options.transform) {
-        myCar = options.transform(myCar);
-        console.log(`Transfrom đã độ xe`);
-    }
+//     return myCar;
+// }
 
-    return myCar;
-}
-
-const case1 = produceCar('sedans', 'camry_standard')
-//console.log(case1);
+// const case1 = produceCar('sedans', 'camry_standard')
+// console.log(case1);
 
 // muốn đổi màu sơn và đánh dấu xe đã bán
-const case2 = produceCar('sedans', 'camry_standard', {
-    overrides: {
-        color: 'Pink',
-        isSold: true,
-    }
-})
+// const case2 = produceCar('sedans', 'camry_standard', {
+//     overrides: {
+//         color: 'Pink',
+//         isSold: true,
+//     }
+// })
 
-//console.log(case2);
+// //console.log(case2);
 
 // Khach hang muon do xe thanh 500 ma luc
-const case3 = produceCar('sedans', 'camry_standard', {
-    transform: (car) => {
-        car.engige.power = '500HP'
-        return car;
+// const case3 = produceCar('sedans', 'camry_standard', {
+//     transform: (car) => {
+//         car.engige.power = '500HP'
+//         return car;
+//     },
+// });
+
+// console.log(case3);
+
+
+// const case4 = produceCar('sedans', 'camry_standard', {
+//     transform: (car) => {
+//         car.accessories.push('camera hanh trinh')
+//         return car
+//     }
+// })
+
+// console.log(case4)
+// console.log(CAR_CATALOG.sedans.camry_standard.data)
+
+// Lam viec vs object :
+// Dung merge : bien doi data test
+// Dung clone : de clone ra data test , thay doi data ma ko anh huong data goc
+
+
+const dataGoc = {
+    id: 1,
+    name: 'Bui Thi Phuong Dung'
+
+}
+//clone đc ( nhưng chỉ copy đc 1 cấp)
+// const dataChange = {...dataGoc}
+// dataChange.id = 2;
+// console.log(dataGoc)
+
+// const dataChange = Object.assign({}, dataGoc)
+// dataChange.id = 3
+// console.log(dataGoc)
+
+const a = {
+    infor : {
+        age : 20
     },
-});
+    id: 3,
+    name: 'A'
+}
 
-console.log(case3);
+const b = JSON.parse(JSON.stringify(a))
+b.infor.age = 30
 
+const c = Object.assign({}, a)
+c.infor.age = 40
+console.log(c)
