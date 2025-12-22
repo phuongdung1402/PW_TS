@@ -421,7 +421,6 @@ function dichVuGiatLa(quanAo: string[], hangDongSauKhiGiat: () => void) {
 dichVuGiatLa(['Ao so mi', 'Quan Jean'], goiDien)
 dichVuGiatLa(['Chan bong'], giaoHang)
 
-
 //chuong trinh may tinh don gian : cong, tru, inKetQua
 class MayTinh {
     ketQua: number;
@@ -443,12 +442,10 @@ class MayTinh {
         console.log(`Tru ${so} -> Hieu la: ${this.ketQua}`);
         // tra ve cai may tinh do de thuc hien dung tiep
         return this;
-
     }
 
     inKetQua(): void {
         console.log(`------------ket qua cuoi cung la ${this.ketQua}---------------`);
-
     }
 }
 
@@ -494,23 +491,17 @@ ongThuan.diVaoKham(bacSiHienLanh)
 ongThuan.diVaoKham(bacSiKhoTinh)
 
 // Dependency injection (DI : cây phụ thuộc )
-
-
-
+// 1.Dependency flow
 
 
 
 // Phan1 : Cac nguyen lieu va mon an ( dependencies ) (page)
-
 class CaiChao {
     lamNong(): string {
         console.log('Dang bat bep lam nong chao');
         return 'Chao nong';
-
     }
 }
-
-
 class TrungRan {
     private chao: CaiChao;
     constructor(chao: CaiChao) {
@@ -522,10 +513,8 @@ class TrungRan {
         return 'Mieng trung ran vang uom';
     }
 }
-
 class BanhMiTrung {
     private trungRan : TrungRan
-
     constructor(trungRan: TrungRan) {
         this.trungRan = trungRan;
     }
@@ -536,15 +525,11 @@ class BanhMiTrung {
         
     }
 }
-
-
 // Phan 2 : Bo nao (DI Container)
 // Che 1 con robot tu phuc vu
 
 type FactoryFunction = (r : RobotDauBep) => any;
-
 class RoBotDauBep {
-
     //map luu tru : key la ten mon, value la ham lam mon an
     private soTayCongThuc = new Map<string, FactoryFunction>();
 
@@ -570,6 +555,7 @@ class RoBotDauBep {
 
 const robot = new RoBotDauBep();
 
+//B2 : Day robot hoc cach lam mon an
 robot.hocCongThuc('CaiChao', (r)=>new CaiChao())
 robot.hocCongThuc('TrungRan', (r)=>{
     const chao = r.nauMon<CaiChao>('CaiChao');
@@ -580,7 +566,6 @@ robot.hocCongThuc('BanhMiTrung', (r)=> {
     const trungRan = r.nauMon<TrungRan>('TrungRan')
     return new BanhMiTrung(trungRan)
 })
-
 
 // B3 : Khach goi mon
 const monAn = robot.nauMon<BanhMiTrung>('BanhMiTrung')
