@@ -9,6 +9,6 @@ test('Test dung toan bo fixture moi', async ({randomNumber, greeting, userInfo})
 
 
 
-test('Test dung toan bo fixture moi2', async ({randomNumber, greeting, userInfo})=> {
+test('Test dung toan bo fixture moi2', async ({ userInfo})=> {
     console.log(`User ${userInfo.name}`);
 })

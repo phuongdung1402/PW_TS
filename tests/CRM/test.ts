@@ -388,6 +388,10 @@
 // const nc2 = bamNut('sinh_to_bo');
 // console.log(nc2);
 
+
+
+
+//Hàm tạo quả BOM : Chế tạo BOM C4
 // function taoQuaBom() {
 //     console.log(`BUM! BOM NO NGAY LAP TUC`);
 //     return 'Xac qua bom'
@@ -421,6 +425,7 @@ function dichVuGiatLa(quanAo: string[], hangDongSauKhiGiat: () => void) {
 dichVuGiatLa(['Ao so mi', 'Quan Jean'], goiDien)
 dichVuGiatLa(['Chan bong'], giaoHang)
 
+//keyword "this"
 //chuong trinh may tinh don gian : cong, tru, inKetQua
 class MayTinh {
     ketQua: number;
@@ -493,8 +498,6 @@ ongThuan.diVaoKham(bacSiKhoTinh)
 // Dependency injection (DI : cây phụ thuộc )
 // 1.Dependency flow
 
-
-
 // Phan1 : Cac nguyen lieu va mon an ( dependencies ) (page)
 class CaiChao {
     lamNong(): string {
@@ -505,10 +508,11 @@ class CaiChao {
 class TrungRan {
     private chao: CaiChao;
     constructor(chao: CaiChao) {
-        this.chao.lamNong();
+        this.chao = chao;
     }
 
     ran() : string {
+        this.chao.lamNong();
         console.log('Dap trung vao chao...xeo xeo.... chin!!');
         return 'Mieng trung ran vang uom';
     }
@@ -522,7 +526,6 @@ class BanhMiTrung {
     an() : void {
         const nhanBanh = this.trungRan.ran();
         console.log(`Kep ${nhanBanh} vao banh mi. Moi ban an`);
-        
     }
 }
 // Phan 2 : Bo nao (DI Container)
@@ -538,7 +541,6 @@ class RoBotDauBep {
         console.log(`Da hoc cach lam ${tenMon}`);
         this.soTayCongThuc.set(tenMon, cachLam);
     }
-
 
     //hanh dong 2 : Nau mon an(resolve)
     nauMon<T>(tenMon: string) : T {
