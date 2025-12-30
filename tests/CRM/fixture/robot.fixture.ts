@@ -4,7 +4,8 @@
 //3 goi mon de kiem tra ( test )
 
 //Bước 1 :
-import {test as base} from '@playwright/test'
+// import {test as base} from '@playwright/test'
+import {test as base} from '@playwright/test';
 
 //Bước 2 : Dạy robot ( Định nghĩa fixture)
 // mở rộng ( extend ) bộ não robot gốc
@@ -19,6 +20,6 @@ export const test = base.extend<{
         //GD 2: Chạy tới await use() -> STOP -> Trao quyền điều khiển sân chơi cho file test
         await use(`Xin chao! Ban dang o trang ${title}`)
 
-        // GD3 : Dù test có chạy pass hay fail => teardown
+        //GD3 : Dù test có chạy pass hay fail => teardown
     }
 });
