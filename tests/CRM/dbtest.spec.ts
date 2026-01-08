@@ -1,10 +1,9 @@
 import {test} from './fixture/database.fixture';
-import { expect } from 'playwright/test';
+import { expect } from '@playwright/test';
 
 //Test 1 : Chay dau tien
 //File test là độc lập vs nhau , tránh sự phụ thuộc
 test('TestA: Kiem tra so luong user', async({ addAdminUser })=> {
-
     //Luc nay database dang co ['Admin]
     console.log('Test A chay ....');
     expect(addAdminUser.length).toBe(1)
@@ -21,4 +20,4 @@ test('Test B: Kiem tra user moi', async ({addAdminUser})=> {
     expect(addAdminUser.length).toBe(1)  
 })
 
-//fixture chaining... hiệu ứng domini
+//fixture chaining... hiệu ứng domino

@@ -1,0 +1,5 @@
+// Cấu trúc file hệ thống sẽ xây dựng cho bộ fixture của chúng ta
+//chia nhỏ trách nhiệm ra 3 file chính :
+//1 File auth.fixture.ts (tầng 1 và tầng 2): chứa logic login và tạo ra "người gác cổng"
+//2 File app.fixture.ts ( tầng 3): chứa công thức tạo ra các POM (dashboard, customer)
+//3 File gatekeeper.fixture.ts (tổng hành dinh): nơi hợp nhất tất cả lại để sử dụng
