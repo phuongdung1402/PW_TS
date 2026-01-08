@@ -8,7 +8,7 @@ export type KitchenMenu = {
 
 //công thức pha chế
 export const testKitchen = base.extend<KitchenMenu>({
-     phoBo: async({}, use) => {
+    phoBo: async({}, use) => {
         console.log(`Bep dang chan nc leo`);
         const monAn = 'Pho bo tai nam';
         await use(monAn);
