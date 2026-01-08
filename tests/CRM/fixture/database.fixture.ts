@@ -9,7 +9,6 @@ type DatabaseFixture = {
 };
 
 //Viết extend -> dạy robot cách học
-
 export const test = base.extend<DatabaseFixture>({
     addAdminUser:async ({}, use) => {
         //GD1 : Setup

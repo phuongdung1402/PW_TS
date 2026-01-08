@@ -4,7 +4,6 @@
 //3 goi mon de kiem tra ( test )
 
 //Bước 1 :
-// import {test as base} from '@playwright/test'
 import {test as base} from '@playwright/test';
 
 //Bước 2 : Dạy robot ( Định nghĩa fixture)
@@ -12,13 +11,6 @@ import {test as base} from '@playwright/test';
 export const test = base.extend<{
     loiChao: string;
 }>({
-
-    // loiChao: async ({}, use) =>{
-    //     const text = 'Xin chao ban'
-    //     await use(text)
-    // }
-
-
     loiChao: async ({page}, use) =>{
         //GD 1:
         await page.goto('https://playwright.dev');
