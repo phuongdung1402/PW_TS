@@ -3,3 +3,22 @@
 //1 File auth.fixture.ts (tầng 1 và tầng 2): chứa logic login và tạo ra "người gác cổng"
 //2 File app.fixture.ts ( tầng 3): chứa công thức tạo ra các POM (dashboard, customer)
 //3 File gatekeeper.fixture.ts (tổng hành dinh): nơi hợp nhất tất cả lại để sử dụng
+
+
+// Để hiển thị 1 trang web khi sử dụng thằng fixture Page thì PW đi qua 4 tầng kiến tạo
+tầng 1 : Browser type (bản vẽ thiết kế)
+- là các biến chromium, firefox , webkit
+- nó nằm im lìm chưa chạy
+
+tầng 2 : browser (tòa nhà khách sạn)
+- đc tạo bằng lệnh launch
+-> lúc phần mềm chrome (firefox, webkit) đc bật lên ở trong task manager 
+
+tầng 3: context 
+- đc tạo ra bằng new context 
+- nơi cách ly dữ liệu (cookies, session)
+
+tầng 4: page -> tab chúng ta đang làm việc
+-được tạo ra từ lệnh newPage
+-nơi thao tác click/fill......
+

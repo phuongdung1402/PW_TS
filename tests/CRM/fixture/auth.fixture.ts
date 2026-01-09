@@ -21,7 +21,7 @@ export const auth = base.extend<AuthFixtures>({
     authedPage: async ({ loginPage, page }, use) => {
         console.log('[Gatekeeper] Đang kiểm tra an ninh ...');
 
-        // Thực hiện hành động đăng nhập
+        // Thực hiện hành động đăng nhập 
         await loginPage.goto();
         await loginPage.login('admin@example.com', '123456');
         await loginPage.expectLoggedIn();

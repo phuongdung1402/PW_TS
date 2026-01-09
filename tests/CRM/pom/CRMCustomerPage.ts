@@ -134,7 +134,7 @@ export class CRMCustomerPage extends BasePage {
     //     return createColumnMap(headers)
     // } 
 
-    // async clickAddNewCustomer() {
-    //     await this.clickWithLog(this.element('newCustomerLink'))
-    // }
+    async clickAddNewCustomer() {
+        await this.clickWithLog(this.element('newCustomerLink'))
+    }
 }
