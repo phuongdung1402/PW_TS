@@ -20,9 +20,9 @@ test('Test su dung browsercontext', async({browser})=> {
         console.log('ADMIN da vao phong 201');
         
     })
-
     const secretDashboard = adminPage.url()
 
+////////////////////////////////////////////////////////////////////////////////////////////
     const hackerContext = await browser.newContext({
         viewport : {width: 375, height: 660},
         recordVideo : {dir: 'videos/dot nhap'}

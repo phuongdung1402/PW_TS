@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:dev": "cross-env NODE_ENV=development npx playwright test",
+    "test:uat": "cross-env NODE_ENV=staging npx playwright test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -13,7 +16,9 @@
   },
   "dependencies": {
     "@faker-js/faker": "^10.1.0",
+    "cross-env": "^10.1.0",
     "date-fns": "^4.1.0",
+    "dotenv-flow": "^4.1.0",
     "playwright": "^1.56.0",
     "tsx": "^4.20.6"
   }

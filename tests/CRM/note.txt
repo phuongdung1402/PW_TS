@@ -22,3 +22,40 @@ tầng 4: page -> tab chúng ta đang làm việc
 -được tạo ra từ lệnh newPage
 -nơi thao tác click/fill......
 
+
+Cấu trúc chuẩn cho 2 môi trường (dev và stagging)
+.env (1.cấu hình chung - ai cũng giống nhau)
+.env.development(2. Cấu hình riêng cho dev)
+.env.development.local(3. Bí mật chỉ máy bạn có - ko up lên git)
+.env.stagging (4. Cấu hình cho môi trường stagging)
+
+..vị trí ở root (thư mục gốc) ngang hàng với package.json
+
+dotenv - flow: thứ tự ưu tiên là 
+//biến phụ thuộc là NODE_ENV = abc
+.env.[NODE_ENV].local hoặc .env[NODE_ENV]
+
+1. .env (độ ưu tiên thấp nhất)
+2. .env.development (trung bình)
+3. .env.development.local(cao nhất ở môi trường dev)
+4. .env.stagging (cao nhất ở môi trường stagging)
+
+// Nguyên tắc -> cái load sau sẽ ghi đè cái load trước
+trên phiếu NODE_ENV ghi development -> thủ thư sẽ tìm tất cả môi trường có tên .env.development
+
+trường hợp mà NODE_ENV ghi stagging -> thủ thư sẽ tìm cả môi trường có tên .env.stagging
+
+Để lấy thông tin biến môi trường ta dùng process.env.key mà ta mong muốn
+process.env.BASE_URL -> https://dev.crm.anhtester.com
+
+
+// Dotenv flow hay dotenv hoạt động dựa trên process.cwd() (curent working directory - thư mục hiện tại đang gõ lệnh)
+
+// Trên windows -> terminal là powershell
+trên gitbash/mac/linux/ -> mặc định
+
+WIND
+$env:NODE_ENV="stagging"; npx playwright test ./tests/env-demo.spec.ts
+
+mac 
+NODE_ENV= stagging npx playwright test ./tests/env-demo.spec.ts
