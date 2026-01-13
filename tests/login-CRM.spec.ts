@@ -1,10 +1,8 @@
 import {test} from '@playwright/test'
-test.use({
-    headless:false,
-    viewport: {width:300, height:800}
-})
-
-
+// test.use({
+//     headless:false,
+//     viewport: {width:300, height:800}
+// })
 
 test('Đăng nhập Login Page', async ({page})=> {
     // cộng với BASE URL từ config với string ở goto

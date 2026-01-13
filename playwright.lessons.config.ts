@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import DotenvFlow from 'dotenv-flow';
 
-if(!process.env.NODE_ENV) {
+if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development';
 
 }
@@ -24,15 +24,15 @@ DotenvFlow.config({
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  //testMatch: '**/*'
-  //testDir: './homeworks',
+
   testDir: './tests',
+  testMatch: '**/*.spec.ts',
   //Khai bao global setup & teardown
-  globalSetup: './global-setup.ts',
-  globalTeardown: './global-teardown.ts',
+  // globalSetup: './global-setup.ts',
+  // globalTeardown: './global-teardown.ts',
   //testMatch: '**/*.spec.ts',
   /* Run tests in files in parallel */
-  
+
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
@@ -48,9 +48,9 @@ export default defineConfig({
   //timeout : 20000,
 
   use: {
-    baseURL :'https://crm.anhtester.com',
+    baseURL: 'https://crm.anhtester.com',
     //actionTimeout: 15000,
-    headless: true,
+    headless: false,
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
 
@@ -70,16 +70,17 @@ export default defineConfig({
       testMatch: '**/*.setup.ts',
     },
 
-  
+
     {
       name: 'chromium',
-      use : {
+      use: {
         ...devices['Desktop Chrome'],
       },
       dependencies: ['setup']
     },
 
+
   ],
 
- 
+
 });

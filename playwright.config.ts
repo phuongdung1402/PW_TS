@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import DotenvFlow from 'dotenv-flow';
 
-if(!process.env.NODE_ENV) {
+if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development';
 
 }
@@ -9,9 +9,6 @@ if(!process.env.NODE_ENV) {
 DotenvFlow.config({
   default_node_env: 'development',
 });
-
-
-
 
 /**
  * Read environment variables from file.
@@ -28,12 +25,12 @@ export default defineConfig({
   //testMatch: '**/*'
   //testDir: './homeworks',
   testDir: './tests',
+  testMatch: '**/*.spec.ts',
   //Khai bao global setup & teardown
   globalSetup: './global-setup.ts',
   globalTeardown: './global-teardown.ts',
-  //testMatch: '**/*.spec.ts',
   /* Run tests in files in parallel */
-  
+
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
@@ -44,14 +41,12 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-
-  //timeout : 17000,
   //timeout : 20000,
 
   use: {
-    baseURL :'https://crm.anhtester.com',
+    baseURL: 'https://crm.anhtester.com',
     //actionTimeout: 15000,
-    headless: true,
+    headless: false,
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
 
@@ -65,54 +60,52 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-
-     {
+    {
       name: 'global',
       testMatch: '**/*.spec2.ts',
       use: {
         browserName: undefined
-
       }
     },
 
-    //project chuyen chay api
-    {
-      name: 'api-engine',
-      testMatch: '**/api/*.spec1.ts',
-      use: {
-        browserName: undefined
-
-      }
-    },
-
-    //project desktop chay UI
-    {
-      name: 'desktop-chrome',
-      testMatch: '**/ui/*.spec1.ts',
-      use : {
-        ...devices['Desktop Chrome'],
-        headless: true
-
-      }
-    },
-
-    //project chuyen chay ui phone
-    {
-      name: 'mobile-ios',
-      testMatch: '**/ui/*.spec1.ts',
-      use : {
-        ...devices['iPhone 12 Pro Max'],
-        headless: true,
-      }
-    },
-
+    // //project chuyen chay api
     // {
-    //   name: 'chromium-standard',
-    //   use: { 
-    //     browserName:'chromium',
-    //     //ko ghi đè gì cả -> kế thừa toàn bộ của global use  
-    //   },
+    //   name: 'api-engine',
+    //   testMatch: '**/api/*.spec1.ts',
+    //   use: {
+    //     browserName: undefined
+
+    //   }
     // },
+
+    // //project desktop chay UI
+    // {
+    //   name: 'desktop-chrome',
+    //   testMatch: '**/ui/*.spec1.ts',
+    //   use: {
+    //     ...devices['Desktop Chrome'],
+    //     headless: true
+
+    //   }
+    // },
+
+    // //project chuyen chay ui phone
+    // {
+    //   name: 'mobile-ios',
+    //   testMatch: '**/ui/*.spec1.ts',
+    //   use: {
+    //     ...devices['iPhone 12 Pro Max'],
+    //     headless: true,
+    //   }
+    // },
+
+    {
+      name: 'chromium-standard',
+      use: { 
+        browserName:'chromium',
+        //ko ghi đè gì cả -> kế thừa toàn bộ của global use  
+      },
+    },
 
 
     // Thực hiện ghi đè -> ưu tiên trong prj
