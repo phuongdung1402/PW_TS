@@ -27,8 +27,8 @@ export default defineConfig({
   testDir: './tests',
   testMatch: '**/*.spec.ts',
   //Khai bao global setup & teardown
-  globalSetup: './global-setup.ts',
-  globalTeardown: './global-teardown.ts',
+  // globalSetup: './global-setup.ts',
+  // globalTeardown: './global-teardown.ts',
   /* Run tests in files in parallel */
 
   fullyParallel: true,
@@ -60,13 +60,13 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: 'global',
-      testMatch: '**/*.spec2.ts',
-      use: {
-        browserName: undefined
-      }
-    },
+    // {
+    //   name: 'global',
+    //   testMatch: '**/*.spec2.ts',
+    //   use: {
+    //     browserName: undefined
+    //   }
+    // },
 
     // //project chuyen chay api
     // {

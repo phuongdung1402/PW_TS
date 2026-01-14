@@ -48,7 +48,7 @@ export default defineConfig({
   //timeout : 20000,
 
   use: {
-    baseURL: 'https://crm.anhtester.com',
+    baseURL: 'https://www.saucedemo.com/inventory.html',
     //actionTimeout: 15000,
     headless: false,
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -68,13 +68,19 @@ export default defineConfig({
     {
       name: 'setup',
       testMatch: '**/*.setup.ts',
+      teardown: 'cleanup'
     },
 
+    {
+      name: 'cleanup',
+      testMatch: '**/*.teardown.ts',
+    },
 
     {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
+        storageState: './auth/user.json'
       },
       dependencies: ['setup']
     },

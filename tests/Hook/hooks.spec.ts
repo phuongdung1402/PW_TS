@@ -11,37 +11,37 @@
 import {test,expect, Page, chromium} from '@playwright/test'
 
 // //Khai bao bien toan cuc
-// let page: Page;
+let page: Page;
 
-// test.beforeAll(async()=> {
-//     console.log(`[BEFORE] Khởi động DB....`);
-// })
+test.beforeAll(async()=> {
+    console.log(`[BEFORE] Khởi động DB....`);
+})
 
-// test.beforeEach(async ({browser})=> {
-//     console.log(`[Before each] Mở trang mới`);
-//     const context = await browser.newContext();
-//     page = await context.newPage();
-//     await page.goto(process.env.BASE_URL!);
-// });
+test.beforeEach(async ({browser})=> {
+    console.log(`[Before each] Mở trang mới`);
+    const context = await browser.newContext();
+    page = await context.newPage();
+    await page.goto(process.env.BASE_URL!);
+});
 
-// test('TC1. Login', async()=> {
-//     console.log(`[TC01] Dang chay`);
-//     await expect(page).toHaveTitle('Perfex CRM | Anh Tester Demo - Login')    
-// });
+test('TC1. Login', async()=> {
+    console.log(`[TC01] Dang chay`);
+    await expect(page).toHaveTitle('Perfex CRM | Anh Tester Demo - Login')    
+});
 
-// test('TC2. Check footer', async()=> {
-//     console.log(`[TC02] Dang chay`);
-//     await expect(page.locator('h1')).toBeVisible()
-// });
+test('TC2. Check footer', async()=> {
+    console.log(`[TC02] Dang chay`);
+    await expect(page.locator('h1')).toBeVisible()
+});
 
-// test.afterEach(async()=> {
-//     console.log(`[After Each] Don dep`);
-//     await page.close()
-// });
+test.afterEach(async()=> {
+    console.log(`[After Each] Don dep`);
+    await page.close()
+});
 
-// test.afterAll(async ()=> {
-//     console.log(`[After All] Ngat ket noi database`);
-// });
+test.afterAll(async ()=> {
+    console.log(`[After All] Ngat ket noi database`);
+});
 
 
 // test.describe.configure({mode : 'serial'});
@@ -90,30 +90,30 @@ import {test,expect, Page, chromium} from '@playwright/test'
 
 
 
-test.describe.configure({mode : 'serial'});
+// test.describe.configure({mode : 'serial'});
 
-let sharedPage: Page;
+// let sharedPage: Page;
 
-test.beforeAll(async () => {
-    const browser = await chromium.launch();
+// test.beforeAll(async () => {
+//     const browser = await chromium.launch();
 
-    //tao context
-    const context = await browser.newContext();
-    sharedPage = await context.newPage();
-    await sharedPage.goto(process.env.BASE_URL!)
-})
+//     //tao context
+//     const context = await browser.newContext();
+//     sharedPage = await context.newPage();
+//     await sharedPage.goto(process.env.BASE_URL!)
+// })
 
 
-test('Test1 :Login', async ()=> {
-    console.log(`TC01 Dang chay`);
-    await expect(sharedPage).toHaveTitle('Perfex CRM | Anh Tester Demo - Login')
+// test('Test1 :Login', async ()=> {
+//     console.log(`TC01 Dang chay`);
+//     await expect(sharedPage).toHaveTitle('Perfex CRM | Anh Tester Demo - Login')
     
-});
+// });
 
-test('Test2: User moi vao mong doi che do sang', async ()=> {
-    console.log(`TC02 Dang chay`);
-    await expect(sharedPage.locator('h1')).toBeVisible()
-})
+// test('Test2: User moi vao mong doi che do sang', async ()=> {
+//     console.log(`TC02 Dang chay`);
+//     await expect(sharedPage.locator('h1')).toBeVisible()
+// })
 
 
 //FIXTURE - giống beforeEach -> nó tự động tạo page mới cho mỗi bài test (sạch sẽ)
