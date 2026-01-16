@@ -1,0 +1,67 @@
+
+--B19: TestInfor & Tag
+
+Phần 1: Testinfo
+B1: Gõ npx playwright test ...
+B2: Tổng hợp : đọc config -> đọc file test
+B3: Phân công : gọi worker (os process)
+B4: Tạo hồ sơ : Runner ( PW Test runner) tạo ra 1 cái object gọi là testnfor. điền hết thông tin
+title , project , worker, retry,...
+B5: Injection -> cho vào tham số thứ 2 của hàm test ({page, fixtureA, fixtureB}, testInfor)
+
+--Tìm hiểu thêm trong web PW->testInfor
+
+Nhóm chức năng : Lấy thông tin (Read only)
+Title : tên bài test 
+Project.name : tên project
+file_ : đường dẫn file test
+retry : số lần chạy lại
+status : trạng thái của file test thường dùng ở after each
+duration : thời gian chạy : thường dùng ở after each
+
+Nhóm chức năng : Điều khiển luồng
+-testInfor.skip() : bỏ qua file test
+-testInfor.setTimeout()
+-testInfor.fail()
+
+
+Nhóm chức năng : báo cáo
+testInfor.attach(): chụp bất kì lúc nào 
+testInfor.annotation.push 
+---------------------------------------------------------------------------------------
+Nguồn để test infor lấy : trong file test, trong file config playwright, lúc chạy test (run time)
+Lấy đc thông tin của lúc chạy file test (run time )-> lấy được status . duration
+
+--------------------------------------------------------------------------------------
+Phạm vị (testInfor)
+Tầng global:
+-Testinfor ko có phạm vi gloabal ( vì nó là tham số thứ 2 của file test)
+
+-Tầng group (describe)
+
+-Tầng function (testInfor mới đc sinh ra )
+
+Config test :
+-Phạm vi global: 
+test.setTimeout()
+test.skip()
+test.slow()
+
+-Phạm vi group:
+test.describe()
+
+-Phạm vi function : dùng đc testInfor và cả test 
+
+
+Quy tắc ghi đè khi sử dụng test và testinfor ở nhóm chức năng điều khiển luồng
+-> Càng vào sâu ( scope hẹp hơn ) thì càng có quyên lực cao hơn
+
+
+
+Phần 2: Tags
+
+Để chạy ta sẽ dùng --grep "@tag"
+
+-g "@tag"
+
+--grep-invert "@tag" -> chạy bài test bỏ qua thằng @tag
