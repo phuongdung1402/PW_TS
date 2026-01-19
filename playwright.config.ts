@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import DotenvFlow from 'dotenv-flow';
+import { EnvManager} from './tests/utils/EnvManager'
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development';
@@ -22,16 +23,15 @@ DotenvFlow.config({
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  //testMatch: '**/*'
-  //testDir: './homeworks',
-  testDir: './tests',
+  //cấu hình thư mục chạy test - Just CRM
+  testDir: './tests/CRM',
   testMatch: '**/*.spec.ts',
   //Khai bao global setup & teardown
   // globalSetup: './global-setup.ts',
   // globalTeardown: './global-teardown.ts',
   /* Run tests in files in parallel */
 
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -60,97 +60,24 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    // {
-    //   name: 'global',
-    //   testMatch: '**/*.spec2.ts',
-    //   use: {
-    //     browserName: undefined
-    //   }
-    // },
-
-    // //project chuyen chay api
-    // {
-    //   name: 'api-engine',
-    //   testMatch: '**/api/*.spec1.ts',
-    //   use: {
-    //     browserName: undefined
-
-    //   }
-    // },
-
-    // //project desktop chay UI
-    // {
-    //   name: 'desktop-chrome',
-    //   testMatch: '**/ui/*.spec1.ts',
-    //   use: {
-    //     ...devices['Desktop Chrome'],
-    //     headless: true
-
-    //   }
-    // },
-
-    // //project chuyen chay ui phone
-    // {
-    //   name: 'mobile-ios',
-    //   testMatch: '**/ui/*.spec1.ts',
-    //   use: {
-    //     ...devices['iPhone 12 Pro Max'],
-    //     headless: true,
-    //   }
-    // },
 
     {
-      name: 'chromium-standard',
+      name : 'setup',
+      testMatch: '**/*.setup.ts'
+    },
+    
+
+    {
+      name: 'Start CRM',
+      testMatch: '**/*.spec.ts',
+
       use: { 
-        browserName:'chromium',
+        ...devices['Desktop Chrome'],
+        storageState: EnvManager.get('STORAGE_STATE_PATH')!,
         //ko ghi đè gì cả -> kế thừa toàn bộ của global use  
       },
+
+      dependencies: ['setup']
     },
-
-
-    // Thực hiện ghi đè -> ưu tiên trong prj
-    // {
-    //   name: 'firefox-debug',
-    //   use: { 
-    //     browserName: 'firefox',
-    //     headless:false,
-    //     video:'on',
-    //     launchOptions: {
-    //       slowMo: 1000,
-    //     }
-    //   },
-    // },
-
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });

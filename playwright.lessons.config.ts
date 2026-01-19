@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import DotenvFlow from 'dotenv-flow';
+import { title } from 'process';
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development';
@@ -33,18 +34,39 @@ export default defineConfig({
   //testMatch: '**/*.spec.ts',
   /* Run tests in files in parallel */
 
-  fullyParallel: true,
+  fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 2 : 1,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
+  //reporter: [
+
+    //Sau khi install allure
+    //['allure-playwright'],
+
+    // ['list', {
+    //   printSteps: true,
+    // }]
+
+    // ['html', {
+    //   title: 'Báo cáo kiểm thử tự động',
+    //   host: '0.0.0.0',
+    //   port: 9000
+    // }]
+
+    // ['junit', {
+    //   outputFile: './result.xml'
+    // }]
+    // ['json', {
+    //   outputFile : './data.json'
+    // }]
+  //],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 
-  //timeout : 17000,
   //timeout : 20000,
 
   use: {
@@ -83,7 +105,7 @@ export default defineConfig({
       use: {
         // browserName : nhan chrome ma pw tu tai ve
         //browserName: 'chromium', 
-        ...devices['iPhone 13'],
+        ...devices['Desktop Chrome'],
         storageState: './auth/user.json'
       },
       dependencies: ['setup']

@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { format } from "date-fns";
-import { CustomerInfo } from "../pom/CRMNewCustomerPage";
+import { CustomerInfo } from "../CRM/pom/CRMNewCustomerPage";
 
 //Auto + company name + timestamp
 export function generateCompanyName(prefix: string) : string {

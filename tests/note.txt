@@ -56,8 +56,6 @@ test.describe()
 Quy tắc ghi đè khi sử dụng test và testinfor ở nhóm chức năng điều khiển luồng
 -> Càng vào sâu ( scope hẹp hơn ) thì càng có quyên lực cao hơn
 
-
-
 Phần 2: Tags
 
 Để chạy ta sẽ dùng --grep "@tag"
@@ -65,3 +63,135 @@ Phần 2: Tags
 -g "@tag"
 
 --grep-invert "@tag" -> chạy bài test bỏ qua thằng @tag
+
+
+
+--------------------B20-------------------------
+- Có 3 giai đoạn khi mà chúng ta gõ : npx playwright test ....
+-GD1 : Main process - chương trình chính ( Quét file )
+-Đăng kí các file test (ghi danh )
+-Ở đây main process ko chạy hàm async ({page})
+-> sau khi đọc hết xong -> có 1 danh sách tổng -(vdu : ghi lại trong file này có 1 bài test tên là test A .. Dòng số 10..thuộc scenario...)
+tiếp đến phụ thuộc vào filter mà chúng ta đưa cho: --grep (tag) , tên file...folder...
+-Nó sẽ tính toán cần bao nhiêu worker (cái này phụ thuộc vào setup của ng dùng hoặc default tự tính toán)
+-Chia việc : ...
+
+
+-GD2: Worker làm việc
+-Main process ko gửi code mà gửi mệnh lệnh qua kênh IPC (Cơ chế inter process communication)
+
+-GD3: Worker process -người thợ
+-Khởi động , nó như 1 tờ giấy trắng nhận lệnh và bắt đầu làm việc
+-Load lại file (re-evaluation) và check lại vs file test mệnh lệnh từ main process -> nếu đúng nhảy vào cái ruột body , 
+nếu sai skip luôn
+
+Lưu ý:
+*** GlobalSetup và GlobalTeardown là chạy 2 worker riêng biệt ko phụ thuộc vào test 
+*** BeforeAll & AfterAll : phụ thuộc vào worker ( nếu trong quá trình chạy mà worker chết thì code của phần AfterAll sẽ ko chạy đc )
+
+=>> Main process : load hết file -> gửi mệnh lệnh. Worker load hết lại file so sánh vs mệnh lệnh: đúng thì làm , còn ko thì ko làm
+
+
+DATA DRIVEN 
+Có 1 bộ data -> mình sẽ chạy hết các info trong bộ data đối với 1 testcase
+Vdu : test login vs 1 bộ dữ liệu ( giá trị biên, min , max lengh)
+-Nếu viết file test thì thông thường ta sẽ phải viết bằng ấy file test tương ứng vs số dữ liệu
+-Dùng 1 bộ test -> sử dụng vòng lặp chạy qua các dữ liệu và chạy vào file test
+
+Nguyên tắc vàng : dữ liệu dùng để sinh test (parameter) phải là dữ liệu tĩnh(static) hoặc đồng bộ ở tại thời điểm chạy lệnh
+( đồng bộ data từ main xuống worker để chạy)
+
+
+---------------------------------------
+Chạy parallel (song song) : sẽ giúp tốc độ nhanh gấp N lần (N = số lượng worker /CPU của máy)
+
++Hệ thống nhà hàng 
+Main process: quản lí nhà hàng
+worker process: là đầu bếp
+File test(.spec.ts) : sách công thức
+
+Nguyên tắc:
+1.Quy tắc sắp xếp file (thực đơn từ A-Z)
+ví dụ file nào có bắt đầu bằng chữ A sẽ sắp trên cùng ưu tiên nhất -> Z (Theo thứ tự alphabet)
+
+Ví dụ ở hệ thống nhà hàng có 3 file :
+01_A.spec.ts 
+02_B.spec.ts
+03_C.spec.ts 
+
+2. Cơ chế phân chia worker (Ai nahnh hưởng nhiều)
+Ví dụ : ta có 2 worker : 1 và 2 
+-Cảnh 1 phân chia ban đầu 
+-> 2 đầu bếp tới bảng công việc
+worker 1 nhanh hơn -> 01_A.spec.ts
+
+worker 2 chạy tới cái thứ 2 -> 02_B.spec.ts
+
+-Cảnh 2 : Chênh lệch tốc độ
+Worker 1 chạy test 01_A.spec.ts rất nhanh -> làm xong trong 2 phút
+Worker 2 chạy test 02_B.spec.ts lâu hơn -> mất 5ph
+
+-Cảnh 3 : Quay lại hàng chờ (queue)
+Worker 1 chạy nốt 03_C.spec.ts
+
+=> Cuối cùng
+worker 1 : món 1 + 3
+worker 2 : món 2
+
+Có 2 cấp độ : 
+1 cấp độ file test
+2 cấp độ testcase ở trong file test
+
+
+
+---------------B21 ----------------------
+Traceview : là tập hợp các snapshot dom
+Flaky test : test chập chờn
+
+Khi deploy code lên PROD -> ở 1 số cty hiện đại và có quy trình chuẩn -> trigger Automation test (pipeline)
+với bộ TCs regression test liên quan tới CR golive đó -> nếu mà chạy regress fail -> deploy bị block và ko chạy nữa
+BE/FE phải đợi chờ ngồi lại 10-15 
+
+cơ chế "Tự chữa lành" tạm thời để hệ thống vận hành trơn tru
+
+Alure Report
+-Có thể lưu history rất nhiều lần chạy
+-Install Allure report : npm install -g allure
+npm i allure-playwright
+npm i allure-js-commons
+
+
+Sau khi chạy test vs allure xong , chạy tiếp : allure generate ./allure-result -o ./allure-report 
+allure open ./allure-report
+
+
+
+------------B22 : API-------------------
+API = Application Programming Interface 
+Application : là giống các phần mềm fb , zl 
+programming : là cách chúng đc viết ra bằng code
+Interface : là nơi gặp gỡ , cầu nối để 2 thằng xa lạ nch đc vs nhau
+=> Cách giao tiếp giữa FE và BE
+-B1 : FE đưa request (process) 
+-B2 : BE Response
+
+Hiện nay có những công nghệ nào :
+1.Restful API : (Thay thế SOAP API )
+endpoint : phần sau domain
+
+->Vấn đề với restful API : 
++Thừa mức sẽ gây phí phạm (tốn băng thông) (Vdu : máy bán nc nhả ra lon 330ml , uống có 1 ngụm sau đó ném đi )
++Mât công : thao tác 2 lần gửi 2 request (Vdu: coca + bimbim => sẽ phải ấn 2 lần , 1 lần coca, 1 lần bimbim => phải thao tác 2 lần gửi 2 request)
+
+2.GraphQL (Do fb phát triển )
+-BE
+FE tự đưa yêu cầu và gửi xuống BE 
+Ưu điểm: Chính xác-> yêu cầu gì đc nấy , ko bị dư thừa. Tiện lợi : nếu cần thêm gì đều có thể thêm đc. BE sẽ mang ra trong 1 request
+
+3.Websocket:
+Cách hoạt động : socket connect (data stream)
+-Ko cần qua bên thứ 3
+Ứng dụng : coin, giá vàng ( ko có độ trễ hoặc độ trễ thấp )
+
+
+Cơ chế của playwright : websocket : giao tiếp trực tiếp vs browser
