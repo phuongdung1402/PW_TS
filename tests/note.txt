@@ -175,23 +175,36 @@ Interface : là nơi gặp gỡ , cầu nối để 2 thằng xa lạ nch đc vs
 -B1 : FE đưa request (process) 
 -B2 : BE Response
 
-Hiện nay có những công nghệ nào :
-1.Restful API : (Thay thế SOAP API )
+I.Hiện nay có những công nghệ nào để API sử dụng:
+1.Restful API : theo chuẩn restful API (Thay thế SOAP API : dùng xml )
 endpoint : phần sau domain
+(Vdu :
+Trên máy bán nc có nút A(coca), B(pepsi) ,.. đc gọi là endpoint.Ví dụ muốn dùng coca -> ấn nút A -> nhả ra lon coca)
 
 ->Vấn đề với restful API : 
-+Thừa mức sẽ gây phí phạm (tốn băng thông) (Vdu : máy bán nc nhả ra lon 330ml , uống có 1 ngụm sau đó ném đi )
-+Mât công : thao tác 2 lần gửi 2 request (Vdu: coca + bimbim => sẽ phải ấn 2 lần , 1 lần coca, 1 lần bimbim => phải thao tác 2 lần gửi 2 request)
++Thừa mức sẽ gây phí phạm (tốn băng thông) ( Ví dụ máy nhả 330ml , uống có 1 ngụm sau đó ném đi )
++Mất công : thao tác 2 lần gửi 2 request (Vdu: coca + bimbim => sẽ phải ấn 2 lần , 1 lần coca, 1 lần bimbim
+ => phải thao tác 2 lần gửi 2 request)
 
 2.GraphQL (Do fb phát triển )
 -BE
 FE tự đưa yêu cầu và gửi xuống BE 
-Ưu điểm: Chính xác-> yêu cầu gì đc nấy , ko bị dư thừa. Tiện lợi : nếu cần thêm gì đều có thể thêm đc. BE sẽ mang ra trong 1 request
+Ưu điểm: Chính xác-> yêu cầu gì đc nấy , ko bị dư thừa. Tiện lợi : nếu cần thêm gì đều có thể thêm đc.
+BE sẽ mang ra trong 1 request
 
 3.Websocket:
-Cách hoạt động : socket connect (data stream)
+Cách hoạt động : socket connection (data stream)
 -Ko cần qua bên thứ 3
 Ứng dụng : coin, giá vàng ( ko có độ trễ hoặc độ trễ thấp )
 
-
 Cơ chế của playwright : websocket : giao tiếp trực tiếp vs browser
+
+
+II.Ngôn ngữ chung : giúp BE & FE giao tiếp đc vs nhau là JSON (Javascript object notation)
+-Cấu trúc JSON rất đơn giản , giống vs typescript
+
+vd 
+{ 
+    "ten": "An",
+    "tuoi": 25
+}
