@@ -18,16 +18,16 @@ test('GET - Lấy thông tin bài viết số 1', async ({ request }) => {
 
 })
 
-test('POST - Tạo bài viết mới', async ({ request }) => {
-    const response = await request.post('/posts', {
-        data: {
-            title: 'Hoc PW với Hoàng',
-            body: 'Bài 1: API',
-            userId: 1,
-        },
-    });
-    const body = await response.json();
-    console.log('POST request ', body);
-    expect(body.title).toBe('Hoc PW với Hoàng')
+// test('POST - Tạo bài viết mới', async ({ request }) => {
+//     const response = await request.post('/posts', {
+//         data: {
+//             title: 'Hoc PW với Hoàng',
+//             body: 'Bài 1: API',
+//             userId: 1,
+//         },
+//     });
+//     const body = await response.json();
+//     console.log('POST request ', body);
+//     expect(body.title).toBe('Hoc PW với Hoàng')
     
-})
+// })

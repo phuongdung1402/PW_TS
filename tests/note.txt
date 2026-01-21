@@ -279,3 +279,50 @@ phần 1: header ( chứa thông tin về thuật toán mã hóa)
 phần 2: payload (chứa dữ liệu mà server muốn gửi, thường là thông tin user) (mã hóa ở dạng base64)
 phần 3: chữ kí bảo mật (đây là phần đảm bảo tính toàn vẹn , server sẽ tạo ra chữ kí bằng công thức 
 Sign=hash(header +payload+ secretkey) )
+
+Headers
+Authorization Bearer <token>
+
+Pay load:
+access_token
+expired : 
+refresh_token : client (FE) sẽ âm thầm sử dụng refresh_token để xin server cấp lại 1 access token mới mà user ko hề biết
+
+
+------------------------------------------------------------------------------------------------------------------------------
+Path params và query params
+
+1. Path params : tham số đường dẫn , vị trí nằm trong endpoint (URL) sau dấu /
+Vai trò : định danh (identifier) (Ví dụ : tôi muốn xem nội dung của sản phẩm có id là 12345) => sẽ dùng path parameter
+URL : soppe/products/12345
+method Get
+
+2. Query params : tham số truy vấn , vị trí nằm sau dấu ? và nối vs nhau bằng dấu &
+Vai trò : bộ lọc/ sắp xếp (filter/sort) nó ko làm thay đổi tài nguyên chỉ thay đổi cách hiển thị
+/vào soppe và mình muốn tìm cái áo thun có màu đỏ
+
+URL 'soppe/products/search?keyword=ao-thun&color=red
+
+------------------------------------------------------------------------------------------------------------------------------
+Phân trang (pagination)
+-Phân trang sẽ thường dùng 2 tham số chính thuộc query param
+1/page : chỉ cho ta biết là trang số mấy ( ví dụ 1,2,3)
+2/limit (size, per_Page) : lấy bao nhiêu bản ghi mỗi trang
+offset (vị trí bắt đầu - 0)
+
+//Kịch bản : kiểm tra số lượng limit
+-input page 1 : limit 5 => expect api trả về đúng 5 items
+-kiểm tra logic chuyển trang . ví dụ : gọi page 1 lấy 5 items đầu -> sau đó gọi page 2 : expect dữ liệu ở page 2 phải khác page 1
+(tránh lỗi gọi trang 2 mà vẫn trả về dữ liệu trang 1)
+-quét toàn bộ bản ghi tìm sản phẩm a nằm ở trang nào trong 10 trang
+
+-------------------------------------------------------------------------------------------------------------------------------
+Multipart/form-data
+Ví dụ: 
+application/json : giống như viết 1 bức thư tay mọi thứ phải là kí tự (text)
+Form data : (multipart/form-data) : giống như mình ns vs server là tôi sẽ gửi cho ông 1 container hàng hóa
+bên trong có thể có text, ảnh, file
+eKYC : Bản chất khi mình ekyc -> máy ảnh sẽ chụp n cái ảnh -> nó sẽ gọi 1 API form-data -> gửi n cái ảnh sang 1 con service xử lý xác thực
+-> trả lại res cho FE (app)-> app trả kết quả cho ng dùng
+Nó giống như stream dòng chảy : dữ liệu file chảy đến đâu -> server ghi dữ liệu đến đấy (form data : ko mã hóa dữ liệu)
+
