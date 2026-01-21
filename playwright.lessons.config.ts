@@ -42,15 +42,16 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html'],
   //reporter: [
 
     //Sau khi install allure
     //['allure-playwright'],
 
-    // ['list', {
-    //   printSteps: true,
-    // }]
+    ['list', {
+      printSteps: true,
+    }],
 
     // ['html', {
     //   title: 'Báo cáo kiểm thử tự động',
@@ -65,6 +66,7 @@ export default defineConfig({
     //   outputFile : './data.json'
     // }]
   //],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
 
   //timeout : 20000,
@@ -111,6 +113,15 @@ export default defineConfig({
       dependencies: ['setup']
     },
 
+
+    {
+      name: 'api',
+      use : {
+        browserName: undefined,
+        baseURL: 'https://jsonplaceholder.typicode.com'
+      },
+      testMatch: '/api/**/*.spec.ts'
+    }
 
   ],
 

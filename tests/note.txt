@@ -208,3 +208,74 @@ vd
     "ten": "An",
     "tuoi": 25
 }
+
+Cơ chế website : Client side , Server side
+-Thông tin 1 request mà FE gọi xuống BE : 
+1.Method (hành động muốn làm) => dán tem lên bì thư để định danh hành động
+-Get : lấy thông tin (ko sửa đổi gì )Ví dụ xem danh sách sản phẩm
+-Post : tạo mới (đăng kí tài khoản)
+-Put/patch: sửa đổi ( ví dụ đổi mật khẩu, cập nhật profile)
+-Delete : xóa giỏ hàng
+=> CURD create update read delete
+
+
+2.Endpoint (Địa chỉ ) 
+BaseUrl : https://jsonplaceholder.typicode.com
+endpoint: /todos/1
+
+3.Headers (thông tin phụ) -> những thứ viết bên ngoài phong bì
+-Content-type : application/json (báo trc : trong thư là viết bằng json)
+-Authorization : xác thực và phân quyền (cho cơ chế JWT)
+
+4.Body (nội dung thư)
+Chỉ dùng cho Post , Put/patch
+
+
+-Sử dụng CURL -> giống như 1 gói tin nén đầy đủ URL , endpoint , method, header, body....trong 1 đoạn văn bản duy nhất
+
+-Thông tin response phản hồi : 
+1. Status code ( mã trạng thái ) -> cực kì quan trọng
+2xx (thành công)
+200 : ok - get
+201 : Created (tạo mới thành công) - post
+
+3xx
+Redirect - chuyển hướng
+
+
+4xx (lỗi)
+400 : bad request (gửi dữ liệu sai format)
+401 : Unauthorized (chưa đăng nhập)
+403 : Forbidden (đăng nhập rồi nhưng ko có quyền)
+404 : Not found (sai địa chỉ) (thường sai endpoint)
+
+5xx (lỗi server)
+500 :Internal server error
+502 setTimeout
+
+
+-Response body 
+Dữ liệu server trả về(thường là Json) để FE lấy ra 
+Fixture sử dụng là request (API Context) ->playwright độ riêng cho chúng ta sử dụng để call API, giống như thg page thì 
+dùng cho UI
+
+
+-------------B33: Nền tảng giao thức API--------------
+Authentication và Authorization và cơ chế JWT
+Authentication : xác thực bạn là ai (401)
+Authorization : bạn đc làm gì (403)
+
+route
+/admin/dashboard
+/guest/dashboard
+
+jwt (json web token)-token base (có thể dễ dàng dùng trên web hay mobile - multi device)
+
+session based (stateful) -cookie base ( hay dùng trên web, ít dùng trên mobile)
+jwt (stateless) 
+
+Cấu trúc jwt ( 3 phần )
+phần 1: header ( chứa thông tin về thuật toán mã hóa)
+phần 2: payload (chứa dữ liệu mà server muốn gửi, thường là thông tin user) (mã hóa ở dạng base64)
+phần 3: chữ kí bảo mật (đây là phần đảm bảo tính toàn vẹn , server sẽ tạo ra chữ kí bằng công thức 
+Sign=hash(header +payload+ secretkey) )
