@@ -2,7 +2,6 @@ import { test, expect } from '@playwright/test'
 
 test('TC01. Register -> Login -> Lấy JWT token', async ({ request }) => {
     //STEP 1 Gửi yêu cầu tới endpoint (đăng kí tài khoản)
-
     const uniqueId = Date.now();
 
     const newUser = {
@@ -17,8 +16,6 @@ test('TC01. Register -> Login -> Lấy JWT token', async ({ request }) => {
 
     expect(regisbody.access_token).toBeTruthy();
     expect(regisbody.token_type).toBe('Bearer')
-
-
 
     //STEP 2 Đăng nhập
 
@@ -151,7 +148,8 @@ test('TC07. Multipart form - Upload file ', async ({ request }) => {
     //Ko cần xác thực
     //const token = await getToken(request);
 
-    const fileContent = Buffer.from('Đây là nội dung file test upload');
+    const fileContent1 = Buffer.from('Đây là nội dung file test upload');
+    const fileContent2 = Buffer.from('Đây là nội dung file test upload2');
 
     const listRes = await request.post('/public/test/echo-form', {
         multipart: {
@@ -174,3 +172,19 @@ test('TC07. Multipart form - Upload file ', async ({ request }) => {
     console.log(listBody.files?.[1].filename);
 })
 
+//URL encode
+test('TC08. URL encode ', async ({ request }) => {
+    
+    const response = await request.post('/public/test/echo-urlencoded', {
+        form: {
+            userName: 'Nguyễn Văn B',
+            email: 'phuongdung@gmail.com',
+            message: 'abc',
+            password: 'P@ass word&123'
+        }
+    });
+
+    const resBody = await response.json();
+    console.log(resBody)
+    
+})
