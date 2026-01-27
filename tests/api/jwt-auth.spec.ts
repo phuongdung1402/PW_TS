@@ -18,7 +18,6 @@ test('TC01. Register -> Login -> Lấy JWT token', async ({ request }) => {
     expect(regisbody.token_type).toBe('Bearer')
 
     //STEP 2 Đăng nhập
-
     const loginRes = await request.post('/auth/login', {
         data:
         {
@@ -108,7 +107,7 @@ test('TC04. Kết hợp query param và path param', async ({ request }) => {
 
 })
 
-
+// Phân trang
 test('TC05. Pagination - Kiểm tra limit trả về đúng số lượng', async ({ request }) => {
 
     const token = await getToken(request);
@@ -141,6 +140,7 @@ test('TC06. Multipart form - Gửi các text fields ', async ({ request }) => {
     });
     const listBody = await listRes.json();
     console.log(listBody.form_fields);
+    console.log(listBody.content_type);
 })
 
 

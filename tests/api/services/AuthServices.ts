@@ -22,6 +22,7 @@ export class AuthService extends BaseService {
             token,
             user: authData.user,
             expiresIn: authData.expires_in,
+            expiresAt: authData.expires_at,
         }
     };
 
