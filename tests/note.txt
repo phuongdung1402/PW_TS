@@ -283,9 +283,12 @@ Sign=hash(header +payload+ secretkey) )
 exp :expired (cơ chế bảo mật)
 Khi token hết hạn , client (FE) sẽ âm thầm sử dụng refreshToken để xin server cấp lại 1 access token mới mà user ko hề biết
 
+//Clean API 
 --Để có 1 clean pattern API framework, chúng ta phải chia nhỏ các module thành những phần reuse cho các mục đích khác nhau
 API : Sẽ chia các API thuộc 1 nhóm thành 1 service()
-mô hình nguyên khối tất cả các module tập hợp thành 1 khối to ( ví dụ : payment, noti, ekyc)
+mô hình nguyên khối tất cả các module tập hợp thành 1 khối to ( ví dụ : payment, noti, ekyc). Khi 1 module nhỏ chết -> cả nguyên
+khối đều chết theo.
+Để giải quyết vấn đề của mô hình nguyên khối, ngta sử dụng mô hình microservices :
 mô hình microservices => chia nhỏ các module thành các service khác nhau, mỗi service sẽ quản lí 1 công việc của riêng nó
 các khối liên kết bởi cầu nối API(restful api, grpc, GraphQL), mô hình pub/sub (rabbit mq , kafka..., event message)
 

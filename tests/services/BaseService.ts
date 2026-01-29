@@ -60,7 +60,7 @@ export class BaseService {
     }
     
 
-    async portRaw<D>(endpoint : string, data: D, options? : RequestOptions) : Promise<APIResponse> {
+    async postRaw<D>(endpoint : string, data: D, options? : RequestOptions) : Promise<APIResponse> {
         return this.post(endpoint, {
             data,
             headers: options?.headers,
