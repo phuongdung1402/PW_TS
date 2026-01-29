@@ -293,5 +293,5 @@ các khối liên kết bởi cầu nối API(restful api, grpc, GraphQL), mô h
 Ví dụ như service Product : chỉ quan tâm tới việc : get thông tin sản phẩm, tạo sp,upload ảnh sản phẩm,.. mà nó ko cần biết
 gì về việc call api như nào,...
 
---Để thực hiện lưu token cho các bài test đối với API, chúng ta cần lưu trực tiếp vào file với phần trích xuất jwt -token
-và sẽ xử lí đọc file đó để lấy token
+--Để thực hiện lưu token cho các bài test đối với API:
+Chúng ta cần lưu trực tiếp vào file với phần trích xuất jwt -token và sẽ xử lí đọc file đó để lấy token

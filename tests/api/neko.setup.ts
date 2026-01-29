@@ -1,17 +1,16 @@
 import {test as setup, expect} from '@playwright/test'
 import fs from 'fs'
-// thư việc fs giúp lưu trữ vào file
+// thư việc fs giúp lưu trữ ( đọc/ ghi )vào file ( thư viện có sẵn của nodejs)
 import path from 'path'
 import { AuthService } from './services/AuthServices';
-// thư viện path giúp định nghĩa đường dẫn
-
+// thư viện path giúp định nghĩa đường dẫn ( lấy ra đường dẫn của file hiện tại ) 
 
 const authFile = path.resolve('auth/neko-token.json');
+//resolve : lấy đường dẫn tuyệt đối của file
 
-
+//hàm check xem token còn hạn hay không dựa vào expiresAt
 function isTokenValidByExpiresAt(expiresAt: string): boolean {
     if(!expiresAt) return false;
-
     const expiry = new Date(expiresAt).getTime();
 
     const now = Date.now();
@@ -21,6 +20,7 @@ function isTokenValidByExpiresAt(expiresAt: string): boolean {
 
 
 setup('Authentication Neko API', async ({request})=> {
+    //existsSync : kiểm tra file chứa token đã có hay chưa 
     if(fs.existsSync(authFile)) {
         //logic check token da ton tai chua
         const data = JSON.parse(fs.readFileSync(authFile, 'utf-8'));
@@ -44,7 +44,7 @@ setup('Authentication Neko API', async ({request})=> {
     const authDir = path.dirname(authFile);
     if(!fs.existsSync(authDir)){
         fs.mkdirSync(authDir, {recursive: true});
-        // recursive: tạo thư mục cha nếu chưa tồn tại
+        // recursive: tạo thư mục cha nếu chưa tồn tại ( bao nhiêu cấp cũng được )
     }
 
     fs.writeFileSync(authFile, JSON.stringify({token: response.token, expires_at: response.expiresAt}))
