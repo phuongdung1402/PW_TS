@@ -296,4 +296,16 @@ các khối liên kết bởi cầu nối API(restful api, grpc, GraphQL), mô h
 Ví dụ như service Product : chỉ quan tâm tới việc : get thông tin sản phẩm, tạo sp,upload ảnh sản phẩm,.. mà nó ko cần biết
 gì về việc call api như nào,...
 
-baseService :
+--Để thực hiện lưu token cho các bài test đối với API:
+Chúng ta cần lưu trực tiếp vào file với phần trích xuất jwt -token và sẽ xử lí đọc file đó để lấy token
+
+-GET : lấy dữ liệu
+-POST : tạo mới dữ liệu
+-PUT/PATCH : bản chất là thay đổi thông tin của đối tượng đã có trong database
+
+Put: sẽ thay đổi toàn bộ thông tin của sản phẩm và yêu cầu phải đầy đủ body truyền lên. nếu truyền thiếu thì trường 
+đó mặc định trả về null -> hoặc về default tùy nghiệp vụ.
+Có những trường required bắt buộc phải đẩy lên -> ví dụ như tên sản phẩm
+
+Patch : sẽ thay đổi thông tin của sản phẩm theo body truyền lên mà ko ảnh hưởng tới các thông tin khác, nghĩa là
+ta muốn thay đổi 

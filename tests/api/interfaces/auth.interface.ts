@@ -13,5 +13,6 @@ export interface AuthResponse {
         email: string;
         username: string;
     };
-    expiresIn: string
+    expiresIn: string;
+    expiresAt: string;
 }

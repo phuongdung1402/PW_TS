@@ -1,9 +1,10 @@
-import { APIRequestContext, APIResponse } from "playwright"
+import { APIRequestContext, APIResponse } from "@playwright/test"
 
 export interface RequestOptions {
     headers?: Record<string, string>,
     params? : Record<string, string | number>,
-    multipart? : Record<string, any>
+    multipart? : Record<string, any>,
+   //baseURL?: string;
 
 }
 
@@ -51,6 +52,8 @@ export class BaseService {
     }
 
     async post<T, D> (endpoint: string, data?:D, options?:RequestOptions): Promise<T> {
+        //const url = options?.baseURL? `${options.baseURL}${endpoint}`: endpoint;
+
         const response = await this.request.post(endpoint, {
             data: options?.multipart ? undefined : data,
             multipart: options?.multipart,
@@ -60,8 +63,35 @@ export class BaseService {
     }
     
 
+    async put<T, D> (endpoint: string, data: D, options?: RequestOptions): Promise<T> {
+        const response = await this.request.put(endpoint, {
+            data,
+            headers: this.mergeHeaders(options?.headers),
+        });
+        return this.parseResponse<T>(response);
+    }
+
+
+    async patch<T, D>(endpoint: string, data: D, options?: RequestOptions): Promise<T>{
+        const response = await this.request.patch(endpoint, {
+            data,
+            headers: this.mergeHeaders(options?.headers),
+        })
+        return this.parseResponse<T>(response);
+    }
+
+    async delete (endpoint: string, options?: RequestOptions) : Promise<void> {
+        const response = await this.request.delete(endpoint, {
+            headers: this.mergeHeaders(options?.headers),
+        });
+
+        if(!response.ok()) {
+            throw new Error(`DELETE FAILED: ${response.status()}`)
+        }
+    }
+
     async postRaw<D>(endpoint : string, data: D, options? : RequestOptions) : Promise<APIResponse> {
-        return this.post(endpoint, {
+        return this.request.post(endpoint, {
             data,
             headers: options?.headers,
         })
