@@ -111,7 +111,7 @@ export interface ProductPatch {
     description?: string;
     roast_level?: RoastLevel;
     warranty_months?: number;
-    specifications: BeanSpecifications | EquipmentSpecifications;
+    specifications?: BeanSpecifications | EquipmentSpecifications;
     is_active?:boolean;
 
 }

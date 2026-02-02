@@ -309,3 +309,20 @@ Có những trường required bắt buộc phải đẩy lên -> ví dụ như 
 
 Patch : sẽ thay đổi thông tin của sản phẩm theo body truyền lên mà ko ảnh hưởng tới các thông tin khác, nghĩa là
 ta muốn thay đổi 
+
+---------------------------------------------------------------------------------------------------------------------
+Intercept là gì 
+-Gọi API từ FE xuống BE
+-Intercept : ( mock : giả lập response trả ra từ BE cho FE)
+
+Why ??
+-Speed : (tốc độ) : ko chờ server xử lí , ko chờ mạng .Response trả về tức thì
+-Dữ liệu sạch : ko tạo data rác trong database
+-Kiểm thử kịch bản khó (edge case) : giả lập đc những thứ server rất khó làm như server sập (500), mạng lag, lỗi dữ liệu (409)
+-Hệ thống core : giống như trading, bank => sẽ là hệ thống trung tâm cung cấp tất cả yêu cầu cho các hệ thống vệ tinh
+-Ổn định : bởi vì cta giả lập response -> loại bỏ yếu tố do mạng lag hay server bảo trì
+
+Để thực hiện intercept trong playwright sử dụng :
+await page.route('duong dan api muon chan', async (route)=> {
+    logic xu ly o day
+})

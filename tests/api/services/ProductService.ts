@@ -29,7 +29,7 @@ export class ProductService extends BaseService {
     }
 
     async patchProduct(id: number, data: ProductPatch): Promise<Product> {
-        return this.put<Product, ProductPatch>(`${this.basePath}/${id}`, data)
+        return this.patch<Product, ProductPatch>(`${this.basePath}/${id}`, data)
     }
     async deleteProduct(id: number): Promise<void> {
         await this.delete(`${this.basePath}/${id}`);
