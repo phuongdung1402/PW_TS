@@ -35,4 +35,9 @@ export class ProductService extends BaseService {
         await this.delete(`${this.basePath}/${id}`);
     }
 
+    async uploadImage(
+        productId: number,
+        imageFile : {name: string, mimeType:string, buffer: Buffer},
+        baseUrl
+    )
 }
