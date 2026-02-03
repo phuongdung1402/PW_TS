@@ -4,7 +4,7 @@ export interface RequestOptions {
     headers?: Record<string, string>,
     params? : Record<string, string | number>,
     multipart? : Record<string, any>,
-   //baseURL?: string;
+    baseURL?: string;
 
 }
 
@@ -51,10 +51,10 @@ export class BaseService {
         return response.json();
     }
 
-    async post<T, D> (endpoint: string, data?:D, options?:RequestOptions): Promise<T> {
-        //const url = options?.baseURL? `${options.baseURL}${endpoint}`: endpoint;
+    async post<T, D=unknown> (endpoint: string, data?:D, options?:RequestOptions): Promise<T> {
+        const url = options?.baseURL? `${options.baseURL}${endpoint}`: endpoint;
 
-        const response = await this.request.post(endpoint, {
+        const response = await this.request.post(url, {
             data: options?.multipart ? undefined : data,
             multipart: options?.multipart,
             headers: this.mergeHeaders(options?.headers),
@@ -90,6 +90,7 @@ export class BaseService {
         }
     }
 
+    //postRaw dùng để đăng nhập
     async postRaw<D>(endpoint : string, data: D, options? : RequestOptions) : Promise<APIResponse> {
         return this.request.post(endpoint, {
             data,

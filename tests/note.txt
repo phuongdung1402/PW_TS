@@ -329,3 +329,10 @@ ko thể nào test để case server sập 500 )
 await page.route('duong dan api muon chan', async (route)=> {
     logic xu ly o day
 })
+
+
+-----
+PW có 1 feature rất hay đc gọi là waitForResponse() : đợi BE trả về cho FE
+//Hay dùng cho các tác vụ chạy nền như là download, upload, auto save
+
+word văn bản (sau 10s chẳng hạn word sẽ tự động save) -> có 1 số web có chức năng auto save (ở dưới nền - ko có UI để tương tác)

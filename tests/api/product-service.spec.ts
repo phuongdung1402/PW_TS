@@ -1,3 +1,4 @@
+import { loadFromFolder } from './file-upload.util';
 import { test, expect } from './fixtures/gatekeeper.api.fixture';
 import { ProductService } from './services/ProductService';
 
@@ -83,6 +84,21 @@ test.describe('Product Service Test - PUT và PATCH', () => {
         });
         expect(patched.name).toBe('PATCH 123');
     });
+
+    
+test('TC03. Upload ảnh cho sản phẩm', async ({productService})=> {
+    // 
+    const list = await productService.getProducts({limit: 1});
+    const productId = list.data[0].id;
+
+    const imageFile = loadFromFolder('mew.jpg', 'files');
+
+    const UPLOAD_SERVER = 'https://uploads-neko-coffee.autoneko.com';
+    const result = await productService.uploadImage(productId, imageFile, UPLOAD_SERVER);
+    console.log(result.message);
+    console.log(result.image_url);
+
+} )
 });
 
 // npx playwright test product-service --config playwright.lessons.config.ts --project=neko-api --workers=1
@@ -120,3 +136,4 @@ test.describe('Product Service Test - PUT và PATCH', () => {
 //     console.log('Assertion 5. Is active ');
 //     expect.soft(response.is_active, 'isActive').toBe(true);
 // });
+
