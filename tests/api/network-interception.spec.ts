@@ -10,6 +10,7 @@ test('TC_01 : Mock success - Đăng ký thành công', async ({page})=> {
     //intercept : bao giờ cũng đặt đầu tiên trong file test
     //khai báo trc khi thực hiện hành động của FE
     await page.route(API_REGISTER, async (route)=>{
+        //fulfill : trạng thái trả ra thành công
         await route.fulfill({
             status: 201,
             contentType: 'application/json',
@@ -86,7 +87,7 @@ test('TC_04 : Mock delay - Test Loading state', async ({page})=> {
     await page.route(API_REGISTER, async (route) =>{
 
         //delay 10s
-        await new Promise((resolve) => setTimeout(resolve, 100000));
+        await new Promise((resolve) => setTimeout(resolve, 10000));
 
         await route.fulfill({
             status: 201,
@@ -108,8 +109,9 @@ test('TC_04 : Mock delay - Test Loading state', async ({page})=> {
     await page.getByPlaceholder('Nhập mật khẩu').fill('12345678');
     await page.getByRole('textbox', {name: 'Xác nhận mật khẩu'}).fill('12345678');
     await page.locator("input[type='checkbox']").click();
+   
     await page.getByRole('button', {name: 'Đăng ký ngay'}).click();
+    await expect(page.getByRole('heading', {name:'Thành công'})).toBeVisible( {timeout: 15000});
 
-    await page.pause();
 
 })

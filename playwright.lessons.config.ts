@@ -26,7 +26,7 @@ DotenvFlow.config({
  */
 export default defineConfig({
 
-  testDir: './tests',
+  testDir: './tests/api',
   testMatch: '**/*.spec.ts',
   //Khai bao global setup & teardown
   // globalSetup: './global-setup.ts',
