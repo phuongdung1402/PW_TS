@@ -336,3 +336,15 @@ PW có 1 feature rất hay đc gọi là waitForResponse() : đợi BE trả v�
 //Hay dùng cho các tác vụ chạy nền như là download, upload, auto save
 
 word văn bản (sau 10s chẳng hạn word sẽ tự động save) -> có 1 số web có chức năng auto save (ở dưới nền - ko có UI để tương tác)
+-----
+TAB & WINDOWS POPUP
+1. 1 tab = 1 page
+1 browser = 1 context
+-> multi tab -> multi page
+popup windows = 1 tab = 1 page
+
+Mục tiêu : Là xây dựng đc 1 danh sách các tab, popup windows -> để chúng ta có thể di chuyển hoặc switch dễ dàng 
+
+có 1 action -> chúng ta phải đặt event trc action, thì tab vs windows tương tự 
+page.waitforEvent('popup') -> popup windows
+page.waitforEvent('page') -> tab
