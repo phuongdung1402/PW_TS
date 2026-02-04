@@ -101,6 +101,8 @@ test.describe('Bài học - Multitab với tabmanager', () => {
 
         await tabs.switchTo('invoice_popup');
         console.log(`Hiện tại ${tabs.currentName}`);
+
+        
         await page.pause();
     })
     
