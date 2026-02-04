@@ -4,7 +4,6 @@ import { ProductService } from './services/ProductService';
 import { TabManager } from './tab-manager';
 
 test.describe('Bài học - Multitab với tabmanager', () => {
-    let testProductId: number;
 
     test('TC01: Tạo product bằng API + verify trên UI', async ({ page , context}) => {
 
@@ -32,7 +31,7 @@ test.describe('Bài học - Multitab với tabmanager', () => {
         //auto waiting sử dụng expect vs h1 chứa productId
         //await page.waitForLoadState('networkidle');
 
-        const invoiceBtn = page.getByText('In hóa đơn', {exact: true});
+        const invoiceBtn = page.getByText('In hóa đơn');
 
         const [invoicePage] = await Promise.all([context.waitForEvent('page'), invoiceBtn.click()]);
         
@@ -51,9 +50,9 @@ test.describe('Bài học - Multitab với tabmanager', () => {
             console.log(hasH1);
         }
 
-        await tabs.close('invoice');
-        await tabs.switchTo('main');
-        tabs.status();
+        //await tabs.close('invoice');
+        //await tabs.switchTo('main');
+        //tabs.status();
         
         await page.pause();
     });
@@ -106,4 +105,18 @@ test.describe('Bài học - Multitab với tabmanager', () => {
         await page.pause();
     })
     
+
+    // test('TC03 - Testing multi tab', async ({page})=> {
+    //     await page.goto('https://coffee.autoneko.com/');
+    //     await page.getByRole('link', {name: 'login Đăng nhập'}).click();
+    //     await page.getByPlaceholder('Nhập email hoặc tên đăng nhập').fill('admin');
+    //     await page.getByPlaceholder('Nhập mật khẩu').fill('Admin@123');
+    //     await page.getByRole('button', {name: 'Đăng nhập'}).click();
+    //     await expect(page.getByRole('button', {name: 'Tiếp tục'})).toBeVisible();
+    //     await page.getByRole('button', {name: 'Tiếp tục'}).click();
+    //     await page.locator("//a[text()='Quản lý']").click();
+    //     await page.locator("//a/span[text()='Quản lý đơn hàng']").click();
+    //     await page.locator('//a[@href="/admin/orders/100"]').first().click();
+    //     await page.locator('//a[text()="In hóa đơn"]').click();
+    // })
 })
