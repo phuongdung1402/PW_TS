@@ -119,4 +119,7 @@ test.describe('Bài học - Multitab với tabmanager', () => {
     //     await page.locator('//a[@href="/admin/orders/100"]').first().click();
     //     await page.locator('//a[text()="In hóa đơn"]').click();
     // })
+
+    //có thể vào trực tiếp luôn : coffee.autoneko.com/admin/orders/100
+    
 })

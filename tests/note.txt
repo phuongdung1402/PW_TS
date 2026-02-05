@@ -348,3 +348,12 @@ Mục tiêu : Là xây dựng đc 1 danh sách các tab, popup windows -> để 
 có 1 action -> chúng ta phải đặt event trc action, thì tab vs windows tương tự 
 page.waitforEvent('popup') -> popup windows
 page.waitforEvent('page') -> tab
+
+------
+Multi role
+-Khi test permission, multi role -> người ta cũng sẽ define ra rất nhiều role và rất nhiều permission 
+làm ma trận phân quyền
+
+-Bản chất test role -> Phải đăng nhập
+-2 role : Admin và Staff 
+-> Hướng tới quản lí 1 repo là sẽ có rất nhiều module nhỏ 

@@ -1,0 +1,26 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "https://coffee.autoneko.com",
+      "localStorage": [
+        {
+          "name": "access_token",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN0YWZmMDhAZ21haWwuY29tIiwiZXhwIjoxNzcwMjUwNjE2LCJpYXQiOjE3NzAyNDg4MTYsInJvbGUiOiJzdGFmZiIsInN1YiI6MTMsInVzZXJuYW1lIjoic3RhZmYwOCJ9.eVmed8wSVoeTPFroOCG2v6dHLGD-M6xCVQy-E65CqJA"
+        },
+        {
+          "name": "neko_auth",
+          "value": "{\"state\":{\"user\":{\"id\":13,\"username\":\"staff08\",\"email\":\"staff08@gmail.com\",\"role\":\"staff\",\"is_active\":true,\"created_at\":\"2026-02-04T23:39:21Z\"},\"accessToken\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN0YWZmMDhAZ21haWwuY29tIiwiZXhwIjoxNzcwMjUwNjE2LCJpYXQiOjE3NzAyNDg4MTYsInJvbGUiOiJzdGFmZiIsInN1YiI6MTMsInVzZXJuYW1lIjoic3RhZmYwOCJ9.eVmed8wSVoeTPFroOCG2v6dHLGD-M6xCVQy-E65CqJA\",\"refreshToken\":\"UaF3FvyJ5hqk77vahrNfLOznnAKnJTFbbFImJh7GfN0=\",\"expiresAt\":1770250616002,\"isAuthenticated\":true},\"version\":0}"
+        },
+        {
+          "name": "user",
+          "value": "{\"id\":13,\"username\":\"staff08\",\"email\":\"staff08@gmail.com\",\"role\":\"staff\",\"is_active\":true,\"created_at\":\"2026-02-04T23:39:21Z\"}"
+        },
+        {
+          "name": "refresh_token",
+          "value": "UaF3FvyJ5hqk77vahrNfLOznnAKnJTFbbFImJh7GfN0="
+        }
+      ]
+    }
+  ]
+}

@@ -143,6 +143,34 @@ export default defineConfig({
       dependencies: ['neko-setup']
     },
 
+    //setup sử dụng multi role
+    {
+      name: 'setup-admin',
+      testMatch: '/api/auth/**/admin.setup.ts',
+      use:{
+        ...devices['Desktop Chrome'],
+        baseURL: 'https://coffee.autoneko.com',
+      }
+    },
+
+    {
+      name: 'setup-staff',
+      testMatch: '/api/auth/**/staff.setup.ts',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'https://coffee.autoneko.com',
+      }
+    },
+    {
+      name: 'multi-role',
+      testMatch:'/api/**/*.spec.ts',
+      dependencies: ['setup-admin', 'setup-staff'],
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'https://coffee.autoneko.com'
+      }
+    }
+
   ],
 
 
