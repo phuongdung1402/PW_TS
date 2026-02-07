@@ -4,8 +4,8 @@ import path from 'path';
 
 setup('Login as staff', async ({page, context})=> {
     await page.goto('/login');
-    await page.getByPlaceholder('Nhập email hoặc tên đăng nhập').fill('staff08');
-    await page.getByPlaceholder('Nhập mật khẩu').fill('Abc@123456');
+    await page.getByPlaceholder('Nhập email hoặc tên đăng nhập').fill('test1');
+    await page.getByPlaceholder('Nhập mật khẩu').fill('123456789');
     await page.getByRole('button', {name: 'Đăng nhập'}).click();
     await expect(page.getByRole('button', {name: 'Tiếp tục'})).toBeVisible();
     await page.getByRole('button', {name:'Tiếp tục'}).click();

@@ -51,5 +51,6 @@ test('auth setup - create admin storage state', async ({ page }) => {
 
   await page.waitForTimeout(1000);
 
+  //Chụp toàn bộ trạng thái của browser 
   await page.context().storageState({ path: EnvManager.get('STORAGE_STATE_PATH') });
 });

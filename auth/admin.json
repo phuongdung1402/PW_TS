@@ -6,11 +6,11 @@
       "localStorage": [
         {
           "name": "access_token",
-          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQG5la29jb2ZmZWUudm4iLCJleHAiOjE3NzAyNTA2MTYsImlhdCI6MTc3MDI0ODgxNiwicm9sZSI6ImFkbWluIiwic3ViIjoxLCJ1c2VybmFtZSI6ImFkbWluIn0.FjxUKwSB71Z_UbXYv__mDaq3hrV96q19QqFCGhMmPu4"
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQG5la29jb2ZmZWUudm4iLCJleHAiOjE3NzAzOTI4NzUsImlhdCI6MTc3MDM5MTA3NSwicm9sZSI6ImFkbWluIiwic3ViIjoxLCJ1c2VybmFtZSI6ImFkbWluIn0.5ES-DjLTAe5IUCNZ7HDA67ZT1VyJx7TAg8tLtUCH7LQ"
         },
         {
           "name": "neko_auth",
-          "value": "{\"state\":{\"user\":{\"id\":1,\"username\":\"admin\",\"email\":\"admin@nekocoffee.vn\",\"role\":\"admin\",\"phone\":\"222222222\",\"display_name\":\"222\",\"is_active\":true,\"created_at\":\"2026-01-19T16:20:21Z\"},\"accessToken\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQG5la29jb2ZmZWUudm4iLCJleHAiOjE3NzAyNTA2MTYsImlhdCI6MTc3MDI0ODgxNiwicm9sZSI6ImFkbWluIiwic3ViIjoxLCJ1c2VybmFtZSI6ImFkbWluIn0.FjxUKwSB71Z_UbXYv__mDaq3hrV96q19QqFCGhMmPu4\",\"refreshToken\":\"SlHnSQ0oAAScjyxM1fdR0qhMRet7lhBIu1z4XC-v5Ic=\",\"expiresAt\":1770250616184,\"isAuthenticated\":true},\"version\":0}"
+          "value": "{\"state\":{\"user\":{\"id\":1,\"username\":\"admin\",\"email\":\"admin@nekocoffee.vn\",\"role\":\"admin\",\"phone\":\"222222222\",\"display_name\":\"222\",\"is_active\":true,\"created_at\":\"2026-01-19T16:20:21Z\"},\"accessToken\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQG5la29jb2ZmZWUudm4iLCJleHAiOjE3NzAzOTI4NzUsImlhdCI6MTc3MDM5MTA3NSwicm9sZSI6ImFkbWluIiwic3ViIjoxLCJ1c2VybmFtZSI6ImFkbWluIn0.5ES-DjLTAe5IUCNZ7HDA67ZT1VyJx7TAg8tLtUCH7LQ\",\"refreshToken\":\"CVrKCJz87_EEWzaXBAxo3VuN28WbiR4Ka_o5tOuCnDQ=\",\"expiresAt\":1770392875742,\"isAuthenticated\":true},\"version\":0}"
         },
         {
           "name": "user",
@@ -18,7 +18,7 @@
         },
         {
           "name": "refresh_token",
-          "value": "SlHnSQ0oAAScjyxM1fdR0qhMRet7lhBIu1z4XC-v5Ic="
+          "value": "CVrKCJz87_EEWzaXBAxo3VuN28WbiR4Ka_o5tOuCnDQ="
         }
       ]
     }

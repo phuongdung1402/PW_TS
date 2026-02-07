@@ -6,19 +6,19 @@
       "localStorage": [
         {
           "name": "access_token",
-          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN0YWZmMDhAZ21haWwuY29tIiwiZXhwIjoxNzcwMjUwNjE2LCJpYXQiOjE3NzAyNDg4MTYsInJvbGUiOiJzdGFmZiIsInN1YiI6MTMsInVzZXJuYW1lIjoic3RhZmYwOCJ9.eVmed8wSVoeTPFroOCG2v6dHLGD-M6xCVQy-E65CqJA"
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsImV4cCI6MTc3MDM5Mjg3MywiaWF0IjoxNzcwMzkxMDczLCJyb2xlIjoibWFuYWdlciIsInN1YiI6MiwidXNlcm5hbWUiOiJ0ZXN0MSJ9.r53P_bPi7_h1iF2K1FTq5D8eToi5xZyHBl52bwovXgc"
         },
         {
           "name": "neko_auth",
-          "value": "{\"state\":{\"user\":{\"id\":13,\"username\":\"staff08\",\"email\":\"staff08@gmail.com\",\"role\":\"staff\",\"is_active\":true,\"created_at\":\"2026-02-04T23:39:21Z\"},\"accessToken\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN0YWZmMDhAZ21haWwuY29tIiwiZXhwIjoxNzcwMjUwNjE2LCJpYXQiOjE3NzAyNDg4MTYsInJvbGUiOiJzdGFmZiIsInN1YiI6MTMsInVzZXJuYW1lIjoic3RhZmYwOCJ9.eVmed8wSVoeTPFroOCG2v6dHLGD-M6xCVQy-E65CqJA\",\"refreshToken\":\"UaF3FvyJ5hqk77vahrNfLOznnAKnJTFbbFImJh7GfN0=\",\"expiresAt\":1770250616002,\"isAuthenticated\":true},\"version\":0}"
+          "value": "{\"state\":{\"user\":{\"id\":2,\"username\":\"test1\",\"email\":\"test1@gmail.com\",\"role\":\"manager\",\"is_active\":true,\"created_at\":\"2026-01-20T14:28:03Z\"},\"accessToken\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQGdtYWlsLmNvbSIsImV4cCI6MTc3MDM5Mjg3MywiaWF0IjoxNzcwMzkxMDczLCJyb2xlIjoibWFuYWdlciIsInN1YiI6MiwidXNlcm5hbWUiOiJ0ZXN0MSJ9.r53P_bPi7_h1iF2K1FTq5D8eToi5xZyHBl52bwovXgc\",\"refreshToken\":\"UpUPiqRSCQmKfmJFMfyJi_SDrEL_VbveT9DAGdJIn_A=\",\"expiresAt\":1770392873568,\"isAuthenticated\":true},\"version\":0}"
         },
         {
           "name": "user",
-          "value": "{\"id\":13,\"username\":\"staff08\",\"email\":\"staff08@gmail.com\",\"role\":\"staff\",\"is_active\":true,\"created_at\":\"2026-02-04T23:39:21Z\"}"
+          "value": "{\"id\":2,\"username\":\"test1\",\"email\":\"test1@gmail.com\",\"role\":\"manager\",\"is_active\":true,\"created_at\":\"2026-01-20T14:28:03Z\"}"
         },
         {
           "name": "refresh_token",
-          "value": "UaF3FvyJ5hqk77vahrNfLOznnAKnJTFbbFImJh7GfN0="
+          "value": "UpUPiqRSCQmKfmJFMfyJi_SDrEL_VbveT9DAGdJIn_A="
         }
       ]
     }
