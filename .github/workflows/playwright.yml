@@ -35,10 +35,13 @@ on:
 
 jobs:
   hello:
-    name: Chào mừng
+    name: Chào mừng ngày b
     runs-on: ubuntu-latest
     steps:
       - name: In ra thông báo
         run:  |
           echo " Xin chào đây là dòng đầu tiên"
           echo " Xin chào bạn nhé!"
+          echo "Thời gian : $(date)"
+          echo "Người push ${{github.actor}}"
+          echo "Repository ${{github.repository}}"
