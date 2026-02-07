@@ -30,10 +30,13 @@
 name: Demo CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
+
+  #cho phép chạy thủ công
+  workflow_dispatch:
 
 jobs:
   hello:
