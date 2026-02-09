@@ -1,78 +1,84 @@
-# name: Demo CI
-# on:
-#   push:
-#     branches: [ main, master ]
-#   pull_request:
-#     branches: [ main, master ]
-# jobs:
-#   test:
-#     timeout-minutes: 60
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@v4
-#     - uses: actions/setup-node@v4
-#       with:
-#         node-version: lts/*
-#     - name: Install dependencies
-#       run: npm ci
-#     - name: Install Playwright Browsers
-#       run: npx playwright install --with-deps
-#     - name: Run Playwright tests
-#       run: npx playwright test
-#     - uses: actions/upload-artifact@v4
-#       if: ${{ !cancelled() }}
-#       with:
-#         name: playwright-report
-#         path: playwright-report/
-#         retention-days: 30
-
-
 name: Demo CI
-
 on:
-  # push:
-  #   branches: [main]
-  # pull_request:
-  #   branches: [main]
-
-  #cho phép chạy thủ công
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Chọn môi trường'
-        type: choice
-        options: [dev, uat]
-        default: 'dev'
-
-env:
-  MY_VAR: "workflow"
-
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 jobs:
-
   test:
-    name: Job 1 - Chạy test
+    timeout-minutes: 60
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    environment: ${{ inputs.environment || 'dev'}}
     steps:
-    
-    - name: Step 1 - Check out code
-      uses: actions/checkout@v4
-
-    - name: Step 2 - Cài node.js
-      uses: actions/setup-node@v4
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: '20'
-        cache: 'npm'
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+      run: npx playwright test
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
 
-    - name: Step 3 - Cài dependencies từ package.json
-      run:  npm install
 
-    - name: Step 4 - Chạy test để đọc env
-      run: npx tsx tests/lessons/print-env.ts
-      env:
-        MY_PASSWORD: ${{secrets.MY_PASSWORD}}
-        MY_WEBSITE: ${{vars.MY_WEBSITE}}
+# name: Demo CI
+
+# on:
+#   # push:
+#   #   branches: [main]
+#   # pull_request:
+#   #   branches: [main]
+
+#   #cho phép chạy thủ công
+#   workflow_dispatch:
+#     inputs:
+#       environment:
+#         description: 'Chọn môi trường'
+#         type: choice
+#         options: [dev, uat]
+#         default: 'dev'
+#       config:
+#         description: 'Chọn config  file'
+#         type: choice
+#         options: 
+#           - playwright.lessons.config.ts
+#           - playwright.config.ts
+#         default: 'playwright.lessons.config.ts'
+# jobs:
+
+#   test:
+#     name: Job 1 - Chạy test
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 10
+#     environment: ${{ inputs.environment || 'dev'}}
+#     steps:
+    
+#     - name: Step 1 - Check out code
+#       uses: actions/checkout@v4
+
+#     - name: Step 2 - Cài node.js
+#       uses: actions/setup-node@v4
+#       with:
+#         node-version: '20'
+#         cache: 'npm'
+
+#     - name: Step 3 - Cài dependencies từ package.json
+#       run:  npm install
+
+#     - name: Step 4 - Cài playwright browser
+#       run: npx playwright install --with-deps chromium
+
+#     - name: Step 5 - Run test
+#       run: npx playwright test
+#       env:
+#         MY_PASSWORD: ${{secrets.MY_PASSWORD}}
+#         MY_WEBSITE: ${{vars.MY_WEBSITE}}
 
   # deploy:
   #   name: Job 2 - Deploy
